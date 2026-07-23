@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wanderlust AI, Travel Agency</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4f8}
+.playfair{font-family:'Playfair Display',serif}
+.fade-in{animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none!important}
+.dest-card{transition:all .25s;cursor:pointer;position:relative;overflow:hidden}
+.dest-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.18)}
+.dest-card.active{outline:3px solid #2563eb;outline-offset:2px}
+.dest-card img{transition:transform .4s}
+.dest-card:hover img{transform:scale(1.06)}
+.opt-btn{transition:all .2s;cursor:pointer;border:2px solid #e5e7eb}
+.opt-btn:hover,.opt-btn.active{border-color:#2563eb;background:#eff6ff}
+.opt-btn.active{font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:#94a3b8;cursor:pointer;transition:all .2s;font-size:14px;font-weight:500}
+.nav-item:hover{background:#1e293b;color:#fff}
+.nav-item.on{background:#2563eb;color:#fff}
+.lead-row{cursor:pointer;transition:background .15s}
+.lead-row:hover{background:#f8fafc}
+.tag{display:inline-block;background:#eff6ff;color:#2563eb;border-radius:6px;padding:2px 9px;font-size:12px;font-weight:600;margin:2px}
+.glass{background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2)}
+.hero-bg{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%)}
+.pulse-dot{animation:pulseDot 2s ease infinite}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.4}}
+.score-hot{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
+.score-warm{background:#fff7ed;color:#c2410c;border:1px solid #fdba74}
+.score-cool{background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd}
+.score-cold{background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1}
+.chat-ai{background:#f1f5f9;border-radius:4px 18px 18px 18px;max-width:82%}
+.chat-user{background:#2563eb;color:#fff;border-radius:18px 4px 18px 18px;max-width:82%;margin-left:auto}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal-box{background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.25);width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:3px}
+</style>
+</head>
+<body>
+<style>
+#fa-demo-badge{position:fixed;top:12px;right:12px;z-index:99999;background:#161616;color:#f6f6f6;border:1px solid #347aea;border-radius:8px;padding:8px 14px;font:600 11px/1.4 -apple-system,Inter,sans-serif;letter-spacing:.03em;box-shadow:0 4px 20px rgba(0,0,0,.4);max-width:220px;cursor:default}
+#fa-demo-badge b{color:#347aea}
+@media(max-width:540px){#fa-demo-badge{font-size:10px;padding:6px 10px;max-width:170px}}
+</style>
+<div id="fa-demo-badge"><b>DEMO</b> &nbsp;This is a concept build made for portfolio purposes. Not a live product.</div>
+
+
+<!-- TOP NAV -->
+<div style="background:#0f172a" class="sticky top-0 z-50 px-5 py-3 flex justify-between items-center shadow-xl">
+  <div class="flex items-center gap-3">
+    <div style="background:#2563eb;width:34px;height:34px;border-radius:10px" class="flex items-center justify-center">
+      <i class="fas fa-plane text-white text-sm"></i>
+    </div>
+    <span style="color:#fff;font-weight:800;font-size:18px" class="playfair">Wanderlust<span style="color:#60a5fa">AI</span></span>
+  </div>
+  <div class="flex gap-2">
+    <button onclick="switchView('customer')" id="tab-c" style="background:#2563eb;color:#fff" class="px-4 py-1.5 rounded-full text-xs font-bold transition">✈️ Customer</button>
+    <button onclick="switchView('agency')"  id="tab-a" style="background:#1e293b;color:#94a3b8" class="px-4 py-1.5 rounded-full text-xs font-bold transition">🏢 Agency CRM</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     CUSTOMER VIEW
+============================================================ -->
+<div id="customer-view" class="min-h-screen">
+
+  <!-- HERO -->
+  <div class="hero-bg relative overflow-hidden" style="min-height:340px">
+    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80" alt="airplane" class="absolute inset-0 w-full h-full object-cover opacity-30"/>
+    <div class="absolute inset-0" style="background:linear-gradient(to bottom,rgba(15,23,42,.4),rgba(15,23,42,.85))"></div>
+    <div class="relative z-10 flex flex-col items-center justify-center text-center px-6 py-16">
+      <div style="background:rgba(37,99,235,.2);border:1px solid rgba(96,165,250,.4)" class="px-4 py-1.5 rounded-full text-xs font-semibold mb-4" style="color:#93c5fd">
+        <span style="color:#93c5fd"><i class="fas fa-circle text-green-400 mr-1 pulse-dot text-xs"></i> AI-Powered Travel Agency, Lagos to the World</span>
+      </div>
+      <h1 class="playfair text-white text-4xl md:text-5xl font-bold mb-3 leading-tight">Your Dream Trip<br><span style="color:#60a5fa">Starts Here</span></h1>
+      <p style="color:#94a3b8" class="text-sm max-w-md">Visa assistance, flight booking, hotels & more, handled by AI, delivered by experts</p>
+    </div>
+  </div>
+
+  <!-- MAIN FORM CARD -->
+  <div class="max-w-xl mx-auto px-4 -mt-10 pb-24 relative z-10">
+    <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+
+      <!-- Progress -->
+      <div class="px-8 pt-6 pb-0">
+        <div class="flex justify-between items-center mb-2">
+          <span id="step-label" class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Step 1 of 6</span>
+          <span id="step-pct" class="text-xs font-bold text-blue-600">16%</span>
+        </div>
+        <div class="w-full bg-gray-100 rounded-full h-1.5 mb-6">
+          <div id="prog" class="bg-blue-600 h-1.5 rounded-full transition-all duration-500" style="width:16%"></div>
+        </div>
+      </div>
+
+      <div class="px-8 pb-8">
+
+        <!-- STEP 1: Destination -->
+        <div id="s1" class="fade-in">
+          <h2 class="playfair text-2xl font-bold mb-1 text-center text-gray-900">Where to next?</h2>
+          <p class="text-center text-gray-400 text-sm mb-6">Pick your destination, we'll handle the rest</p>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <button class="dest-card rounded-xl overflow-hidden" data-dest="Dubai" onclick="pickDest(this)">
+              <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=80" alt="Dubai" class="w-full h-24 object-cover"/>
+              <div class="p-3 text-left" style="background:#f8fafc">
+                <div class="font-bold text-gray-800 text-sm">🇦🇪 Dubai</div>
+                <div class="text-xs text-gray-400">City of Gold</div>
+              </div>
+            </button>
+            <button class="dest-card rounded-xl overflow-hidden" data-dest="United Kingdom" onclick="pickDest(this)">
+              <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&q=80" alt="UK" class="w-full h-24 object-cover"/>
+              <div class="p-3 text-left" style="background:#f8fafc">
+                <div class="font-bold text-gray-800 text-sm">🇬🇧 United Kingdom</div>
+                <div class="text-xs text-gray-400">Land of History</div>
+              </div>
+            </button>
+            <button class="dest-card rounded-xl overflow-hidden" data-dest="Canada" onclick="pickDest(this)">
+              <img src="https://images.unsplash.com/photo-1517935706615-2717063c2225?w=400&q=80" alt="Canada" class="w-full h-24 object-cover"/>
+              <div class="p-3 text-left" style="background:#f8fafc">
+                <div class="font-bold text-gray-800 text-sm">🇨🇦 Canada</div>
+                <div class="text-xs text-gray-400">Maple & Mountains</div>
+              </div>
+            </button>
+            <button class="dest-card rounded-xl overflow-hidden" data-dest="Europe" onclick="pickDest(this)">
+              <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80" alt="Europe" class="w-full h-24 object-cover"/>
+              <div class="p-3 text-left" style="background:#f8fafc">
+                <div class="font-bold text-gray-800 text-sm">🇪🇺 Europe</div>
+                <div class="text-xs text-gray-400">Culture & Charm</div>
+              </div>
+            </button>
+            <button class="dest-card rounded-xl overflow-hidden" data-dest="USA" onclick="pickDest(this)">
+              <img src="https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=400&q=80" alt="USA" class="w-full h-24 object-cover"/>
+              <div class="p-3 text-left" style="background:#f8fafc">
+                <div class="font-bold text-gray-800 text-sm">🇺🇸 USA</div>
+                <div class="text-xs text-gray-400">Land of Dreams</div>
+              </div>
+            </button>
+            <button class="dest-card rounded-xl overflow-hidden border-2 border-dashed border-blue-300" style="background:#eff6ff" onclick="openModal('m-aidest')">
+              <div class="h-24 flex items-center justify-center" style="background:linear-gradient(135deg,#dbeafe,#ede9fe)">
+                <i class="fas fa-magic text-3xl text-blue-400"></i>
+              </div>
+              <div class="p-3 text-left">
+                <div class="font-bold text-blue-600 text-sm">✨ Help me decide</div>
+                <div class="text-xs text-blue-400">AI Recommendation</div>
+              </div>
+            </button>
+          </div>
+          <button id="dest-btn" onclick="goStep(2)" class="hidden w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition text-sm mt-2">Continue →</button>
+        </div>
+
+        <!-- STEP 2: Purpose -->
+        <div id="s2" class="hidden fade-in">
+          <h2 class="playfair text-2xl font-bold mb-1 text-center">Purpose of trip?</h2>
+          <p class="text-center text-gray-400 text-sm mb-6">Helps us pick the right visa & package</p>
+          <div class="space-y-3">
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex items-center gap-4" data-field="purpose" data-val="Tourism" onclick="pickOpt(this)">
+              <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=80&q=80" class="w-12 h-12 rounded-lg object-cover"/>
+              <div><div class="font-semibold">Tourism</div><div class="text-xs text-gray-400">Explore, relax, experience</div></div>
+            </button>
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex items-center gap-4" data-field="purpose" data-val="Study Abroad" onclick="pickOpt(this)">
+              <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=80&q=80" class="w-12 h-12 rounded-lg object-cover"/>
+              <div><div class="font-semibold">Study Abroad</div><div class="text-xs text-gray-400">University, college, courses</div></div>
+            </button>
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex items-center gap-4" data-field="purpose" data-val="Business" onclick="pickOpt(this)">
+              <img src="https://images.unsplash.com/photo-1560472355-536de3962603?w=80&q=80" class="w-12 h-12 rounded-lg object-cover"/>
+              <div><div class="font-semibold">Business</div><div class="text-xs text-gray-400">Meetings, conferences, trade</div></div>
+            </button>
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex items-center gap-4" data-field="purpose" data-val="Relocation" onclick="pickOpt(this)">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=80&q=80" class="w-12 h-12 rounded-lg object-cover"/>
+              <div><div class="font-semibold">Relocation</div><div class="text-xs text-gray-400">Moving abroad permanently</div></div>
+            </button>
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex items-center gap-4" data-field="purpose" data-val="Family Visit" onclick="pickOpt(this)">
+              <img src="https://images.unsplash.com/photo-1609220136736-443140cffec6?w=80&q=80" class="w-12 h-12 rounded-lg object-cover"/>
+              <div><div class="font-semibold">Family Visit</div><div class="text-xs text-gray-400">Visit loved ones abroad</div></div>
+            </button>
+          </div>
+          <button id="purpose-btn" onclick="goStep(3)" class="hidden w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition text-sm mt-5">Continue →</button>
+        </div>
+
+        <!-- STEP 3: Budget -->
+        <div id="s3" class="hidden fade-in">
+          <h2 class="playfair text-2xl font-bold mb-1 text-center">What is your budget?</h2>
+          <p class="text-center text-gray-400 text-sm mb-6">Per person, including visa & flights</p>
+          <div class="space-y-3">
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex justify-between items-center" data-field="budget" data-val="Under $1,000" onclick="pickOpt(this)">
+              <div><div class="font-semibold">Under $1,000</div><div class="text-xs text-gray-400">≈ Under ₦1.5M</div></div>
+              <span class="text-lg">💰</span>
+            </button>
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex justify-between items-center" data-field="budget" data-val="$1,000-$3,000" onclick="pickOpt(this)">
+              <div><div class="font-semibold">$1,000 – $3,000</div><div class="text-xs text-gray-400">≈ ₦1.5M – ₦4.6M</div></div>
+              <span class="text-lg">💰💰</span>
+            </button>
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex justify-between items-center" data-field="budget" data-val="$3,000-$5,000" onclick="pickOpt(this)">
+              <div><div class="font-semibold">$3,000 – $5,000</div><div class="text-xs text-gray-400">≈ ₦4.6M – ₦7.7M</div></div>
+              <span class="text-lg">💰💰💰</span>
+            </button>
+            <button class="opt-btn w-full p-4 rounded-xl text-left flex justify-between items-center border-green-200" style="background:#f0fdf4" data-field="budget" data-val="$5,000+" onclick="pickOpt(this)">
+              <div><div class="font-semibold text-green-700">$5,000+ <span class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full ml-1">Premium</span></div><div class="text-xs text-green-500">≈ ₦7.7M+</div></div>
+              <span class="text-lg">👑</span>
+            </button>
+          </div>
+          <button id="budget-btn" onclick="goStep(4)" class="hidden w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition text-sm mt-5">Continue →</button>
+        </div>
+
+        <!-- STEP 4: Timeline + Passengers -->
+        <div id="s4" class="hidden fade-in">
+          <h2 class="playfair text-2xl font-bold mb-1 text-center">When & who?</h2>
+          <p class="text-center text-gray-400 text-sm mb-5">Timeline and travelling party</p>
+          <div class="mb-5">
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Departure Timeline</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button class="opt-btn p-3.5 rounded-xl text-sm text-center" data-field="timeline" data-val="This Month" onclick="pickOpt(this)">
+                <div class="text-red-500 font-bold text-xs mb-1">🔥 URGENT</div>This Month
+              </button>
+              <button class="opt-btn p-3.5 rounded-xl text-sm text-center" data-field="timeline" data-val="1-3 Months" onclick="pickOpt(this)">
+                <div class="text-orange-500 font-bold text-xs mb-1">⚡ SOON</div>1–3 Months
+              </button>
+              <button class="opt-btn p-3.5 rounded-xl text-sm text-center" data-field="timeline" data-val="3-6 Months" onclick="pickOpt(this)">
+                <div class="text-blue-400 font-bold text-xs mb-1">📅 PLANNING</div>3–6 Months
+              </button>
+              <button class="opt-btn p-3.5 rounded-xl text-sm text-center" data-field="timeline" data-val="Flexible" onclick="pickOpt(this)">
+                <div class="text-gray-400 font-bold text-xs mb-1">🗓 OPEN</div>Flexible
+              </button>
+            </div>
+          </div>
+          <div class="mb-5">
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Who's Travelling?</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button class="opt-btn p-4 rounded-xl text-center" data-field="passengers" data-val="Solo" onclick="pickOpt(this)"><div class="text-2xl mb-1">🧍</div><div class="text-sm font-semibold">Solo</div></button>
+              <button class="opt-btn p-4 rounded-xl text-center" data-field="passengers" data-val="Couple" onclick="pickOpt(this)"><div class="text-2xl mb-1">👫</div><div class="text-sm font-semibold">Couple</div></button>
+              <button class="opt-btn p-4 rounded-xl text-center" data-field="passengers" data-val="Family" onclick="pickOpt(this)"><div class="text-2xl mb-1">👨‍👩‍👧‍👦</div><div class="text-sm font-semibold">Family</div></button>
+              <button class="opt-btn p-4 rounded-xl text-center" data-field="passengers" data-val="Group" onclick="pickOpt(this)"><div class="text-2xl mb-1">👥</div><div class="text-sm font-semibold">Group</div></button>
+            </div>
+          </div>
+          <button id="logistics-btn" onclick="goStep(5)" class="hidden w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition text-sm">Continue →</button>
+        </div>
+
+        <!-- STEP 5: Lead Capture -->
+        <div id="s5" class="hidden fade-in">
+          <h2 class="playfair text-2xl font-bold mb-1 text-center">Almost there!</h2>
+          <p class="text-center text-gray-400 text-sm mb-4">Our agent will reach out within 2 hours</p>
+          <div id="trip-summary" class="bg-blue-50 border border-blue-100 rounded-xl p-3 mb-5 flex flex-wrap gap-1 text-sm"></div>
+          <div class="space-y-3 mb-4">
+            <div class="relative">
+              <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"></i>
+              <input id="l-name" type="text" placeholder="Full Name" class="w-full pl-11 pr-4 py-4 border border-gray-200 rounded-xl text-sm focus:border-blue-500 outline-none transition"/>
+            </div>
+            <div class="relative">
+              <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"></i>
+              <input id="l-email" type="email" placeholder="Email Address" class="w-full pl-11 pr-4 py-4 border border-gray-200 rounded-xl text-sm focus:border-blue-500 outline-none transition"/>
+            </div>
+            <div class="relative">
+              <i class="fab fa-whatsapp absolute left-4 top-1/2 -translate-y-1/2 text-green-400"></i>
+              <input id="l-phone" type="tel" placeholder="WhatsApp Number (+234...)" class="w-full pl-11 pr-4 py-4 border border-gray-200 rounded-xl text-sm focus:border-blue-500 outline-none transition"/>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <button onclick="doQuote()" class="flex-1 font-bold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2" style="background:#16a34a;color:#fff">
+              <i class="fas fa-bolt"></i> Instant Quote
+            </button>
+            <button onclick="doSubmit()" class="flex-1 bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition text-sm">Submit →</button>
+          </div>
+          <p class="text-center text-xs text-gray-400 mt-3"><i class="fas fa-lock mr-1"></i>Your info is 100% private. No spam.</p>
+        </div>
+
+        <!-- LOADING -->
+        <div id="s-load" class="hidden text-center py-14">
+          <div class="relative w-16 h-16 mx-auto mb-5">
+            <i class="fas fa-circle-notch spin text-5xl text-blue-600"></i>
+            <i class="fas fa-plane absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-600 text-xl"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-800">AI is building your quote...</h3>
+          <p class="text-gray-400 mt-2 text-sm">Checking visa eligibility & sourcing best prices</p>
+        </div>
+
+        <!-- STEP 6: Success -->
+        <div id="s6" class="hidden fade-in">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-check text-green-600 text-2xl"></i>
+            </div>
+            <h2 class="playfair text-2xl font-bold text-gray-900">You're all set, <span id="s-name">there</span>!</h2>
+            <p class="text-gray-400 text-sm mt-1">Our travel expert will WhatsApp you within 2 hours</p>
+          </div>
+          <div id="quote-box" class="hidden rounded-xl p-5 mb-5 text-sm leading-relaxed" style="background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1px solid #bfdbfe">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center"><i class="fas fa-robot text-white text-xs"></i></div>
+              <span class="font-bold text-blue-700 text-xs uppercase tracking-wide">AI-Generated Quote</span>
+            </div>
+            <div id="quote-txt" class="text-gray-700"></div>
+          </div>
+          <!-- Destination image preview -->
+          <div id="dest-preview" class="rounded-xl overflow-hidden mb-5 relative" style="height:140px">
+            <img id="dest-img" src="" class="w-full h-full object-cover"/>
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,.5),transparent)"></div>
+            <div id="dest-label" class="absolute bottom-3 left-4 text-white font-bold"></div>
+          </div>
+          <div class="space-y-3">
+            <button onclick="doWhatsApp()" class="w-full font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-sm" style="background:#16a34a;color:#fff">
+              <i class="fab fa-whatsapp text-lg"></i> Chat on WhatsApp Now
+            </button>
+            <button onclick="openModal('m-consult')" class="w-full bg-gray-900 text-white font-bold py-3.5 rounded-xl hover:bg-gray-800 transition text-sm flex items-center justify-center gap-2">
+              <i class="fas fa-calendar-alt"></i> Book Free Consultation
+            </button>
+            <button onclick="openModal('m-docs')" class="w-full border-2 border-gray-200 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50 transition text-sm flex items-center justify-center gap-2">
+              <i class="fas fa-folder-open text-blue-500"></i> Access Document Portal
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Social proof strip -->
+    <div class="mt-6 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex items-center gap-4">
+      <div class="flex -space-x-2">
+        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80&q=80" class="w-9 h-9 rounded-full border-2 border-white object-cover"/>
+        <img src="https://images.unsplash.com/photo-1507152832244-10d45c7eda57?w=80&q=80" class="w-9 h-9 rounded-full border-2 border-white object-cover"/>
+        <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=80&q=80" class="w-9 h-9 rounded-full border-2 border-white object-cover"/>
+        <div class="w-9 h-9 rounded-full border-2 border-white bg-blue-600 flex items-center justify-center text-white text-xs font-bold">+2k</div>
+      </div>
+      <div>
+        <div class="text-sm font-bold text-gray-800">2,400+ Nigerians</div>
+        <div class="text-xs text-gray-400">successfully travelled this year ⭐⭐⭐⭐⭐</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Bot -->
+  <button onclick="openModal('m-faq')" class="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center z-40 transition hover:scale-110" style="background:#2563eb;color:#fff">
+    <i class="fas fa-robot text-xl"></i>
+  </button>
+</div>
+
+<!-- ============================================================
+     AGENCY VIEW
+============================================================ -->
+<div id="agency-view" class="hidden min-h-screen" style="background:#f1f5f9">
+  <div class="flex" style="min-height:calc(100vh - 52px)">
+
+    <!-- Sidebar -->
+    <aside style="width:220px;background:#0f172a;min-height:100%" class="p-4 flex-shrink-0">
+      <div class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-4 px-2">Menu</div>
+      <nav class="space-y-1">
+        <div onclick="agTab('dashboard')" class="nav-item on" id="an-dashboard"><i class="fas fa-home w-4"></i> Dashboard</div>
+        <div onclick="agTab('leads')"     class="nav-item" id="an-leads"><i class="fas fa-users w-4"></i> Lead Database</div>
+        <div onclick="agTab('tools')"     class="nav-item" id="an-tools"><i class="fas fa-passport w-4"></i> AI Tools</div>
+        <div onclick="agTab('analytics')" class="nav-item" id="an-analytics"><i class="fas fa-chart-bar w-4"></i> Analytics</div>
+      </nav>
+      <div class="mt-8 px-2">
+        <div class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-3">Automations</div>
+        <div class="space-y-2 text-xs" style="color:#94a3b8">
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 pulse-dot"></span> WhatsApp Follow-ups</div>
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-400 pulse-dot"></span> Lead Scoring AI</div>
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-yellow-400"></span> Email Reminders</div>
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full" style="background:#475569"></span> SMS Alerts</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Agency Main -->
+    <main class="flex-1 p-6 overflow-y-auto">
+
+      <!-- DASHBOARD -->
+      <div id="at-dashboard" class="ag-tab">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">Pipeline Overview</h1>
+            <p class="text-sm text-gray-400">Real-time lead tracking</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="recoverMissed()" class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-gray-50 transition shadow-sm">
+              <i class="fas fa-undo text-orange-500"></i> Recover Missed
+            </button>
+            <button onclick="agTab('leads')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-sm">
+              <i class="fas fa-plus mr-1"></i> New Lead
+            </button>
+          </div>
+        </div>
+        <!-- Stats -->
+        <div class="grid grid-cols-4 gap-4 mb-6">
+          <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <div class="text-xs font-semibold text-gray-400 uppercase mb-1">Total Leads</div>
+            <div class="text-3xl font-bold text-gray-900" id="st-total">,</div>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <div class="text-xs font-semibold text-red-400 uppercase mb-1">🔥 Hot Leads</div>
+            <div class="text-3xl font-bold text-red-600" id="st-hot">,</div>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <div class="text-xs font-semibold text-green-500 uppercase mb-1">✅ Qualified</div>
+            <div class="text-3xl font-bold text-green-600" id="st-qual">,</div>
+          </div>
+          <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <div class="text-xs font-semibold text-blue-400 uppercase mb-1">Avg Score</div>
+            <div class="text-3xl font-bold text-blue-600" id="st-avg">,</div>
+          </div>
+        </div>
+        <!-- Table -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-4 border-b flex justify-between items-center">
+            <span class="font-semibold text-gray-700">Recent Inquiries</span>
+            <select id="flt-status" onchange="renderTable()" class="text-xs border border-gray-200 rounded-lg px-3 py-1.5 text-gray-600">
+              <option value="all">All Status</option>
+              <option>Hot</option><option>New</option><option>Contacted</option><option>Qualified</option><option>Closed</option>
+            </select>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead class="text-xs text-gray-400 uppercase bg-gray-50 border-b">
+                <tr><th class="p-4">Contact</th><th class="p-4">Trip</th><th class="p-4">Budget</th><th class="p-4">Score</th><th class="p-4">Status</th><th class="p-4">Actions</th></tr>
+              </thead>
+              <tbody id="tbl-main" class="divide-y divide-gray-50"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADS DB -->
+      <div id="at-leads" class="ag-tab hidden">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-2xl font-bold text-gray-900">Lead Database</h1>
+          <button onclick="addLead()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition"><i class="fas fa-plus mr-1"></i> Add Lead</button>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-4 border-b">
+            <input id="srch" oninput="renderTable2()" placeholder="Search name, email, destination..." class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm"/>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead class="text-xs text-gray-400 uppercase bg-gray-50 border-b">
+                <tr><th class="p-4">Name</th><th class="p-4">Destination</th><th class="p-4">Budget</th><th class="p-4">Timeline</th><th class="p-4">Score</th><th class="p-4">Status</th><th class="p-4">Actions</th></tr>
+              </thead>
+              <tbody id="tbl-leads" class="divide-y divide-gray-50"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI TOOLS -->
+      <div id="at-tools" class="ag-tab hidden">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">AI-Powered Tools</h1>
+        <div class="grid grid-cols-2 gap-6">
+          <!-- Visa Checker -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center"><i class="fas fa-passport text-blue-600"></i></div>
+              <div><div class="font-bold">Visa Eligibility Checker</div><div class="text-xs text-gray-400">AI-powered assessment</div></div>
+            </div>
+            <input id="vp" value="Nigerian" class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-3" placeholder="Passport nationality"/>
+            <select id="vd" class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4">
+              <option>United Kingdom</option><option>Dubai</option><option>Canada</option><option>USA</option><option>Europe (Schengen)</option>
+            </select>
+            <button onclick="checkVisa()" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition text-sm">Check Eligibility</button>
+            <div id="visa-load" class="hidden text-center py-3 text-blue-600 text-sm mt-2"><i class="fas fa-circle-notch spin mr-2"></i>Checking...</div>
+            <div id="visa-res" class="hidden mt-4 bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm"></div>
+          </div>
+          <!-- Checklist -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center"><i class="fas fa-list-check text-green-600"></i></div>
+              <div><div class="font-bold">Travel Checklist Generator</div><div class="text-xs text-gray-400">Personalised per destination</div></div>
+            </div>
+            <select id="cd" class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-3">
+              <option>Dubai</option><option>United Kingdom</option><option>Canada</option><option>USA</option><option>Europe</option>
+            </select>
+            <select id="cp" class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4">
+              <option>Tourism</option><option>Study Abroad</option><option>Business</option><option>Relocation</option>
+            </select>
+            <button onclick="genChecklist()" class="w-full bg-green-600 text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition text-sm">Generate Checklist</button>
+            <div id="cl-load" class="hidden text-center py-3 text-green-600 text-sm mt-2"><i class="fas fa-circle-notch spin mr-2"></i>Generating...</div>
+            <div id="cl-res" class="hidden mt-4 text-sm max-h-60 overflow-y-auto border border-gray-100 rounded-xl p-3"></div>
+          </div>
+          <!-- Budget -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center"><i class="fas fa-calculator text-purple-600"></i></div>
+              <div><div class="font-bold">Budget Planner</div><div class="text-xs text-gray-400">Full cost breakdown in USD & NGN</div></div>
+            </div>
+            <select id="bd" class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-3">
+              <option>Dubai</option><option>United Kingdom</option><option>Canada</option><option>USA</option><option>Europe</option>
+            </select>
+            <select id="bp" class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4">
+              <option>Solo</option><option>Couple</option><option>Family of 4</option><option>Group (6+)</option>
+            </select>
+            <button onclick="runBudget()" class="w-full bg-purple-600 text-white font-semibold py-3 rounded-xl hover:bg-purple-700 transition text-sm">Generate Budget</button>
+            <div id="bg-load" class="hidden text-center py-3 text-purple-600 text-sm mt-2"><i class="fas fa-circle-notch spin mr-2"></i>Planning...</div>
+            <div id="bg-res" class="hidden mt-4 bg-purple-50 border border-purple-100 rounded-xl p-4 text-sm"></div>
+          </div>
+          <!-- Destination Rec -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center"><i class="fas fa-compass text-orange-600"></i></div>
+              <div><div class="font-bold">Destination Recommender</div><div class="text-xs text-gray-400">AI picks best match from profile</div></div>
+            </div>
+            <textarea id="dr-in" rows="4" placeholder="Describe customer: e.g. Nigerian couple, $3k budget, want beach + halal food, no study visa..." class="w-full border border-gray-200 rounded-xl p-3 text-sm resize-none mb-4"></textarea>
+            <button onclick="runDestRec()" class="w-full bg-orange-500 text-white font-semibold py-3 rounded-xl hover:bg-orange-600 transition text-sm">Get Recommendation</button>
+            <div id="dr-load" class="hidden text-center py-3 text-orange-500 text-sm mt-2"><i class="fas fa-circle-notch spin mr-2"></i>Thinking...</div>
+            <div id="dr-res" class="hidden mt-4 bg-orange-50 border border-orange-100 rounded-xl p-4 text-sm"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div id="at-analytics" class="ag-tab hidden">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">Analytics Dashboard</h1>
+        <div class="grid grid-cols-3 gap-6 mb-6">
+          <div class="col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h3 class="font-semibold mb-4 text-gray-700">Leads by Destination</h3>
+            <div id="ch-dest" class="space-y-3"></div>
+          </div>
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h3 class="font-semibold mb-4 text-gray-700">By Status</h3>
+            <div id="ch-status" class="space-y-2"></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h3 class="font-semibold mb-4 text-gray-700">Budget Distribution</h3>
+            <div id="ch-budget" class="space-y-3"></div>
+          </div>
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h3 class="font-semibold mb-4 text-gray-700">Purpose Breakdown</h3>
+            <div id="ch-purpose" class="space-y-3"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODALS
+============================================================ -->
+
+<!-- FAQ Chat -->
+<div id="m-faq" class="modal-bg hidden">
+  <div class="modal-box" style="height:540px;display:flex;flex-direction:column">
+    <div style="padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:38px;height:38px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center">
+          <i class="fas fa-robot" style="color:#fff;font-size:16px"></i>
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:14px">Travel AI Assistant</div>
+          <div style="font-size:11px;color:#22c55e">● Online, ask me anything</div>
+        </div>
+      </div>
+      <button onclick="closeModal('m-faq')" style="color:#9ca3af;font-size:18px;background:none;border:none;cursor:pointer">✕</button>
+    </div>
+    <div id="chat-box" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px">
+      <div class="chat-ai" style="padding:12px 15px;font-size:14px">
+        Hi! I'm your travel assistant 👋 Ask me anything about visas, flights, documents, or destinations. I'm here to help!
+      </div>
+    </div>
+    <div style="padding:12px 16px;border-top:1px solid #f1f5f9">
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <button onclick="chatSend('UK visa requirements for Nigerians')" style="font-size:11px;background:#f1f5f9;border:none;color:#475569;padding:6px 12px;border-radius:20px;cursor:pointer">UK visa?</button>
+        <button onclick="chatSend('How long does Canada visa take')" style="font-size:11px;background:#f1f5f9;border:none;color:#475569;padding:6px 12px;border-radius:20px;cursor:pointer">Canada timing?</button>
+        <button onclick="chatSend('Dubai visa for Nigerian passport')" style="font-size:11px;background:#f1f5f9;border:none;color:#475569;padding:6px 12px;border-radius:20px;cursor:pointer">Dubai visa?</button>
+        <button onclick="chatSend('Documents needed for USA visa')" style="font-size:11px;background:#f1f5f9;border:none;color:#475569;padding:6px 12px;border-radius:20px;cursor:pointer">USA docs?</button>
+      </div>
+      <div style="display:flex;gap:8px">
+        <input id="chat-in" type="text" placeholder="Ask anything about travel..." style="flex:1;border:1px solid #e5e7eb;border-radius:24px;padding:10px 16px;font-size:14px;outline:none" onkeydown="if(event.key==='Enter')chatSend()"/>
+        <button onclick="chatSend()" style="width:40px;height:40px;border-radius:50%;background:#2563eb;border:none;color:#fff;cursor:pointer;font-size:16px">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Lead Modal -->
+<div id="m-lead" class="modal-bg hidden">
+  <div class="modal-box">
+    <div style="padding:18px 20px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center">
+      <h3 style="font-weight:700;font-size:17px" id="m-lead-name">Lead</h3>
+      <button onclick="closeModal('m-lead')" style="color:#9ca3af;font-size:18px;background:none;border:none;cursor:pointer">✕</button>
+    </div>
+    <div id="m-lead-body" style="padding:20px"></div>
+  </div>
+</div>
+
+<!-- Consult Modal -->
+<div id="m-consult" class="modal-bg hidden">
+  <div class="modal-box" style="padding:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="font-weight:700;font-size:17px">📅 Book Free Consultation</h3>
+      <button onclick="closeModal('m-consult')" style="color:#9ca3af;font-size:18px;background:none;border:none;cursor:pointer">✕</button>
+    </div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:16px">Pick a slot, our travel expert will call you on WhatsApp.</p>
+    <div id="slots" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px"></div>
+    <div id="booked-msg" class="hidden" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:20px;text-align:center">
+      <div style="font-size:40px;margin-bottom:8px">✅</div>
+      <div style="font-weight:700;color:#166534">Consultation Booked!</div>
+      <div style="font-size:13px;color:#6b7280;margin-top:4px">You'll receive a WhatsApp confirmation shortly.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Doc Portal -->
+<div id="m-docs" class="modal-bg hidden">
+  <div class="modal-box" style="padding:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="font-weight:700;font-size:17px">📁 Document Portal</h3>
+      <button onclick="closeModal('m-docs')" style="color:#9ca3af;font-size:18px;background:none;border:none;cursor:pointer">✕</button>
+    </div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:16px">Upload your documents securely. Verified within 24 hours.</p>
+    <div id="doc-list" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+</div>
+
+<!-- AI Dest Modal -->
+<div id="m-aidest" class="modal-bg hidden">
+  <div class="modal-box" style="padding:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="font-weight:700;font-size:17px">✨ AI Destination Finder</h3>
+      <button onclick="closeModal('m-aidest')" style="color:#9ca3af;font-size:18px;background:none;border:none;cursor:pointer">✕</button>
+    </div>
+    <textarea id="ai-dest-txt" rows="3" placeholder="Tell us about yourself: your budget, what you enjoy, any requirements..." style="width:100%;border:1px solid #e5e7eb;border-radius:12px;padding:12px;font-size:14px;resize:none;margin-bottom:12px;outline:none"></textarea>
+    <button onclick="runAIDest()" style="width:100%;background:#2563eb;color:#fff;font-weight:700;padding:13px;border-radius:12px;border:none;cursor:pointer;font-size:14px">Find My Perfect Destination ✨</button>
+    <div id="ai-dest-load" class="hidden" style="text-align:center;padding:16px;color:#2563eb;font-size:14px"><i class="fas fa-circle-notch spin" style="margin-right:6px"></i>AI is thinking...</div>
+    <div id="ai-dest-res" class="hidden" style="margin-top:14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px;font-size:14px;color:#1e3a8a;line-height:1.6"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPT
+============================================================ -->
+<script>
+var S = {destination:"",purpose:"",budget:"",timeline:"",passengers:"",name:"",email:"",phone:""};
+var leads = [
+  {id:1,name:"Adaeze Okonkwo",email:"adaeze@gmail.com",phone:"+2348012345678",destination:"United Kingdom",purpose:"Study Abroad",budget:"$3,000-$5,000",timeline:"1-3 Months",passengers:"Solo",status:"Qualified",score:87,date:"2026-06-07",notes:"Ready to apply. Has all documents."},
+  {id:2,name:"Emeka Nwosu",email:"emeka.n@yahoo.com",phone:"+2348023456789",destination:"Canada",purpose:"Relocation",budget:"$5,000+",timeline:"3-6 Months",passengers:"Family",status:"Contacted",score:92,date:"2026-06-06",notes:"Strong profile. Follow up Friday."},
+  {id:3,name:"Fatima Bello",email:"fatima.b@hotmail.com",phone:"+2348034567890",destination:"Dubai",purpose:"Tourism",budget:"$1,000-$3,000",timeline:"This Month",passengers:"Couple",status:"Hot",score:95,date:"2026-06-08",notes:"Very urgent. Wants to travel June 20."},
+  {id:4,name:"Chukwudi Eze",email:"chukwudi@gmail.com",phone:"+2348045678901",destination:"USA",purpose:"Business",budget:"$3,000-$5,000",timeline:"1-3 Months",passengers:"Solo",status:"New",score:73,date:"2026-06-08",notes:""},
+  {id:5,name:"Ngozi Adeyemi",email:"ngozi.a@outlook.com",phone:"+2348056789012",destination:"Europe",purpose:"Tourism",budget:"$1,000-$3,000",timeline:"3-6 Months",passengers:"Couple",status:"New",score:61,date:"2026-06-05",notes:""}
+];
+
+var destImgs = {
+  "Dubai":"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80",
+  "United Kingdom":"https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&q=80",
+  "Canada":"https://images.unsplash.com/photo-1517935706615-2717063c2225?w=600&q=80",
+  "Europe":"https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80",
+  "USA":"https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=600&q=80"
+};
+
+async function claude(prompt, sys) {
+  sys = sys || "You are a helpful travel assistant for a Nigerian travel agency. Be concise and practical.";
+  var r = await fetch("https://api.anthropic.com/v1/messages", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:[{role:"user",content:prompt}]})
+  });
+  var d = await r.json();
+  return (d.content||[]).map(function(b){return b.text||"";}).join("") || "Sorry, could not get a response.";
+}
+
+function switchView(v) {
+  document.getElementById("customer-view").classList.toggle("hidden", v!=="customer");
+  document.getElementById("agency-view").classList.toggle("hidden", v!=="agency");
+  document.getElementById("tab-c").style.background = v==="customer" ? "#2563eb" : "#1e293b";
+  document.getElementById("tab-c").style.color = v==="customer" ? "#fff" : "#94a3b8";
+  document.getElementById("tab-a").style.background = v==="agency" ? "#2563eb" : "#1e293b";
+  document.getElementById("tab-a").style.color = v==="agency" ? "#fff" : "#94a3b8";
+  if(v==="agency"){ updateStats(); renderTable(); renderTable2(); }
+}
+
+function showStep(id) {
+  ["s1","s2","s3","s4","s5","s-load","s6"].forEach(function(x){
+    var el=document.getElementById(x); if(el) el.classList.add("hidden");
+  });
+  var el=document.getElementById(id);
+  if(el){ el.classList.remove("hidden"); el.classList.add("fade-in"); }
+}
+function goStep(n) {
+  showStep("s"+n);
+  var pcts=[0,16,33,50,66,83,100];
+  var pct=pcts[n]||16;
+  document.getElementById("prog").style.width=pct+"%";
+  document.getElementById("step-label").textContent="Step "+n+" of 6";
+  document.getElementById("step-pct").textContent=pct+"%";
+  if(n===5) buildSummary();
+}
+function pickDest(btn) {
+  document.querySelectorAll(".dest-card").forEach(function(b){b.classList.remove("active");});
+  btn.classList.add("active");
+  S.destination=btn.getAttribute("data-dest");
+  document.getElementById("dest-btn").classList.remove("hidden");
+}
+function pickOpt(btn) {
+  var field=btn.getAttribute("data-field");
+  var val=btn.getAttribute("data-val");
+  document.querySelectorAll(".opt-btn[data-field='"+field+"']").forEach(function(b){b.classList.remove("active");});
+  btn.classList.add("active");
+  S[field]=val;
+  var map={purpose:"purpose-btn",budget:"budget-btn"};
+  if(map[field]) document.getElementById(map[field]).classList.remove("hidden");
+  if(field==="timeline"||field==="passengers"){
+    if(S.timeline&&S.passengers) document.getElementById("logistics-btn").classList.remove("hidden");
+  }
+}
+function buildSummary() {
+  var html="";
+  var f=[["destination","✈️"],["purpose","🎯"],["budget","💰"],["timeline","📅"],["passengers","👥"]];
+  f.forEach(function(x){ if(S[x[0]]) html+="<span class='tag'>"+x[1]+" "+S[x[0]]+"</span>"; });
+  document.getElementById("trip-summary").innerHTML=html;
+}
+function calcScore() {
+  var s=40;
+  if(S.budget==="$5,000+") s+=25; else if(S.budget==="$3,000-$5,000") s+=18; else if(S.budget==="$1,000-$3,000") s+=10;
+  if(S.timeline==="This Month") s+=22; else if(S.timeline==="1-3 Months") s+=14; else if(S.timeline==="3-6 Months") s+=7;
+  if(S.purpose==="Relocation"||S.purpose==="Study Abroad") s+=8;
+  return Math.min(99,s);
+}
+function saveLead() {
+  leads.unshift({id:Date.now(),name:S.name,email:S.email,phone:S.phone,destination:S.destination,purpose:S.purpose,budget:S.budget,timeline:S.timeline,passengers:S.passengers,status:calcScore()>=85?"Hot":"New",score:calcScore(),date:new Date().toISOString().split("T")[0],notes:""});
+}
+async function doQuote() {
+  S.name=document.getElementById("l-name").value.trim();
+  S.email=document.getElementById("l-email").value.trim();
+  S.phone=document.getElementById("l-phone").value.trim();
+  if(!S.name||!S.email||!S.phone){alert("Please fill in all fields.");return;}
+  showStep("s-load");
+  try {
+    var reply=await claude("Generate a short travel quote for a Nigerian going to "+S.destination+" for "+S.purpose+". Budget: "+S.budget+". Timeline: "+S.timeline+". Passengers: "+S.passengers+". Include cost range in USD and NGN (N1,550/$1), visa time, and 2 tips. Under 120 words, warm and professional.","You are a premium travel agency. Write concise, helpful quotes with NGN prices.");
+    saveLead();
+    showStep("s6");
+    document.getElementById("prog").style.width="100%";
+    document.getElementById("step-label").textContent="Complete!";
+    document.getElementById("step-pct").textContent="100%";
+    document.getElementById("s-name").textContent=S.name.split(" ")[0];
+    document.getElementById("quote-box").classList.remove("hidden");
+    document.getElementById("quote-txt").textContent=reply;
+    if(destImgs[S.destination]){
+      document.getElementById("dest-preview").classList.remove("hidden");
+      document.getElementById("dest-img").src=destImgs[S.destination];
+      document.getElementById("dest-label").textContent="Your destination: "+S.destination;
+    }
+  } catch(e){ doSubmit(); }
+}
+function doSubmit() {
+  S.name=document.getElementById("l-name").value.trim();
+  S.email=document.getElementById("l-email").value.trim();
+  S.phone=document.getElementById("l-phone").value.trim();
+  if(!S.name||!S.email||!S.phone){alert("Please fill in all fields.");return;}
+  saveLead();
+  showStep("s6");
+  document.getElementById("prog").style.width="100%";
+  document.getElementById("s-name").textContent=S.name.split(" ")[0];
+  if(destImgs[S.destination]){
+    document.getElementById("dest-preview").classList.remove("hidden");
+    document.getElementById("dest-img").src=destImgs[S.destination];
+    document.getElementById("dest-label").textContent="Your destination: "+S.destination;
+  }
+}
+function doWhatsApp() {
+  var msg=encodeURIComponent("Hi! I submitted a travel enquiry via Wanderlust AI. Destination: "+S.destination+", Purpose: "+S.purpose+", Budget: "+S.budget+". My name is "+S.name+". Looking forward to hearing from you!");
+  window.open("https://wa.me/2348000000000?text="+msg,"_blank");
+}
+
+// MODALS
+function openModal(id){ document.getElementById(id).classList.remove("hidden"); }
+function closeModal(id){ document.getElementById(id).classList.add("hidden"); }
+
+// FAQ CHAT
+function chatAppend(text,role){
+  var box=document.getElementById("chat-box");
+  var d=document.createElement("div");
+  d.className=(role==="user"?"chat-user":"chat-ai");
+  d.style.cssText="padding:12px 15px;font-size:14px;line-height:1.5";
+  d.textContent=text;
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+}
+async function chatSend(preset){
+  var input=document.getElementById("chat-in");
+  var msg=preset||input.value.trim();
+  if(!msg) return;
+  if(!preset) input.value="";
+  chatAppend(msg,"user");
+  var typing=document.createElement("div");
+  typing.className="chat-ai";
+  typing.id="typing";
+  typing.style.cssText="padding:12px 15px;font-size:14px;color:#9ca3af;font-style:italic";
+  typing.textContent="Typing...";
+  document.getElementById("chat-box").appendChild(typing);
+  document.getElementById("chat-box").scrollTop=99999;
+  var reply=await claude(msg,"You are a helpful travel assistant for a Nigerian agency specialising in Dubai, UK, Canada, USA and Europe. Answer questions about visas, processing times, documents, and travel tips concisely (under 90 words). Be warm and friendly.");
+  var t=document.getElementById("typing"); if(t) t.remove();
+  chatAppend(reply,"ai");
+}
+
+// CONSULT
+function openModal(id) {
+  document.getElementById(id).classList.remove("hidden");
+  if(id==="m-consult") initConsult();
+  if(id==="m-docs") initDocs();
+}
+function initConsult(){
+  document.getElementById("booked-msg").classList.add("hidden");
+  var el=document.getElementById("slots");
+  el.classList.remove("hidden");
+  var times=["Mon 10am","Mon 2pm","Mon 4pm","Tue 10am","Tue 2pm","Wed 11am","Wed 3pm","Thu 9am","Thu 1pm"];
+  el.innerHTML=times.map(function(t){
+    return "<button onclick='bookSlot(this)' style='padding:8px;border:1px solid #e5e7eb;border-radius:8px;font-size:12px;font-weight:600;color:#374151;background:#fff;cursor:pointer'>"+t+"</button>";
+  }).join("");
+}
+function bookSlot(btn){
+  document.getElementById("slots").classList.add("hidden");
+  document.getElementById("booked-msg").classList.remove("hidden");
+}
+function initDocs(){
+  var docs=["Valid Passport (6+ months validity)","2 Passport Photographs","Bank Statement (last 6 months)","Employment or Business Letter","Proof of Accommodation","Travel Insurance","Completed Visa Application Form"];
+  document.getElementById("doc-list").innerHTML=docs.map(function(d,i){
+    return "<div style='display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid #f1f5f9;border-radius:10px'><input type='checkbox' id='dc"+i+"' style='width:16px;height:16px;accent-color:#2563eb'><label for='dc"+i+"' style='font-size:13px;color:#374151;flex:1'>"+d+"</label><span style='font-size:12px;color:#d1d5db;cursor:pointer'>Upload</span></div>";
+  }).join("");
+}
+
+// AI DEST
+async function runAIDest(){
+  var txt=document.getElementById("ai-dest-txt").value.trim();
+  if(!txt) return;
+  document.getElementById("ai-dest-load").classList.remove("hidden");
+  document.getElementById("ai-dest-res").classList.add("hidden");
+  var reply=await claude("A customer says: '"+txt+"'. Recommend ONE destination from: Dubai, UK, Canada, USA, Europe. Give destination, 2 reasons it fits, and 1 quick tip. Under 80 words.","You are a travel expert helping Nigerians pick the best destination. Be enthusiastic and specific.");
+  document.getElementById("ai-dest-load").classList.add("hidden");
+  document.getElementById("ai-dest-res").textContent=reply;
+  document.getElementById("ai-dest-res").classList.remove("hidden");
+}
+
+// AGENCY STATS
+function updateStats(){
+  document.getElementById("st-total").textContent=leads.length;
+  document.getElementById("st-hot").textContent=leads.filter(function(l){return l.status==="Hot";}).length;
+  document.getElementById("st-qual").textContent=leads.filter(function(l){return l.status==="Qualified";}).length;
+  var avg=Math.round(leads.reduce(function(a,b){return a+b.score;},0)/leads.length);
+  document.getElementById("st-avg").textContent=avg;
+}
+
+function agTab(tab){
+  document.querySelectorAll(".ag-tab").forEach(function(el){el.classList.add("hidden");});
+  document.querySelectorAll(".nav-item").forEach(function(el){el.classList.remove("on");});
+  document.getElementById("at-"+tab).classList.remove("hidden");
+  document.getElementById("an-"+tab).classList.add("on");
+  if(tab==="analytics") renderAnalytics();
+}
+
+function scClass(s){
+  if(s>=85) return "score-hot"; if(s>=70) return "score-warm"; if(s>=50) return "score-cool"; return "score-cold";
+}
+function stStyle(s){
+  var m={Hot:"background:#fee2e2;color:#b91c1c",New:"background:#f1f5f9;color:#64748b",Contacted:"background:#fff7ed;color:#c2410c",Qualified:"background:#f0fdf4;color:#166534",Closed:"background:#fefce8;color:#854d0e"};
+  return m[s]||m.New;
+}
+function stOpts(cur){
+  return ["New","Contacted","Qualified","Hot","Closed"].map(function(s){return "<option"+(s===cur?" selected":"")+">"+s+"</option>";}).join("");
+}
+
+function renderTable(){
+  var flt=(document.getElementById("flt-status")||{}).value||"all";
+  var data=flt==="all"?leads:leads.filter(function(l){return l.status===flt;});
+  var sorted=data.slice().sort(function(a,b){return b.score-a.score;});
+  document.getElementById("tbl-main").innerHTML=sorted.map(function(l){
+    return "<tr class='lead-row' onclick='openLead("+l.id+")'>"+
+      "<td style='padding:14px'><div style='font-weight:600'>"+l.name+"</div><div style='font-size:11px;color:#9ca3af'>"+l.email+"</div></td>"+
+      "<td style='padding:14px'>"+l.destination+"<div style='font-size:11px;color:#9ca3af'>"+l.purpose+" · "+l.timeline+"</div></td>"+
+      "<td style='padding:14px;font-weight:600;color:"+(l.budget==="$5,000+"?"#16a34a":"#374151")+"'>"+l.budget+"</td>"+
+      "<td style='padding:14px'><span style='padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700' class='"+scClass(l.score)+"'>"+l.score+"</span></td>"+
+      "<td style='padding:14px'><select onclick='event.stopPropagation()' onchange='updStatus("+l.id+",this.value)' style='"+stStyle(l.status)+";font-size:11px;font-weight:700;padding:4px 8px;border-radius:8px;border:0;cursor:pointer'>"+stOpts(l.status)+"</select></td>"+
+      "<td style='padding:14px'><div style='display:flex;gap:10px' onclick='event.stopPropagation()'>"+
+        "<button onclick='sendWA("+l.id+")' style='color:#16a34a;background:none;border:none;cursor:pointer;font-size:17px'><i class='fab fa-whatsapp'></i></button>"+
+        "<button onclick='openLead("+l.id+")' style='color:#2563eb;background:none;border:none;cursor:pointer;font-size:15px'><i class='fas fa-id-card'></i></button>"+
+        "<button onclick='aiStrat("+l.id+")' style='color:#9333ea;background:none;border:none;cursor:pointer;font-size:14px'><i class='fas fa-magic'></i></button>"+
+      "</div></td></tr>";
+  }).join("");
+}
+
+function renderTable2(){
+  var q=((document.getElementById("srch")||{}).value||"").toLowerCase();
+  var data=q?leads.filter(function(l){return l.name.toLowerCase().includes(q)||l.email.toLowerCase().includes(q)||l.destination.toLowerCase().includes(q);}):leads;
+  document.getElementById("tbl-leads").innerHTML=data.map(function(l){
+    return "<tr class='lead-row' onclick='openLead("+l.id+")'>"+
+      "<td style='padding:14px'><div style='font-weight:600'>"+l.name+"</div><div style='font-size:11px;color:#9ca3af'>"+l.phone+"</div></td>"+
+      "<td style='padding:14px'>"+l.destination+"</td>"+
+      "<td style='padding:14px'>"+l.budget+"</td>"+
+      "<td style='padding:14px'>"+l.timeline+"</td>"+
+      "<td style='padding:14px'><span style='padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700' class='"+scClass(l.score)+"'>"+l.score+"</span></td>"+
+      "<td style='padding:14px'><select onclick='event.stopPropagation()' onchange='updStatus("+l.id+",this.value)' style='"+stStyle(l.status)+";font-size:11px;font-weight:700;padding:4px 8px;border-radius:8px;border:0;cursor:pointer'>"+stOpts(l.status)+"</select></td>"+
+      "<td style='padding:14px' onclick='event.stopPropagation()'>"+
+        "<button onclick='sendWA("+l.id+")' style='color:#16a34a;background:none;border:none;cursor:pointer;font-size:17px;margin-right:8px'><i class='fab fa-whatsapp'></i></button>"+
+        "<button onclick='openLead("+l.id+")' style='color:#2563eb;background:none;border:none;cursor:pointer;font-size:15px'><i class='fas fa-id-card'></i></button>"+
+      "</td></tr>";
+  }).join("");
+}
+
+function updStatus(id,status){
+  var l=leads.find(function(x){return x.id===id;}); if(l){l.status=status; updateStats(); renderTable(); renderTable2();}
+}
+
+function openLead(id){
+  var l=leads.find(function(x){return x.id===id;}); if(!l) return;
+  document.getElementById("m-lead-name").textContent=l.name;
+  var sBtns=["New","Contacted","Qualified","Hot","Closed"].map(function(s){
+    return "<button onclick="updStatus("+l.id+",'"+s+"');closeModal('m-lead');openLead("+l.id+")" style=""+stStyle(s)+";padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700;border:0;cursor:pointer"+(s===l.status?";outline:2px solid #2563eb;outline-offset:2px":"")+"">"+s+"</button>";
+  }).join("");
+  document.getElementById("m-lead-body").innerHTML=
+    "<div style='background:#f8fafc;border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:16px'>"+
+      "<div style='width:48px;height:48px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#2563eb'>"+l.name[0]+"</div>"+
+      "<div style='flex:1'><div style='font-weight:700;font-size:16px'>"+l.name+"</div><div style='font-size:12px;color:#9ca3af'>"+l.email+" · "+l.phone+"</div></div>"+
+      "<div style='text-align:right'><div style='font-size:28px;font-weight:800;color:"+(l.score>=85?"#dc2626":l.score>=70?"#ea580c":"#9ca3af")+"'>"+l.score+"</div><div style='font-size:10px;color:#9ca3af'>SCORE</div></div>"+
+    "</div>"+
+    "<div style='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;font-size:13px'>"+
+      [["✈️ Dest",l.destination],["🎯 Purpose",l.purpose],["💰 Budget",l.budget],["📅 Timeline",l.timeline],["👥 Passengers",l.passengers]].map(function(r){
+        return "<div style='background:#f8fafc;border-radius:10px;padding:10px'><div style='font-size:10px;color:#9ca3af;margin-bottom:3px'>"+r[0]+"</div><div style='font-weight:600'>"+r[1]+"</div></div>";
+      }).join("")+
+    "</div>"+
+    "<div style='margin-bottom:14px'><div style='font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px'>Status</div><div style='display:flex;gap:6px;flex-wrap:wrap'>"+sBtns+"</div></div>"+
+    "<div style='margin-bottom:14px'><div style='font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px'>Notes</div>"+
+      "<textarea id='note-"+l.id+"' rows='3' style='width:100%;border:1px solid #e5e7eb;border-radius:10px;padding:10px;font-size:13px;resize:none;outline:none' placeholder='Add notes...'>"+l.notes+"</textarea>"+
+      "<button onclick='saveNote("+l.id+")' style='font-size:11px;color:#2563eb;font-weight:600;background:none;border:none;cursor:pointer;margin-top:4px'>Save notes</button>"+
+    "</div>"+
+    "<div id='strat-"+l.id+"' class='hidden' style='background:#faf5ff;border:1px solid #e9d5ff;border-radius:10px;padding:14px;font-size:13px;margin-bottom:14px;line-height:1.6'></div>"+
+    "<div style='display:flex;gap:10px'>"+
+      "<button onclick='sendWA("+l.id+")' style='flex:1;background:#16a34a;color:#fff;font-weight:700;padding:11px;border-radius:12px;border:none;cursor:pointer;font-size:13px'><i class='fab fa-whatsapp' style='margin-right:5px'></i>WhatsApp</button>"+
+      "<button onclick='aiStrat("+l.id+")' style='flex:1;background:#9333ea;color:#fff;font-weight:700;padding:11px;border-radius:12px;border:none;cursor:pointer;font-size:13px'><i class='fas fa-magic' style='margin-right:5px'></i>AI Strategy</button>"+
+    "</div>";
+  document.getElementById("m-lead").classList.remove("hidden");
+}
+
+function saveNote(id){
+  var l=leads.find(function(x){return x.id===id;}); var el=document.getElementById("note-"+id);
+  if(l&&el){l.notes=el.value; renderTable(); renderTable2();}
+}
+
+async function aiStrat(id){
+  var l=leads.find(function(x){return x.id===id;}); if(!l) return;
+  var box=document.getElementById("strat-"+id);
+  if(!box){openLead(id); setTimeout(function(){aiStrat(id);},400); return;}
+  box.classList.remove("hidden");
+  box.innerHTML="<i class='fas fa-circle-notch spin' style='color:#9333ea;margin-right:6px'></i>Generating strategy...";
+  var reply=await claude("Lead: "+l.name+", going to "+l.destination+" for "+l.purpose+". Budget: "+l.budget+". Timeline: "+l.timeline+". Score: "+l.score+". Status: "+l.status+". Notes: "+l.notes+". Write a 2-sentence follow-up strategy. Start with what to do TODAY.","Expert travel sales coach. Concise, actionable advice. Under 70 words.");
+  box.innerHTML="<strong>💡 AI Strategy:</strong> "+reply;
+}
+
+function sendWA(id){
+  var l=leads.find(function(x){return x.id===id;}); if(!l) return;
+  var msg=encodeURIComponent("Hi "+l.name+"! This is the team at Wanderlust AI. We received your enquiry for "+l.destination+" ("+l.purpose+", "+l.budget+"). We would love to make this trip happen for you! When is a good time to chat?");
+  window.open("https://wa.me/"+l.phone.replace(/\D/g,"")+"?text="+msg,"_blank");
+}
+
+function addLead(){
+  var name=prompt("Full Name:"); if(!name) return;
+  var email=prompt("Email:"); var phone=prompt("WhatsApp:");
+  leads.unshift({id:Date.now(),name:name,email:email||"",phone:phone||"",destination:"TBD",purpose:"",budget:"",timeline:"",passengers:"Solo",status:"New",score:50,date:new Date().toISOString().split("T")[0],notes:"Manually added."});
+  updateStats(); renderTable(); renderTable2();
+}
+
+function recoverMissed(){
+  alert("Automation triggered: 3 follow-up WhatsApp messages queued for leads who dropped off mid-funnel. They will receive personalised re-engagement messages within 30 minutes.");
+}
+
+// TOOLS
+async function checkVisa(){
+  var p=document.getElementById("vp").value, d=document.getElementById("vd").value;
+  document.getElementById("visa-res").classList.add("hidden");
+  document.getElementById("visa-load").classList.remove("hidden");
+  var reply=await claude("Visa check: "+p+" passport holder applying for "+d+". Give: visa type, processing time, max stay, 4 key documents, one important tip. Under 120 words.","You are a visa expert for African travellers. Be precise and practical.");
+  document.getElementById("visa-load").classList.add("hidden");
+  document.getElementById("visa-res").innerHTML="<strong>Visa Assessment</strong><br><br>"+reply.replace(/
+/g,"<br>");
+  document.getElementById("visa-res").classList.remove("hidden");
+}
+async function genChecklist(){
+  var d=document.getElementById("cd").value, p=document.getElementById("cp").value;
+  document.getElementById("cl-res").classList.add("hidden");
+  document.getElementById("cl-load").classList.remove("hidden");
+  var reply=await claude("Travel checklist for Nigerian going to "+d+" for "+p+". 3 sections: DOCUMENTS, PACKING, BEFORE YOU FLY. 4-5 items each. Start each item with a checkmark.","Travel preparation expert. Return a clean practical checklist.");
+  document.getElementById("cl-load").classList.add("hidden");
+  var html=reply.split("
+").map(function(line){
+    if(!line.trim()) return "";
+    if(line.trim()===line.trim().toUpperCase()&&line.trim().length>2) return "<div style='font-weight:700;color:#374151;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 6px'>"+line+"</div>";
+    return "<div style='display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #f9fafb'><span style='color:#16a34a'>✓</span><span style='color:#374151;font-size:13px'>"+line.replace(/^[✓☑●•\-]/,"").trim()+"</span></div>";
+  }).join("");
+  document.getElementById("cl-res").innerHTML=html;
+  document.getElementById("cl-res").classList.remove("hidden");
+}
+async function runBudget(){
+  var d=document.getElementById("bd").value, p=document.getElementById("bp").value;
+  document.getElementById("bg-res").classList.add("hidden");
+  document.getElementById("bg-load").classList.remove("hidden");
+  var reply=await claude("Budget breakdown for Nigerian going to "+d+", "+p+". Costs for: Visa fees, Flights (Lagos return), Accommodation (7 nights), Daily expenses, Travel insurance. Show USD and NGN (N1,550/$). Total range at bottom. Under 130 words.","Travel finance expert. Give realistic 2026 cost estimates.");
+  document.getElementById("bg-load").classList.add("hidden");
+  document.getElementById("bg-res").innerHTML="<strong>Budget Breakdown</strong><br><br>"+reply.replace(/
+/g,"<br>");
+  document.getElementById("bg-res").classList.remove("hidden");
+}
+async function runDestRec(){
+  var input=document.getElementById("dr-in").value.trim(); if(!input) return;
+  document.getElementById("dr-load").classList.remove("hidden");
+  document.getElementById("dr-res").classList.add("hidden");
+  var reply=await claude("Customer: '"+input+"'. Best destination from Dubai, UK, Canada, USA, Europe? Give name, top 3 reasons, one action for the agent. Under 100 words.","Senior travel consultant. Sharp specific recommendations.");
+  document.getElementById("dr-load").classList.add("hidden");
+  document.getElementById("dr-res").textContent=reply;
+  document.getElementById("dr-res").classList.remove("hidden");
+}
+
+// ANALYTICS
+function bar(id,items,col){
+  col=col||"#3b82f6";
+  var max=Math.max.apply(null,items.map(function(i){return i.c;}))||1;
+  document.getElementById(id).innerHTML=items.map(function(i){
+    return "<div style='margin-bottom:12px'><div style='display:flex;justify-content:space-between;font-size:12px;color:#6b7280;margin-bottom:4px'><span>"+i.l+"</span><span style='font-weight:700'>"+i.c+"</span></div><div style='height:8px;background:#f1f5f9;border-radius:4px'><div style='height:100%;width:"+Math.round(i.c/max*100)+"%;background:"+col+";border-radius:4px;transition:width .5s'></div></div></div>";
+  }).join("");
+}
+function renderAnalytics(){
+  var dests=["Dubai","United Kingdom","Canada","USA","Europe"];
+  bar("ch-dest",dests.map(function(d){return {l:d,c:leads.filter(function(l){return l.destination.indexOf(d.split(" ")[0])>=0;}).length};}),"#3b82f6");
+  var statuses=["Hot","New","Contacted","Qualified","Closed"];
+  var sCols={Hot:"#ef4444",New:"#94a3b8",Contacted:"#f97316",Qualified:"#22c55e",Closed:"#eab308"};
+  document.getElementById("ch-status").innerHTML=statuses.map(function(s){
+    var c=leads.filter(function(l){return l.status===s;}).length;
+    var p=Math.round(c/leads.length*100);
+    return "<div style='display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px'><div style='width:8px;height:8px;border-radius:50%;background:"+sCols[s]+"'></div><span style='flex:1;color:#6b7280'>"+s+"</span><span style='font-weight:700'>"+c+"</span><span style='color:#9ca3af'>"+p+"%</span></div>";
+  }).join("");
+  var budgets=["Under $1,000","$1,000-$3,000","$3,000-$5,000","$5,000+"];
+  bar("ch-budget",budgets.map(function(b){return {l:b,c:leads.filter(function(l){return l.budget===b;}).length};}),"#22c55e");
+  var purposes=["Tourism","Study Abroad","Business","Relocation","Family Visit"];
+  bar("ch-purpose",purposes.map(function(p){return {l:p,c:leads.filter(function(l){return l.purpose===p;}).length};}),"#a855f7");
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+  updateStats(); renderTable(); renderTable2();
+});
+</script>
+</body>
+</html>

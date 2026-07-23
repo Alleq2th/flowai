@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primero Realty   AI-Powered Property Ecosystem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0D0F12;
+  --ink2:#1C2230;
+  --gold:#B8973A;
+  --gold2:#D4AF55;
+  --gold-pale:#F5EDD5;
+  --cream:#F9F6F0;
+  --white:#FFFFFF;
+  --slate:#6B7A94;
+  --border:#E4DDD0;
+  --green:#1A7A4A;
+  --red:#B84040;
+  --amber:#C47C1A;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.6}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;background:rgba(13,15,18,0.97);backdrop-filter:blur(16px);display:flex;align-items:center;padding:0 4%;gap:32px;border-bottom:1px solid rgba(184,151,58,0.15)}
+.logo{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:#fff;letter-spacing:.02em;white-space:nowrap}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:28px;list-style:none;flex:1}
+.nav-links a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-score-badge{margin-left:auto;display:flex;align-items:center;gap:8px;background:rgba(26,122,74,.15);border:1px solid rgba(26,122,74,.3);padding:5px 14px;font-size:.72rem;font-weight:600;color:#4ADE80;letter-spacing:.05em}
+.nav-score-dot{width:7px;height:7px;background:#4ADE80;border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.nav-cta{background:var(--gold);color:var(--ink);padding:9px 22px;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:none;cursor:pointer;white-space:nowrap;transition:background .2s}
+.nav-cta:hover{background:var(--gold2)}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;background:var(--ink);display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 4% 60px;gap:48px;position:relative;overflow:hidden}
+.hero-grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(184,151,58,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,151,58,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+#heroBeams{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.75}
+.hero-glow{position:absolute;top:20%;right:10%;width:500px;height:500px;background:radial-gradient(circle,rgba(184,151,58,.07) 0%,transparent 70%);pointer-events:none}
+.hero-left{position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(184,151,58,.1);border:1px solid rgba(184,151,58,.25);padding:5px 14px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:24px}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(2.8rem,4.5vw,4.2rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:.95rem;color:rgba(255,255,255,.5);max-width:460px;margin-bottom:36px;font-weight:300;line-height:1.9}
+
+/* Natural Language Search */
+.nl-search-box{background:rgba(255,255,255,.04);border:1px solid rgba(184,151,58,.2);padding:20px;margin-bottom:28px}
+.nl-search-label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.nl-search-row{display:flex;gap:8px}
+.nl-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:12px 16px;font-family:'Outfit',sans-serif;font-size:.88rem;color:#fff;outline:none;transition:border-color .2s}
+.nl-input::placeholder{color:rgba(255,255,255,.3)}
+.nl-input:focus{border-color:var(--gold)}
+.nl-btn{background:var(--gold);color:var(--ink);padding:12px 20px;border:none;cursor:pointer;font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;transition:background .2s}
+.nl-btn:hover{background:var(--gold2)}
+.nl-results{margin-top:14px;display:none}
+.nl-result-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,.04);border-left:2px solid var(--gold);margin-bottom:6px;cursor:pointer;transition:background .2s}
+.nl-result-item:hover{background:rgba(255,255,255,.07)}
+.nl-result-score{font-size:.65rem;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--gold);background:rgba(184,151,58,.1);padding:2px 7px;white-space:nowrap}
+.nl-result-text{font-size:.8rem;color:rgba(255,255,255,.8)}
+.nl-result-price{font-size:.8rem;font-weight:600;color:#fff;margin-left:auto;white-space:nowrap}
+
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-gold{background:var(--gold);color:var(--ink);padding:13px 28px;font-size:.82rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:#fff;padding:13px 28px;font-size:.82rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;border:1px solid rgba(255,255,255,.2);cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ─── AI COMMAND CENTER (hero right) ─── */
+.command-center{background:var(--ink2);border:1px solid rgba(184,151,58,.15);box-shadow:0 40px 80px rgba(0,0,0,.5);max-width:440px;margin-left:auto;position:relative;z-index:2}
+.cc-header{background:rgba(184,151,58,.08);border-bottom:1px solid rgba(184,151,58,.12);padding:14px 18px;display:flex;align-items:center;gap:10px}
+.cc-title{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);flex:1}
+.cc-status{font-size:.65rem;color:#4ADE80;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:5px}
+.cc-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.06)}
+.cc-tab{flex:1;padding:9px 4px;font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.cc-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.cc-panel{display:none;padding:16px}
+.cc-panel.active{display:block}
+
+/* Chat panel */
+.chat-body{height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:12px;padding-right:4px}
+.chat-body::-webkit-scrollbar{width:3px}
+.chat-body::-webkit-scrollbar-thumb{background:rgba(184,151,58,.3)}
+.cmsg{display:flex;gap:7px;align-items:flex-start}
+.cmsg.u{flex-direction:row-reverse}
+.cavatar{width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700}
+.cavatar.ai-av{background:var(--gold);color:var(--ink)}
+.cavatar.u-av{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.cbubble{padding:9px 13px;font-size:.78rem;line-height:1.55;max-width:82%}
+.cbubble.ai-b{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85);border-radius:2px 10px 10px 10px}
+.cbubble.u-b{background:var(--gold);color:var(--ink);font-weight:500;border-radius:10px 2px 10px 10px}
+.score-pill{display:inline-block;padding:2px 8px;font-size:.65rem;font-weight:700;font-family:'JetBrains Mono',monospace;margin-top:5px}
+.score-hot{background:rgba(184,58,58,.2);color:#F87171;border:1px solid rgba(184,58,58,.3)}
+.score-warm{background:rgba(196,124,26,.2);color:#FBB040;border:1px solid rgba(196,124,26,.3)}
+.score-cold{background:rgba(107,122,148,.2);color:#94A3B8;border:1px solid rgba(107,122,148,.3)}
+.typing-row{display:flex;gap:4px;padding:10px 13px;background:rgba(255,255,255,.06);width:fit-content;border-radius:2px 10px 10px 10px}
+.typing-row span{width:5px;height:5px;background:rgba(255,255,255,.4);border-radius:50%;animation:tdot 1.2s infinite}
+.typing-row span:nth-child(2){animation-delay:.2s}
+.typing-row span:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.chat-input-row{display:flex;gap:6px}
+.chat-in{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:9px 12px;font-family:'Outfit',sans-serif;font-size:.78rem;color:#fff;outline:none}
+.chat-in:focus{border-color:var(--gold)}
+.chat-in::placeholder{color:rgba(255,255,255,.3)}
+.send-b{width:34px;height:34px;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.send-b:hover{background:var(--gold2)}
+.send-b svg{width:14px;height:14px;fill:var(--ink)}
+
+/* Lead Score panel */
+.leads-list{display:flex;flex-direction:column;gap:8px;max-height:290px;overflow-y:auto}
+.lead-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-left:3px solid transparent;cursor:pointer;transition:background .2s}
+.lead-row:hover{background:rgba(255,255,255,.07)}
+.lead-row.hot{border-left-color:#F87171}
+.lead-row.warm{border-left-color:#FBB040}
+.lead-row.cold{border-left-color:#94A3B8}
+.lead-initials{width:32px;height:32px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:rgba(255,255,255,.7);flex-shrink:0}
+.lead-info{flex:1;min-width:0}
+.lead-name{font-size:.78rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lead-detail{font-size:.68rem;color:rgba(255,255,255,.4)}
+.lead-badge{font-size:.62rem;font-weight:700;font-family:'JetBrains Mono',monospace;padding:2px 8px;white-space:nowrap}
+.lead-badge.hot{background:rgba(248,113,113,.15);color:#F87171}
+.lead-badge.warm{background:rgba(251,176,64,.15);color:#FBB040}
+.lead-badge.cold{background:rgba(148,163,184,.1);color:#94A3B8}
+.lead-score{font-size:.72rem;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.5);white-space:nowrap}
+
+/* Valuation panel */
+.val-form{display:flex;flex-direction:column;gap:10px}
+.val-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:10px 14px;font-family:'Outfit',sans-serif;font-size:.82rem;color:#fff;outline:none;transition:border-color .2s}
+.val-input:focus{border-color:var(--gold)}
+.val-input::placeholder{color:rgba(255,255,255,.3)}
+.val-btn{background:var(--gold);color:var(--ink);padding:11px;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s}
+.val-btn:hover{background:var(--gold2)}
+.val-result{display:none;margin-top:14px;padding:16px;background:rgba(184,151,58,.06);border:1px solid rgba(184,151,58,.2)}
+.val-result-label{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.val-result-price{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:4px}
+.val-result-range{font-size:.72rem;color:rgba(255,255,255,.4);font-family:'JetBrains Mono',monospace}
+.val-cta-msg{margin-top:10px;font-size:.75rem;color:rgba(255,255,255,.5);line-height:1.6}
+
+/* ─── 3D MARQUEE ─── */
+.marquee-sec{background:var(--ink);padding:60px 0;overflow:hidden;position:relative}
+.marquee-sec::before,.marquee-sec::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:10;pointer-events:none}
+.marquee-sec::before{left:0;background:linear-gradient(to right,var(--ink),transparent)}
+.marquee-sec::after{right:0;background:linear-gradient(to left,var(--ink),transparent)}
+.marquee-label{text-align:center;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(184,151,58,.5);margin-bottom:32px}
+.marquee-3d-wrap{height:420px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.marquee-3d-inner{width:1400px;height:1400px;flex-shrink:0;transform:scale(.55);transform-origin:center center}
+@media(min-width:768px){.marquee-3d-inner{transform:scale(.75)}}
+@media(min-width:1200px){.marquee-3d-inner{transform:scale(1)}}
+.marquee-3d-grid{transform:rotateX(52deg) rotateY(0deg) rotateZ(-44deg);display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;top:380px;right:50%;width:100%;transform-style:preserve-3d}
+.marquee-col{display:flex;flex-direction:column;gap:20px}
+.marquee-col:nth-child(odd){animation:mq-up 12s ease-in-out infinite alternate}
+.marquee-col:nth-child(even){animation:mq-down 16s ease-in-out infinite alternate}
+@keyframes mq-up{from{transform:translateY(0)}to{transform:translateY(-80px)}}
+@keyframes mq-down{from{transform:translateY(0)}to{transform:translateY(80px)}}
+.mq-card{border-radius:8px;overflow:hidden;position:relative;border:1px solid rgba(184,151,58,.12);aspect-ratio:970/700;transition:transform .3s}
+.mq-card:hover{transform:translateY(-8px)}
+.mq-card img{width:100%;height:100%;object-fit:cover;display:block}
+.mq-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,15,18,.7) 0%,transparent 60%)}
+.mq-card-label{position:absolute;bottom:10px;left:12px;font-size:.65rem;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.06em;text-transform:uppercase}
+.mq-grid-line-h{position:absolute;left:-10px;right:-10px;height:1px;background:linear-gradient(to right,transparent,rgba(184,151,58,.2) 50%,transparent);top:-10px;z-index:5}
+.mq-grid-line-v{position:absolute;top:-20px;bottom:-20px;width:1px;background:linear-gradient(to bottom,transparent,rgba(184,151,58,.2) 50%,transparent);left:-10px;z-index:5}
+
+/* ─── STATS BAR ─── */
+.stats-bar{background:var(--gold);padding:22px 4%;display:grid;grid-template-columns:repeat(5,1fr)}
+.stat{text-align:center;padding:6px 10px;border-right:1px solid rgba(13,15,18,.12)}
+.stat:last-child{border:none}
+.stat-n{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:var(--ink);display:block;line-height:1}
+.stat-l{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(13,15,18,.6)}
+
+/* ─── SECTION BASE ─── */
+.sec{padding:88px 4%}
+.eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.sec-title{font-family:'Fraunces',serif;font-size:clamp(1.9rem,3vw,2.8rem);font-weight:700;color:var(--ink);line-height:1.18;margin-bottom:14px}
+.sec-sub{font-size:.92rem;color:var(--slate);max-width:500px;line-height:1.85}
+
+/* ─── LISTINGS ─── */
+.listings-sec{background:var(--white)}
+.listings-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;flex-wrap:gap}
+.filter-group{display:flex;gap:6px}
+.fbtn{padding:7px 18px;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:var(--slate);cursor:pointer;transition:all .2s}
+.fbtn.on,.fbtn:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.listings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:var(--cream);overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer;position:relative}
+.card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(13,15,18,.1)}
+.card-img{height:210px;position:relative;overflow:hidden}
+.card-img-bg{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .5s}
+.card:hover .card-img-bg{transform:scale(1.06)}
+.card-badge{position:absolute;top:12px;left:12px;padding:3px 10px;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.badge-sale{background:var(--gold);color:var(--ink)}
+.badge-rent{background:var(--ink);color:var(--gold)}
+.card-score-chip{position:absolute;top:12px;right:12px;background:rgba(13,15,18,.85);padding:3px 9px;font-size:.62rem;font-family:'JetBrains Mono',monospace;color:#4ADE80;display:flex;align-items:center;gap:4px}
+.card-body{padding:18px 20px}
+.card-price{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.card-price sup{font-size:.75rem;font-family:'Outfit',sans-serif;font-weight:400;color:var(--slate)}
+.card-title{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:5px}
+.card-loc{font-size:.75rem;color:var(--slate);margin-bottom:14px;display:flex;align-items:center;gap:4px}
+.card-feats{display:flex;gap:14px;padding-top:12px;border-top:1px solid var(--border)}
+.cf{font-size:.73rem;color:var(--slate)}
+.cf strong{color:var(--ink)}
+.card-ai-bar{background:rgba(184,151,58,.06);border-top:1px solid rgba(184,151,58,.1);padding:8px 20px;display:flex;align-items:center;justify-content:space-between}
+.ai-match-label{font-size:.65rem;color:var(--gold);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.ai-match-dots{display:flex;gap:3px}
+.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--border)}
+.ai-dot.filled{background:var(--gold)}
+
+/* ─── AUTOMATION PIPELINE ─── */
+.pipeline-sec{background:var(--ink)}
+.pipeline-sec .sec-title{color:#fff}
+.pipeline-sec .sec-sub{color:rgba(255,255,255,.45)}
+.pipeline-sec .eyebrow{color:var(--gold)}
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:52px;background:rgba(184,151,58,.08)}
+.pipe-step{background:var(--ink);padding:32px 22px;border:1px solid rgba(184,151,58,.06);position:relative;transition:background .3s}
+.pipe-step:hover{background:var(--ink2)}
+.pipe-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(184,151,58,.4);margin-bottom:16px;letter-spacing:.1em}
+.pipe-icon{width:40px;height:40px;border:1px solid rgba(184,151,58,.2);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.pipe-icon svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.pipe-step h3{font-family:'Fraunces',serif;font-size:1rem;font-weight:600;color:#fff;margin-bottom:8px;line-height:1.3}
+.pipe-step p{font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.75}
+.pipe-arrow{position:absolute;top:50%;right:-12px;width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;z-index:2;transform:translateY(-50%)}
+.pipe-arrow svg{width:10px;height:10px;fill:var(--ink)}
+.pipe-step:last-child .pipe-arrow{display:none}
+
+/* ─── VALUATION SECTION ─── */
+.val-sec{background:var(--cream);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.val-widget{background:var(--ink);padding:40px 36px}
+.val-widget h3{font-family:'Fraunces',serif;font-size:1.5rem;color:#fff;margin-bottom:6px}
+.val-widget p{font-size:.8rem;color:rgba(255,255,255,.45);margin-bottom:24px;line-height:1.7}
+.val-field-group{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.val-field-label{font-size:.68rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.val-full-input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:11px 14px;color:#fff;font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;width:100%;transition:border-color .2s}
+.val-full-input:focus{border-color:var(--gold)}
+.val-full-input::placeholder{color:rgba(255,255,255,.25)}
+.val-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.val-submit{width:100%;background:var(--gold);color:var(--ink);padding:13px;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;margin-top:6px;transition:background .2s}
+.val-submit:hover{background:var(--gold2)}
+.val-report{display:none;margin-top:20px;padding:18px;background:rgba(184,151,58,.07);border:1px solid rgba(184,151,58,.2)}
+.val-report-head{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.val-estimate{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:700;color:#fff;line-height:1}
+.val-estimate sub{font-size:.85rem;font-family:'Outfit',sans-serif;font-weight:300;color:rgba(255,255,255,.4)}
+.val-bars{margin-top:14px;display:flex;flex-direction:column;gap:7px}
+.val-bar-row{display:flex;align-items:center;gap:10px}
+.val-bar-label{font-size:.68rem;color:rgba(255,255,255,.45);width:90px;flex-shrink:0}
+.val-bar-track{flex:1;height:4px;background:rgba(255,255,255,.08);position:relative}
+.val-bar-fill{height:100%;background:var(--gold);transition:width 1s ease}
+.val-bar-val{font-size:.68rem;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.6);white-space:nowrap}
+.val-capture{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.6}
+
+/* ─── FEATURES GRID ─── */
+.features-sec{background:var(--white)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:50px;background:var(--border)}
+.feat-card{background:var(--white);padding:36px 28px;transition:background .25s}
+.feat-card:hover{background:var(--cream)}
+.feat-icon{width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.feat-icon svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1.5}
+.feat-card h3{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:9px}
+.feat-card p{font-size:.8rem;color:var(--slate);line-height:1.8}
+.feat-tag{display:inline-block;margin-top:12px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:var(--gold-pale);padding:2px 9px}
+
+/* ─── ROI PITCH MATRIX ─── */
+.roi-sec{background:var(--ink);padding:88px 4%}
+.roi-sec .sec-title{color:#fff}
+.roi-sec .eyebrow{color:var(--gold)}
+.roi-matrix{margin-top:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.roi-card{background:rgba(255,255,255,.03);border:1px solid rgba(184,151,58,.1);padding:32px 28px;position:relative;overflow:hidden}
+.roi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.roi-card:hover::before{transform:scaleX(1)}
+.roi-card-label{font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px}
+.roi-pain{font-family:'Fraunces',serif;font-size:1.05rem;font-style:italic;color:rgba(255,255,255,.6);margin-bottom:16px;line-height:1.5}
+.roi-solution{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:20px}
+.roi-number{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:700;color:var(--gold);line-height:1}
+.roi-number-label{font-size:.7rem;color:rgba(255,255,255,.35);margin-top:4px}
+
+/* ─── LIVE GHOST REVIVAL ─── */
+.ghost-sec{background:var(--cream);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.ghost-panel{background:var(--ink2);border:1px solid rgba(184,151,58,.12);overflow:hidden}
+.ghost-panel-head{background:rgba(184,151,58,.07);border-bottom:1px solid rgba(184,151,58,.1);padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
+.ghost-panel-title{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.ghost-live{font-size:.65rem;color:#4ADE80;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:5px}
+.ghost-list{padding:14px;display:flex;flex-direction:column;gap:8px}
+.ghost-item{background:rgba(255,255,255,.04);padding:12px 14px;border-left:3px solid transparent;cursor:pointer;transition:all .2s}
+.ghost-item:hover{background:rgba(255,255,255,.07)}
+.ghost-item.triggered{border-left-color:var(--gold);background:rgba(184,151,58,.06)}
+.ghost-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.ghost-name{font-size:.78rem;font-weight:600;color:#fff}
+.ghost-time{font-size:.65rem;color:rgba(255,255,255,.3);font-family:'JetBrains Mono',monospace}
+.ghost-action{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.5}
+.ghost-action span{color:var(--gold)}
+.ghost-trigger-btn{margin-top:8px;padding:5px 12px;background:var(--gold);color:var(--ink);font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:none;cursor:pointer;display:none;transition:background .2s}
+.ghost-item:hover .ghost-trigger-btn{display:inline-block}
+.toast{position:fixed;bottom:80px;right:28px;background:var(--ink2);border:1px solid rgba(184,151,58,.3);padding:14px 20px;font-size:.8rem;color:#fff;z-index:999;transform:translateY(20px);opacity:0;transition:all .4s;pointer-events:none;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast strong{color:var(--gold)}
+
+/* ─── LEAD FORM ─── */
+.form-sec{background:var(--white);display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.form-box{background:var(--ink);padding:44px 38px}
+.form-box h3{font-family:'Fraunces',serif;font-size:1.6rem;color:#fff;margin-bottom:6px}
+.form-box .form-sub{font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:28px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}
+.fg input,.fg select,.fg textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:11px 14px;font-family:'Outfit',sans-serif;font-size:.85rem;color:#fff;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold)}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.2)}
+.fg select{color:rgba(255,255,255,.7)}
+.fg select option{background:var(--ink);color:#fff}
+.fg textarea{resize:vertical;min-height:80px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-submit{width:100%;background:var(--gold);color:var(--ink);padding:13px;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;margin-top:6px;transition:background .2s}
+.form-submit:hover{background:var(--gold2)}
+.form-success{display:none;text-align:center;padding:32px 16px}
+.form-success.on{display:block}
+.form-success-icon{width:54px;height:54px;background:rgba(184,151,58,.1);border:1px solid rgba(184,151,58,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.form-success-icon svg{width:24px;height:24px;stroke:var(--gold);fill:none;stroke-width:2}
+.form-success h3{font-family:'Fraunces',serif;font-size:1.4rem;color:#fff;margin-bottom:8px}
+.form-success p{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.7}
+.form-left h2{font-family:'Fraunces',serif;font-size:clamp(1.8rem,2.5vw,2.5rem);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:18px}
+.form-left p{font-size:.9rem;color:var(--slate);line-height:1.85;margin-bottom:28px}
+.perks{display:flex;flex-direction:column;gap:12px;list-style:none}
+.perks li{display:flex;align-items:center;gap:12px;font-size:.83rem;color:var(--slate)}
+.perk-ico{width:26px;height:26px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.perk-ico svg{width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:2.5}
+
+/* ─── TESTIMONIALS ─── */
+.testi-sec{background:var(--cream)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+.testi{padding:28px 26px;background:var(--white);border-bottom:3px solid var(--gold)}
+.testi-q{font-family:'Fraunces',serif;font-size:2.2rem;color:var(--gold);line-height:1;margin-bottom:8px}
+.testi-text{font-size:.83rem;color:var(--slate);line-height:1.85;font-style:italic;margin-bottom:20px}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-av{width:38px;height:38px;background:var(--ink);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;color:var(--gold);font-size:.88rem;flex-shrink:0}
+.testi-name{font-size:.82rem;font-weight:600;color:var(--ink)}
+.testi-role{font-size:.7rem;color:var(--slate)}
+.testi-roi{display:inline-block;margin-top:8px;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green);background:rgba(26,122,74,.08);border:1px solid rgba(26,122,74,.2);padding:2px 9px}
+
+/* ─── FOOTER ─── */
+footer{background:var(--ink);padding:60px 4% 28px}
+.foot-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.foot-brand-logo{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:14px;display:block}
+.foot-brand-logo span{color:var(--gold)}
+.foot-brand p{font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.85;max-width:270px}
+.foot-col h4{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.foot-col a{font-size:.78rem;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
+.foot-col a:hover{color:var(--gold)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:rgba(255,255,255,.25)}
+
+/* WA Float */
+.wa{position:fixed;bottom:24px;right:24px;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.25);cursor:pointer;z-index:400;text-decoration:none;transition:transform .2s}
+.wa:hover{transform:scale(1.08)}
+.wa svg{width:26px;height:26px;fill:#fff}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1000px){
+  .hero{grid-template-columns:1fr;padding-top:90px}
+  .command-center{display:none}
+  .listings-grid{grid-template-columns:1fr 1fr}
+  .pipeline{grid-template-columns:1fr 1fr}
+  .roi-matrix{grid-template-columns:1fr}
+  .val-sec,.ghost-sec,.form-sec{grid-template-columns:1fr}
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .stats-bar{grid-template-columns:repeat(3,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+}
+@media(max-width:640px){
+  .listings-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .pipeline{grid-template-columns:1fr}
+  .feat-grid{grid-template-columns:1fr}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .pipe-arrow{display:none}
+  .fg-row{grid-template-columns:1fr}
+  .val-row{grid-template-columns:1fr}
+}
+
+/* ═══ GLOBAL GRID TEXTURE ═══ */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(184,151,58,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(184,151,58,.045) 1px,transparent 1px);
+  background-size:52px 52px;
+  mix-blend-mode:overlay;
+}
+/* All sections sit above the grid */
+nav,section,.stats-bar,.marquee-sec,footer,.wa,.toast{position:relative;z-index:1}
+
+/* ═══ BORDER + CARD OVERHAUL ═══ */
+/* Remove all hard box borders, replace with soft hairlines */
+.command-center{border:none;box-shadow:0 0 0 1px rgba(184,151,58,.12),0 40px 80px rgba(0,0,0,.45)}
+.cc-header{border-bottom:1px solid rgba(184,151,58,.1)}
+.cc-tabs{border-bottom:1px solid rgba(255,255,255,.05)}
+.nl-search-box{border:none;background:rgba(255,255,255,.03);box-shadow:0 0 0 1px rgba(184,151,58,.15) inset}
+.nl-input{border:none;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;padding:10px 4px}
+.nl-btn{border-radius:0}
+
+/* Feature cards: remove grid gap background, use hover glow instead */
+.feat-grid{background:transparent;gap:0}
+.feat-card{border:none;border-top:1px solid rgba(228,221,208,.5);border-left:1px solid rgba(228,221,208,.3);padding:38px 30px;position:relative;overflow:hidden}
+.feat-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(184,151,58,.05) 0%,transparent 60%);opacity:0;transition:opacity .4s}
+.feat-card:hover::after{opacity:1}
+.feat-icon{border:none;width:40px;height:40px;margin-bottom:18px;position:relative}
+.feat-icon::before{content:'';position:absolute;inset:0;border-bottom:2px solid var(--gold);border-left:1px solid rgba(184,151,58,.3)}
+.feat-icon svg{position:relative;z-index:1}
+
+/* ROI cards: cinematic feel, not boxy */
+.roi-matrix{gap:1px;background:rgba(184,151,58,.06)}
+.roi-card{border:none;border-top:1px solid rgba(184,151,58,.08);padding:36px 28px}
+.roi-card::before{height:1px;background:linear-gradient(to right,var(--gold),transparent)}
+.roi-number{font-size:3rem;letter-spacing:-.02em}
+
+/* Pipeline steps: remove gap background */
+.pipeline{background:transparent;gap:0}
+.pipe-step{border:none;border-right:1px solid rgba(184,151,58,.07);padding:36px 24px}
+.pipe-step:last-child{border-right:none}
+
+/* Listing cards */
+.card{border-radius:0;box-shadow:none}
+.card:hover{box-shadow:0 12px 40px rgba(13,15,18,.09);transform:translateY(-3px)}
+.card-ai-bar{background:rgba(184,151,58,.04);border-top:1px solid rgba(184,151,58,.08)}
+
+/* Testimonials */
+.testi{border-bottom:none;border-left:none;border-top:3px solid var(--gold);padding:30px 24px;box-shadow:0 2px 0 0 rgba(184,151,58,.1)}
+
+/* Lead rows */
+.lead-row{border-left-width:2px;border-radius:0}
+
+/* Ghost items */
+.ghost-item{border-left-width:2px}
+
+/* Form box */
+.form-box{box-shadow:none}
+.fg input,.fg select,.fg textarea{border:none;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;padding:10px 0;border-radius:0}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-bottom-color:var(--gold)}
+
+/* Valuation widget inputs */
+.val-full-input{border:none;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;border-radius:0}
+.val-full-input:focus{border-bottom-color:var(--gold)}
+
+/* Nav */
+nav{border-bottom:1px solid rgba(184,151,58,.1)}
+
+/* Why/pipeline section */
+.why-grid{background:transparent}
+
+/* Stats bar stat items */
+.stat{border-right:1px solid rgba(13,15,18,.1)}
+
+/* Ghost panel */
+.ghost-panel{border:none;box-shadow:0 0 0 1px rgba(184,151,58,.1)}
+
+/* Perks */
+.perk-ico{border-radius:0}
+
+/* Buttons - slightly softer */
+.btn-gold,.nav-cta,.form-submit,.val-submit,.nl-btn{letter-spacing:.04em}
+
+/* Section titles - tighter tracking, more editorial */
+.sec-title{letter-spacing:-.01em}
+.hero h1{letter-spacing:-.02em}
+
+/* Dark section grid overlay (navy backgrounds) */
+.pipeline-sec::before,.roi-sec::before,.hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(184,151,58,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,151,58,.03) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+.hero::after{z-index:1}
+
+</style>
+</head>
+<body>
+<style>
+#fa-demo-badge{position:fixed;top:12px;right:12px;z-index:99999;background:#161616;color:#f6f6f6;border:1px solid #347aea;border-radius:8px;padding:8px 14px;font:600 11px/1.4 -apple-system,Inter,sans-serif;letter-spacing:.03em;box-shadow:0 4px 20px rgba(0,0,0,.4);max-width:220px;cursor:default}
+#fa-demo-badge b{color:#347aea}
+@media(max-width:540px){#fa-demo-badge{font-size:10px;padding:6px 10px;max-width:170px}}
+</style>
+<div id="fa-demo-badge"><b>DEMO</b> &nbsp;This is a concept build made for portfolio purposes. Not a live product.</div>
+
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Primero<span>.</span>Realty</div>
+  <ul class="nav-links">
+    <li><a href="#listings">Listings</a></li>
+    <li><a href="#pipeline">Automation</a></li>
+    <li><a href="#valuation">Valuation</a></li>
+    <li><a href="#roi">ROI</a></li>
+    <li><a href="#contact">Demo</a></li>
+  </ul>
+  <div class="nav-score-badge"><span class="nav-score-dot"></span>4 Hot Leads Active</div>
+  <button class="nav-cta" onclick="scrollTo('#contact')">Get the System</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid-lines"></div>
+  <canvas id="heroBeams"></canvas>
+  <div class="hero-glow"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">AI-Powered Lead Qualification Engine</div>
+    <h1>Stop Chasing<br><em>Tire-Kickers.</em><br>Close Real Deals.</h1>
+    <p class="hero-sub">Primero's AI ecosystem qualifies every lead, follows up on every ghost, books viewings automatically, and routes hot buyers to your agents in real time   24 hours a day.</p>
+
+    <div class="nl-search-box">
+      <div class="nl-search-label">Natural Language Property Search</div>
+      <div class="nl-search-row">
+        <input class="nl-input" id="nlInput" placeholder='Try: "3-bed quiet area, big compound, under ₦5m"' onkeydown="if(event.key==='Enter')runSearch()">
+        <button class="nl-btn" onclick="runSearch()">Search AI</button>
+      </div>
+      <div class="nl-results" id="nlResults"></div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#contact" class="btn-gold">Get Your Agency Set Up</a>
+      <a href="#pipeline" class="btn-ghost">See How It Works</a>
+    </div>
+  </div>
+
+  <!-- AI COMMAND CENTER -->
+  <div class="command-center">
+    <div class="cc-header">
+      <span class="cc-title">AI Command Center</span>
+      <span class="cc-status"><span class="nav-score-dot"></span> Live</span>
+    </div>
+    <div class="cc-tabs">
+      <div class="cc-tab active" onclick="switchTab('chat',this)">AI Chat</div>
+      <div class="cc-tab" onclick="switchTab('leads',this)">Lead Scores</div>
+      <div class="cc-tab" onclick="switchTab('valuation',this)">Valuation</div>
+    </div>
+
+    <!-- CHAT TAB -->
+    <div class="cc-panel active" id="tab-chat">
+      <div class="chat-body" id="chatBody">
+        <div class="cmsg">
+          <div class="cavatar ai-av">P</div>
+          <div class="cbubble ai-b">Welcome to Primero Realty. I'm your property AI   I qualify buyers, match listings, and book viewings. Are you buying, renting, or selling today?</div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-in" id="chatIn" placeholder="Ask about any property..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="send-b" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg></button>
+      </div>
+    </div>
+
+    <!-- LEAD SCORES TAB -->
+    <div class="cc-panel" id="tab-leads">
+      <div class="leads-list" id="leadsList"></div>
+    </div>
+
+    <!-- VALUATION TAB -->
+    <div class="cc-panel" id="tab-valuation">
+      <p style="font-size:.75rem;color:rgba(255,255,255,.4);line-height:1.65;margin-bottom:14px">Enter a property address for an instant AI market valuation estimate.</p>
+      <input class="val-input" id="valAddr" placeholder="e.g. 14 Admiralty Way, Lekki Phase 1">
+      <br><br>
+      <button class="val-btn" style="width:100%" onclick="runValuation()">Get Instant Estimate</button>
+      <div class="val-result" id="valResult">
+        <div class="val-result-label">AI Market Estimate</div>
+        <div class="val-result-price" id="valPrice"> </div>
+        <div class="val-result-range" id="valRange"> </div>
+        <div class="val-cta-msg">Full report with comparable sales, days-on-market analysis, and rental yield sent to your email automatically.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D MARQUEE -->
+<div class="marquee-sec">
+  <div class="marquee-label">Premium Properties   Lagos & Beyond</div>
+  <div class="marquee-3d-wrap">
+    <div class="marquee-3d-inner">
+      <div class="marquee-3d-grid" id="marqueeGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat"><span class="stat-n" data-t="1847">0</span><span class="stat-l">Properties Listed</span></div>
+  <div class="stat"><span class="stat-n" data-t="94">0</span><span class="stat-l">% Lead Capture Rate</span></div>
+  <div class="stat"><span class="stat-n" data-t="3">0</span><span class="stat-l">Sec Avg Response Time</span></div>
+  <div class="stat"><span class="stat-n" data-t="2300">0</span><span class="stat-l">Leads Qualified</span></div>
+  <div class="stat"><span class="stat-n" data-t="68">0</span><span class="stat-l">% Reduction in Tire-Kickers</span></div>
+</div>
+
+<!-- LISTINGS -->
+<section class="listings-sec sec" id="listings">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:16px">
+    <div>
+      <div class="eyebrow">AI-Scored Listings</div>
+      <h2 class="sec-title">Properties. <em style="font-style:italic">Ranked by Match.</em></h2>
+    </div>
+    <div class="filter-group">
+      <button class="fbtn on" onclick="filt('all',this)">All</button>
+      <button class="fbtn" onclick="filt('sale',this)">For Sale</button>
+      <button class="fbtn" onclick="filt('rent',this)">For Rent</button>
+    </div>
+  </div>
+
+  <div class="listings-grid" id="listingsGrid">
+    <div class="card reveal" data-t="sale">
+      <div class="card-img"><div class="card-img-bg" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80')"></div><div class="card-badge badge-sale">For Sale</div><div class="card-score-chip"><span style="width:6px;height:6px;background:#4ADE80;border-radius:50%;display:inline-block"></span>98% Match</div></div>
+      <div class="card-body">
+        <div class="card-price">₦85,000,000 <sup>/total</sup></div>
+        <div class="card-title">Modern 4-Bed Duplex with BQ</div>
+        <div class="card-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Lekki Phase 1, Lagos</div>
+        <div class="card-feats"><span class="cf"><strong>4</strong> Beds</span><span class="cf"><strong>3</strong> Baths</span><span class="cf"><strong>280</strong> sqm</span><span class="cf"><strong>2</strong> Parking</span></div>
+      </div>
+      <div class="card-ai-bar"><span class="ai-match-label">AI Match Score</span><div class="ai-match-dots"><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div></div></div>
+    </div>
+
+    <div class="card reveal" data-t="rent">
+      <div class="card-img"><div class="card-img-bg" style="background-image:url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=700&q=80')"></div><div class="card-badge badge-rent">For Rent</div><div class="card-score-chip"><span style="width:6px;height:6px;background:#FBB040;border-radius:50%;display:inline-block"></span>87% Match</div></div>
+      <div class="card-body">
+        <div class="card-price">₦3,500,000 <sup>/year</sup></div>
+        <div class="card-title">Executive 3-Bed Apartment, Fully Serviced</div>
+        <div class="card-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Victoria Island, Lagos</div>
+        <div class="card-feats"><span class="cf"><strong>3</strong> Beds</span><span class="cf"><strong>2</strong> Baths</span><span class="cf"><strong>160</strong> sqm</span><span class="cf">Generator</span></div>
+      </div>
+      <div class="card-ai-bar"><span class="ai-match-label">AI Match Score</span><div class="ai-match-dots"><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot"></div></div></div>
+    </div>
+
+    <div class="card reveal" data-t="sale">
+      <div class="card-img"><div class="card-img-bg" style="background-image:url('https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=700&q=80')"></div><div class="card-badge badge-sale">For Sale</div><div class="card-score-chip"><span style="width:6px;height:6px;background:#4ADE80;border-radius:50%;display:inline-block"></span>95% Match</div></div>
+      <div class="card-body">
+        <div class="card-price">₦120,000,000 <sup>/total</sup></div>
+        <div class="card-title">5-Bed Waterfront Villa, Banana Island</div>
+        <div class="card-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Banana Island, Lagos</div>
+        <div class="card-feats"><span class="cf"><strong>5</strong> Beds</span><span class="cf"><strong>5</strong> Baths</span><span class="cf"><strong>450</strong> sqm</span><span class="cf">Pool</span></div>
+      </div>
+      <div class="card-ai-bar"><span class="ai-match-label">AI Match Score</span><div class="ai-match-dots"><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div></div></div>
+    </div>
+
+    <div class="card reveal" data-t="rent">
+      <div class="card-img"><div class="card-img-bg" style="background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80')"></div><div class="card-badge badge-rent">For Rent</div><div class="card-score-chip"><span style="width:6px;height:6px;background:#94A3B8;border-radius:50%;display:inline-block"></span>72% Match</div></div>
+      <div class="card-body">
+        <div class="card-price">₦1,800,000 <sup>/year</sup></div>
+        <div class="card-title">Serviced 2-Bed Flat, 24hr Power</div>
+        <div class="card-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Yaba, Lagos</div>
+        <div class="card-feats"><span class="cf"><strong>2</strong> Beds</span><span class="cf"><strong>1</strong> Bath</span><span class="cf"><strong>95</strong> sqm</span><span class="cf">Security</span></div>
+      </div>
+      <div class="card-ai-bar"><span class="ai-match-label">AI Match Score</span><div class="ai-match-dots"><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot"></div><div class="ai-dot"></div></div></div>
+    </div>
+
+    <div class="card reveal" data-t="sale">
+      <div class="card-img"><div class="card-img-bg" style="background-image:url('https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=700&q=80')"></div><div class="card-badge badge-sale">For Sale</div><div class="card-score-chip"><span style="width:6px;height:6px;background:#4ADE80;border-radius:50%;display:inline-block"></span>91% Match</div></div>
+      <div class="card-body">
+        <div class="card-price">₦45,000,000 <sup>/total</sup></div>
+        <div class="card-title">Luxury 3-Bed Terrace, Gated Estate</div>
+        <div class="card-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Ikeja GRA, Lagos</div>
+        <div class="card-feats"><span class="cf"><strong>3</strong> Beds</span><span class="cf"><strong>3</strong> Baths</span><span class="cf"><strong>200</strong> sqm</span><span class="cf">Estate</span></div>
+      </div>
+      <div class="card-ai-bar"><span class="ai-match-label">AI Match Score</span><div class="ai-match-dots"><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot"></div></div></div>
+    </div>
+
+    <div class="card reveal" data-t="rent">
+      <div class="card-img"><div class="card-img-bg" style="background-image:url('https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=700&q=80')"></div><div class="card-badge badge-rent">For Rent</div><div class="card-score-chip"><span style="width:6px;height:6px;background:#4ADE80;border-radius:50%;display:inline-block"></span>96% Match</div></div>
+      <div class="card-body">
+        <div class="card-price">₦5,200,000 <sup>/year</sup></div>
+        <div class="card-title">Penthouse 4-Bed Suite, Eko Atlantic</div>
+        <div class="card-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Eko Atlantic, Lagos</div>
+        <div class="card-feats"><span class="cf"><strong>4</strong> Beds</span><span class="cf"><strong>4</strong> Baths</span><span class="cf"><strong>320</strong> sqm</span><span class="cf">Ocean View</span></div>
+      </div>
+      <div class="card-ai-bar"><span class="ai-match-label">AI Match Score</span><div class="ai-match-dots"><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div><div class="ai-dot filled"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATION PIPELINE -->
+<section class="pipeline-sec sec" id="pipeline">
+  <div class="eyebrow">How The System Works</div>
+  <h2 class="sec-title" style="color:#fff">From First Click<br><em style="font-style:italic;color:var(--gold)">to Signed Deal.</em></h2>
+  <p class="sec-sub">Every step automated. Every lead tracked. Your agents only touch qualified, ready buyers.</p>
+
+  <div class="pipeline">
+    <div class="pipe-step reveal">
+      <div class="pipe-num">01</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <h3>Omnichannel Intake</h3>
+      <p>AI answers WhatsApp, Instagram DMs, Facebook Messenger, and site chat within 3 seconds   day or night.</p>
+      <div class="pipe-arrow"><svg viewBox="0 0 10 10"><path d="M2 5h6M5 2l3 3-3 3"/></svg></div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">02</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+      <h3>Deep Qualification</h3>
+      <p>The AI asks budget, timeline, mortgage status, and location   scoring each lead as Hot, Warm, or Cold automatically.</p>
+      <div class="pipe-arrow"><svg viewBox="0 0 10 10"><path d="M2 5h6M5 2l3 3-3 3"/></svg></div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">03</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
+      <h3>Smart Property Match</h3>
+      <p>Instantly surfaces the best-matched listings and sends tour videos, photos, and PDF brochures   inside the chat window.</p>
+      <div class="pipe-arrow"><svg viewBox="0 0 10 10"><path d="M2 5h6M5 2l3 3-3 3"/></svg></div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">04</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <h3>Auto Viewing Booked</h3>
+      <p>Hot leads get a calendar link sent instantly. They pick a slot. The agent gets an SMS and Slack ping. Zero phone tag.</p>
+      <div class="pipe-arrow"><svg viewBox="0 0 10 10"><path d="M2 5h6M5 2l3 3-3 3"/></svg></div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">05</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg></div>
+      <h3>Ghost Revival & Close</h3>
+      <p>If a lead goes quiet, AI automatically sends personalized follow-up messages referencing exactly what they viewed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES GRID -->
+<section class="features-sec sec" id="features">
+  <div class="eyebrow">Full Feature Set</div>
+  <h2 class="sec-title">Everything Your Agency<br><em style="font-style:italic">Needs to Dominate.</em></h2>
+  <div class="feat-grid">
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <h3>Natural Language Search</h3>
+      <p>Visitors type how they actually think   "quiet 3-bed near a school under ₦4m"   and get perfectly matched results instantly.</p>
+      <span class="feat-tag">Semantic AI</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <h3>Omnichannel AI Agent</h3>
+      <p>WhatsApp, Instagram DMs, Facebook Messenger, and your website chat   one AI handles all of them simultaneously, 24/7.</p>
+      <span class="feat-tag">24/7 Active</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+      <h3>Hot/Warm/Cold Lead Scoring</h3>
+      <p>Every lead gets a live score based on answers, urgency, and behavior. Hot leads ping your top agents within 60 seconds.</p>
+      <span class="feat-tag">Auto-Routing</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
+      <h3>Instant PDF Brochure Generator</h3>
+      <p>When a lead wants more detail, AI pulls the listing data and emails a personalized property brochure in under 60 seconds.</p>
+      <span class="feat-tag">Auto-Generated</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <h3>Automated Calendar Closer</h3>
+      <p>Qualified leads get a booking link instantly. Agent calendars sync automatically. No more back-and-forth phone calls.</p>
+      <span class="feat-tag">Calendly/GHL</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <h3>Ghost Lead Revival</h3>
+      <p>Viewed a listing 3 times and went quiet? The AI sends a personalized, timely message that re-engages cold prospects automatically.</p>
+      <span class="feat-tag">CRM Trigger</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+      <h3>Instant AI Property Valuation</h3>
+      <p>Homeowners get a live estimate for their property by typing their address. Full report gated behind phone + email capture.</p>
+      <span class="feat-tag">Listing Lead</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8 9a16 16 0 0 0 6 6l1.27-.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <h3>WhatsApp Follow-Up Engine</h3>
+      <p>Every new lead gets an instant WhatsApp reply and your team gets a notification   so the first touch happens in seconds.</p>
+      <span class="feat-tag">Instant Touch</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <h3>Agent Dashboard</h3>
+      <p>Every listing, lead, viewing, and deal stage visible in one dashboard. Weekly automated reports tell you exactly what's moving.</p>
+      <span class="feat-tag">Full Visibility</span>
+    </div>
+  </div>
+</section>
+
+<!-- VALUATION SECTION -->
+<section class="val-sec sec" id="valuation">
+  <div>
+    <div class="eyebrow">Sell Your Property Funnel</div>
+    <h2 class="sec-title">Turn "What's My House Worth?" Into a <em style="font-style:italic">Listing Lead.</em></h2>
+    <p class="sec-sub" style="margin-bottom:28px">Property owners type their address to get an AI market estimate. To see the full report   comparable sales, rental yield, market trend   they must enter their phone and email. Every valuation request becomes a seller lead automatically captured in your CRM.</p>
+    <ul class="perks" style="margin-top:0">
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Instant AI estimate generated in seconds</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Full report gated behind contact capture</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Lead auto-added to CRM and agent notified</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Follow-up sequence starts automatically</li>
+    </ul>
+  </div>
+
+  <div class="val-widget">
+    <h3>Get Your Property's Value</h3>
+    <p>AI-powered estimate based on current Lagos market data. Free   no obligation.</p>
+    <div class="val-field-group">
+      <div class="val-field-label">Property Address</div>
+      <input class="val-full-input" id="valFullAddr" placeholder="e.g. 22 Bourdillon Road, Ikoyi">
+    </div>
+    <div class="val-row">
+      <div class="val-field-group">
+        <div class="val-field-label">Property Type</div>
+        <select class="val-full-input" id="valType" style="color:rgba(255,255,255,.7)">
+          <option value="">Select type</option>
+          <option>Duplex</option>
+          <option>Apartment / Flat</option>
+          <option>Detached House</option>
+          <option>Terrace</option>
+          <option>Bungalow</option>
+          <option>Land</option>
+        </select>
+      </div>
+      <div class="val-field-group">
+        <div class="val-field-label">Bedrooms</div>
+        <select class="val-full-input" id="valBeds" style="color:rgba(255,255,255,.7)">
+          <option value="">Select</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+        </select>
+      </div>
+    </div>
+    <button class="val-submit" onclick="runFullVal()">Get Instant AI Estimate</button>
+    <div class="val-report" id="valReport">
+      <div class="val-report-head">AI Market Estimate   Lagos Property</div>
+      <div class="val-estimate" id="valEst">₦ <sub> estimated value</sub></div>
+      <div class="val-bars" id="valBarsContainer"></div>
+      <div class="val-capture" id="valCapture"></div>
+    </div>
+  </div>
+</section>
+
+<!-- GHOST REVIVAL LIVE DEMO -->
+<section class="ghost-sec sec">
+  <div>
+    <div class="eyebrow">Ghost Lead Revival</div>
+    <h2 class="sec-title">Your Leads Don't Go Cold.<br><em style="font-style:italic">They Get Followed Up.</em></h2>
+    <p class="sec-sub" style="margin-bottom:28px">90% of real estate leads ghost. The AI tracks exactly what each prospect viewed, how many times, and when   then fires a perfectly timed, personalized message to pull them back in.</p>
+    <ul class="perks" style="margin-top:0">
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Tracks property views per user in real time</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Triggers after 3 views with no booking</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Personalized WhatsApp + email sent automatically</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Price drop alerts sent instantly to interested leads</li>
+    </ul>
+  </div>
+
+  <div class="ghost-panel reveal">
+    <div class="ghost-panel-head">
+      <span class="ghost-panel-title">Ghost Lead Revival   Live Queue</span>
+      <span class="ghost-live"><span class="nav-score-dot"></span> Monitoring</span>
+    </div>
+    <div class="ghost-list" id="ghostList"></div>
+  </div>
+</section>
+
+<!-- ROI MATRIX -->
+<section class="roi-sec" id="roi">
+  <div class="eyebrow">The Pitch That Closes Agencies</div>
+  <h2 class="sec-title" style="color:#fff">The ROI Is <em style="font-style:italic;color:var(--gold)">Undeniable.</em></h2>
+  <p style="font-size:.9rem;color:rgba(255,255,255,.4);max-width:520px;line-height:1.85">This isn't a website. This is a full-time, 24/7 sales team that never sleeps, never misses a lead, and pays for itself with one closed deal.</p>
+
+  <div class="roi-matrix">
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Time Problem</div>
+      <div class="roi-pain">"I spend hours answering the same questions from people who aren't even serious."</div>
+      <div class="roi-solution">The AI handles initial qualification for every single inquiry   across all channels   before a human agent ever gets involved.</div>
+      <div class="roi-number">68%</div>
+      <div class="roi-number-label">Reduction in time-waster conversations</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Speed Problem</div>
+      <div class="roi-pain">"We miss deals because we can't respond at 11 PM when people are browsing."</div>
+      <div class="roi-solution">AI responds in 3 seconds, day or night. Qualifies the lead, matches them to listings, and books a viewing   all while you sleep.</div>
+      <div class="roi-number">3s</div>
+      <div class="roi-number-label">Average response time, 24/7</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Ghost Problem</div>
+      <div class="roi-pain">"90% of leads ghost us and we have no system to bring them back."</div>
+      <div class="roi-solution">Behavior-triggered follow-up messages fire automatically when someone views a property multiple times without booking.</div>
+      <div class="roi-number">3×</div>
+      <div class="roi-number-label">Average increase in viewing bookings</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Admin Problem</div>
+      <div class="roi-pain">"Our agents waste time sending brochures, property info, and following up manually."</div>
+      <div class="roi-solution">Brochures generated and emailed automatically. Follow-ups scheduled and sent. Agents only do what they're paid for   closing.</div>
+      <div class="roi-number">40h</div>
+      <div class="roi-number-label">Admin hours saved per agent, per month</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Visibility Problem</div>
+      <div class="roi-pain">"We have no idea which listings are hot or which leads are worth calling first."</div>
+      <div class="roi-solution">Every listing has a real-time demand score. Every lead is ranked Hot, Warm, or Cold and routed to agents accordingly.</div>
+      <div class="roi-number">2×</div>
+      <div class="roi-number-label">Commission earnings within 90 days</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Math</div>
+      <div class="roi-pain">"How much does it cost vs. what do I get back?"</div>
+      <div class="roi-solution">One closed property deal   even at entry-level Lagos prices   pays for an entire year of this system. The math speaks for itself.</div>
+      <div class="roi-number">1</div>
+      <div class="roi-number-label">Deal closed = full annual cost recovered</div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD FORM -->
+<section class="form-sec sec" id="contact">
+  <div class="form-left">
+    <div class="eyebrow">Get Started</div>
+    <h2>Your Agency's Unfair <em style="font-style:italic;color:var(--gold)">Advantage</em> Starts Here.</h2>
+    <p>We set up the entire system for your agency   AI chat, lead scoring, WhatsApp integration, valuation widget, CRM, and dashboard. You close deals. We handle the rest.</p>
+    <ul class="perks">
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Full system live within 72 hours</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Dedicated setup and onboarding included</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>WhatsApp + Instagram AI built in from day one</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Ongoing AI training on your specific listings</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Cancel anytime   no lock-in contracts</li>
+    </ul>
+  </div>
+
+  <div class="form-box" id="formBox">
+    <h3>Book Your Free Strategy Call</h3>
+    <p class="form-sub">We'll map out exactly what the system looks like for your agency   no fluff.</p>
+    <div class="fg-row">
+      <div class="fg"><label>First Name</label><input type="text" id="fn" placeholder="Emeka"></div>
+      <div class="fg"><label>Last Name</label><input type="text" id="ln" placeholder="Okafor"></div>
+    </div>
+    <div class="fg"><label>Phone (WhatsApp)</label><input type="tel" id="ph" placeholder="+234 801 234 5678"></div>
+    <div class="fg"><label>Email Address</label><input type="email" id="em" placeholder="emeka@agency.ng"></div>
+    <div class="fg"><label>Agency Name</label><input type="text" id="ag" placeholder="Your Agency Name"></div>
+    <div class="fg"><label>Monthly Lead Volume</label>
+      <select id="vol">
+        <option value="">How many leads do you currently handle?</option>
+        <option>Under 50 leads/month</option>
+        <option>50–200 leads/month</option>
+        <option>200–500 leads/month</option>
+        <option>500+ leads/month</option>
+      </select>
+    </div>
+    <div class="fg"><label>Biggest Current Challenge</label><textarea id="msg" placeholder="e.g. 'We keep losing leads that go cold after first contact...'"></textarea></div>
+    <button class="form-submit" onclick="submitForm()">Book My Free Strategy Call</button>
+
+    <div class="form-success" id="formSuccess">
+      <div class="form-success-icon"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>
+      <h3>You're Booked In.</h3>
+      <p>We'll reach out on WhatsApp within 2 hours to confirm your strategy session. Get ready to see exactly what this system does for your agency.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-sec sec" id="testimonials">
+  <div class="eyebrow">Agency Results</div>
+  <h2 class="sec-title">Agencies That Switched.<br><em style="font-style:italic">Numbers That Don't Lie.</em></h2>
+  <div class="testi-grid">
+    <div class="testi reveal">
+      <div class="testi-q">"</div>
+      <p class="testi-text">Before this system, my team of 6 was drowning in WhatsApp messages and we were still losing serious buyers. Now the AI handles first contact and qualification. My agents only talk to people ready to view.</p>
+      <div class="testi-author">
+        <div class="testi-av">AO</div>
+        <div>
+          <div class="testi-name">Adaeze Okonkwo</div>
+          <div class="testi-role">MD, Okonkwo Property Group   Lagos</div>
+          <div class="testi-roi">+340% viewing bookings in 60 days</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-q">"</div>
+      <p class="testi-text">The ghost revival feature alone recovered 4 deals in the first month. Leads that had gone completely quiet   the AI sent them a message about a price drop and they came back and signed. That's money I would have left on the table.</p>
+      <div class="testi-author">
+        <div class="testi-av">TM</div>
+        <div>
+          <div class="testi-name">Tunde Moshood</div>
+          <div class="testi-role">Director, Moshood Properties   Abuja</div>
+          <div class="testi-roi">4 recovered deals in month one</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-q">"</div>
+      <p class="testi-text">I pitched this to two developer clients as part of my offering and they both paid premium because they saw the demo and couldn't look away. The valuation widget alone brings in 20–30 seller leads per week on autopilot.</p>
+      <div class="testi-author">
+        <div class="testi-av">CI</div>
+        <div>
+          <div class="testi-name">Chioma Ibe</div>
+          <div class="testi-role">Founder, Ibe Estates Ltd   Lagos</div>
+          <div class="testi-roi">20–30 seller leads/week from valuation widget</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="foot-brand-logo">Primero<span>.</span>Realty</span>
+      <p>The AI-powered property ecosystem built for serious Nigerian agencies. More qualified leads. Fewer time-wasters. Faster closes.</p>
+    </div>
+    <div class="foot-col"><h4>Platform</h4><ul>
+      <li><a href="#">AI Lead Engine</a></li>
+      <li><a href="#">Property Listings</a></li>
+      <li><a href="#">Valuation Tool</a></li>
+      <li><a href="#">Agent Dashboard</a></li>
+    </ul></div>
+    <div class="foot-col"><h4>Company</h4><ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Case Studies</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul></div>
+    <div class="foot-col"><h4>Support</h4><ul>
+      <li><a href="#">WhatsApp Us</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul></div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2025 Primero Realty. All rights reserved.</span>
+    <span>Built for Nigerian Property Agencies</span>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/2348001234567" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+</a>
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── TABS ───
+function switchTab(id, el) {
+  document.querySelectorAll('.cc-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.cc-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+// ─── SLOT MACHINE COUNTER ───
+function buildSlotCounter(el) {
+  const target = parseInt(el.dataset.t);
+  const suffix = el.parentElement.querySelector('.stat-l').textContent.includes('%') ? '' : '+';
+  const digits = String(target).split('');
+  el.style.cssText = 'display:flex;align-items:flex-end;justify-content:center;overflow:hidden;height:2.4rem;line-height:1';
+  el.innerHTML = digits.map((d,i) => {
+    const nums = Array.from({length:11},(_,n)=>n%10);
+    return `<span style="display:flex;flex-direction:column;transition:transform ${0.6+(i*0.08)}s cubic-bezier(.22,1,.36,1);transform:translateY(0)" data-digit="${d}">
+      ${nums.map(n=>`<span style="display:block;height:2.4rem;font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:var(--ink);text-align:center;min-width:.7ch">${n}</span>`).join('')}
+    </span>`;
+  }).join('') + `<span style="font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:var(--ink);line-height:2.4rem">${suffix}</span>`;
+  setTimeout(() => {
+    el.querySelectorAll('[data-digit]').forEach(col => {
+      const d = parseInt(col.dataset.digit);
+      col.style.transform = `translateY(calc(-${d} * 2.4rem))`;
+    });
+  }, 120);
+}
+function animateStats() {
+  document.querySelectorAll('[data-t]').forEach(el => buildSlotCounter(el));
+}
+const _statsBar = document.querySelector('.stats-bar');
+if(_statsBar){
+  const _so = new IntersectionObserver(e => { if(e[0].isIntersecting){ animateStats(); _so.disconnect(); } },{threshold:.3});
+  _so.observe(_statsBar);
+}
+
+// ─── NATURAL LANGUAGE SEARCH ───
+const nlData = [
+  { title:'3-Bed Quiet Terrace, Gated', price:'₦45M', area:'Ikeja GRA', score:'97%', beds:3, type:'sale', quiet:true, big:true },
+  { title:'3-Bed Duplex with BQ & Large Compound', price:'₦62M', area:'Magodo Phase 2', score:'94%', beds:3, type:'sale', quiet:true, big:true },
+  { title:'3-Bed Semi-Detached, Serene Street', price:'₦38M', area:'Ojodu Berger', score:'88%', beds:3, type:'sale', quiet:true, big:false },
+  { title:'2-Bed Serviced Apartment', price:'₦2.4M/yr', area:'Yaba', score:'79%', beds:2, type:'rent', quiet:false, big:false },
+  { title:'4-Bed Duplex, Premium Estate', price:'₦85M', area:'Lekki Phase 1', score:'91%', beds:4, type:'sale', quiet:false, big:true },
+  { title:'3-Bed Bungalow, Corner Piece', price:'₦55M', area:'Surulere', score:'83%', beds:3, type:'sale', quiet:true, big:true },
+];
+function runSearch() {
+  const q = document.getElementById('nlInput').value.toLowerCase();
+  if (!q.trim()) return;
+  const res = document.getElementById('nlResults');
+  res.style.display = 'block';
+  const beds = q.match(/(\d+)[\s-]*(bed|room)/);
+  const bedNum = beds ? parseInt(beds[1]) : null;
+  const isRent = q.includes('rent') || q.includes('per year') || q.includes('/yr');
+  const wantsQuiet = q.includes('quiet') || q.includes('serene') || q.includes('peaceful');
+  const wantsBig = q.includes('big') || q.includes('large') || q.includes('compound') || q.includes('backyard') || q.includes('garden');
+  let filtered = nlData.filter(p => {
+    if (bedNum && p.beds !== bedNum) return false;
+    if (isRent && p.type !== 'rent') return false;
+    if (!isRent && p.type !== 'sale') return false;
+    return true;
+  });
+  if (!filtered.length) filtered = nlData.slice(0,3);
+  res.innerHTML = filtered.slice(0,3).map(p =>
+    `<div class="nl-result-item"><span class="nl-result-score">${p.score}</span><span class="nl-result-text"><strong>${p.title}</strong>   ${p.area}</span><span class="nl-result-price">${p.price}</span></div>`
+  ).join('');
+}
+
+// ─── AI CHAT (Claude API) ───
+const chatHistory = [];
+async function sendMsg() {
+  const input = document.getElementById('chatIn');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addMsg(text, true);
+  chatHistory.push({role:'user', content: text});
+  showTyping();
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        system:`You are Primero Realty's AI property assistant for Lagos, Nigeria. Your job is to qualify property leads by asking about their budget, timeline, location preference, whether they're buying or renting, and if they're a cash buyer or need mortgage. After 2-3 exchanges, score them as HOT (ready to buy/rent now, has budget), WARM (interested but timeline unclear), or COLD (browsing only). Be conversational, concise, and helpful. Reference Nigerian locations like Lekki, VI, Ikeja, Ikoyi, Banana Island. Use ₦ for currency. Keep replies under 3 sentences. If they're qualified, say you'll connect them with an agent.`,
+        messages: chatHistory
+      })
+    });
+    removeTyping();
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || "Let me connect you with one of our agents right away.";
+    chatHistory.push({role:'assistant', content: reply});
+    const isHot = reply.toLowerCase().includes('hot') || reply.toLowerCase().includes('connect you with') || reply.toLowerCase().includes('agent');
+    const isWarm = reply.toLowerCase().includes('warm') || reply.toLowerCase().includes('timeline');
+    addMsg(reply, false, isHot ? 'hot' : isWarm ? 'warm' : null);
+  } catch(e) {
+    removeTyping();
+    const fallback = getFallback(text);
+    chatHistory.push({role:'assistant', content: fallback.text});
+    addMsg(fallback.text, false, fallback.score);
+  }
+}
+
+function getFallback(q) {
+  const l = q.toLowerCase();
+  if (l.includes('cash') || l.includes('ready') || l.includes('this month')) return {text:"That's exactly what we need to hear. Cash buyer, ready to move   you're top priority. Can I get your phone number so our lead agent can reach you within the hour?", score:'hot'};
+  if (l.includes('budget') || l.includes('million') || l.includes('₦')) return {text:"Good, that budget works for several of our listings. Are you buying or renting, and which area of Lagos do you have in mind?", score:'warm'};
+  if (l.includes('rent')) return {text:"Renting   great. What area are you targeting and what's your annual budget? This helps me match you to the right listings.", score:'warm'};
+  if (l.includes('buy') || l.includes('purchase')) return {text:"Buying   perfect. Are you a cash buyer or are you exploring financing options? And what's your target area?", score:'warm'};
+  if (l.includes('lekki') || l.includes('vi') || l.includes('ikoyi') || l.includes('ikeja')) return {text:"Great location choice. What type of property and what's your budget range? I can pull the best current matches for you.", score:'warm'};
+  if (l.includes('hello') || l.includes('hi') || l.includes('hey')) return {text:"Hello! Welcome to Primero Realty. I'm here to help you find the right property fast. Are you looking to buy, rent, or do you have a property to sell?", score:null};
+  return {text:"I can help with that. To point you to the right listings, can you tell me: are you buying or renting, what area, and what's your budget?", score:null};
+}
+
+function addMsg(text, isUser, score) {
+  const body = document.getElementById('chatBody');
+  const d = document.createElement('div');
+  d.className = 'cmsg' + (isUser ? ' u' : '');
+  const av = document.createElement('div');
+  av.className = 'cavatar ' + (isUser ? 'u-av' : 'ai-av');
+  av.textContent = isUser ? 'You' : 'P';
+  const b = document.createElement('div');
+  b.className = 'cbubble ' + (isUser ? 'u-b' : 'ai-b');
+  b.textContent = text;
+  if (score && !isUser) {
+    const pill = document.createElement('div');
+    pill.className = `score-pill score-${score}`;
+    pill.textContent = score === 'hot' ? 'HOT LEAD   Routing to agent' : 'WARM LEAD   Nurturing';
+    b.appendChild(document.createElement('br'));
+    b.appendChild(pill);
+    if (score === 'hot') showToast('<strong>Hot Lead Detected</strong><br>Routing to top agent via SMS now.');
+  }
+  d.appendChild(av); d.appendChild(b);
+  body.appendChild(d);
+  body.scrollTop = body.scrollHeight;
+}
+
+function showTyping() {
+  const body = document.getElementById('chatBody');
+  const d = document.createElement('div');
+  d.className = 'cmsg'; d.id = 'typing';
+  d.innerHTML = '<div class="cavatar ai-av">P</div><div class="typing-row"><span></span><span></span><span></span></div>';
+  body.appendChild(d); body.scrollTop = body.scrollHeight;
+}
+function removeTyping() { const t = document.getElementById('typing'); if(t) t.remove(); }
+
+// ─── LEAD SCORES ───
+const leadsData = [
+  {name:'Kunle Adeyemi', detail:'4-bed Lekki • Cash buyer • Move in 2 weeks', tier:'hot', score:'98'},
+  {name:'Amara Nwosu', detail:'3-bed VI • Mortgage approved • Next month', tier:'hot', score:'91'},
+  {name:'Bola Fashola', detail:'2-bed Yaba • Budget ₦2M/yr • Q1 move', tier:'warm', score:'74'},
+  {name:'Ngozi Eze', detail:'5-bed Ikoyi • Undecided timeline', tier:'warm', score:'62'},
+  {name:'Femi Adeleke', detail:'Browsing • No budget stated', tier:'cold', score:'31'},
+  {name:'Sade Obi', detail:'Land inquiry • Research phase', tier:'cold', score:'18'},
+];
+function renderLeads() {
+  const list = document.getElementById('leadsList');
+  list.innerHTML = leadsData.map(l => `
+    <div class="lead-row ${l.tier}">
+      <div class="lead-initials">${l.name.split(' ').map(n=>n[0]).join('')}</div>
+      <div class="lead-info"><div class="lead-name">${l.name}</div><div class="lead-detail">${l.detail}</div></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <span class="lead-badge ${l.tier}">${l.tier.toUpperCase()}</span>
+        <span class="lead-score">${l.score}/100</span>
+      </div>
+    </div>`).join('');
+}
+renderLeads();
+
+// ─── MINI VALUATION ───
+function runValuation() {
+  const addr = document.getElementById('valAddr').value.trim();
+  if (!addr) return;
+  const prices = ['₦42,500,000','₦68,000,000','₦95,000,000','₦31,000,000','₦120,000,000','₦58,000,000'];
+  const price = prices[Math.floor(Math.random()*prices.length)];
+  const res = document.getElementById('valResult');
+  document.getElementById('valPrice').textContent = price;
+  document.getElementById('valRange').textContent = 'Range: ' + price.replace(/,\d{3},/, ',') + ' – ' + price;
+  res.style.display = 'block';
+}
+
+// ─── FULL VALUATION ───
+function runFullVal() {
+  const addr = document.getElementById('valFullAddr').value.trim();
+  const type = document.getElementById('valType').value;
+  const beds = document.getElementById('valBeds').value;
+  if (!addr || !type || !beds) { showToast('Please complete all fields to get your estimate.'); return; }
+  const baseMap = {'1':15,'2':28,'3':52,'4':78,'5+':120};
+  const typeMulti = {'Duplex':1.2,'Apartment / Flat':1,'Detached House':1.35,'Terrace':1.1,'Bungalow':.9,'Land':.6};
+  const base = (baseMap[beds]||40) * (typeMulti[type]||1);
+  const lo = (base*.85).toFixed(1);
+  const hi = (base*1.18).toFixed(1);
+  const est = `₦${base.toFixed(1)}M`;
+  document.getElementById('valEst').innerHTML = `${est}<sub> estimated value</sub>`;
+  const bars = [
+    {label:'Market demand', val:Math.floor(70+Math.random()*28)},
+    {label:'Price trend', val:Math.floor(55+Math.random()*40)},
+    {label:'Rental yield', val:Math.floor(45+Math.random()*45)},
+    {label:'Liquidity score', val:Math.floor(60+Math.random()*35)},
+  ];
+  document.getElementById('valBarsContainer').innerHTML = bars.map(b => `
+    <div class="val-bar-row">
+      <span class="val-bar-label">${b.label}</span>
+      <div class="val-bar-track"><div class="val-bar-fill" style="width:0%" data-w="${b.val}%"></div></div>
+      <span class="val-bar-val">${b.val}/100</span>
+    </div>`).join('');
+  document.getElementById('valCapture').innerHTML = `Full comparable sales report, days-on-market analysis, and rental yield breakdown sent to your email. <strong style="color:var(--gold)">Enter your contact below to receive it.</strong>`;
+  document.getElementById('valReport').style.display = 'block';
+  setTimeout(() => document.querySelectorAll('.val-bar-fill').forEach(f => f.style.width = f.dataset.w), 100);
+  showToast('<strong>Estimate Ready</strong><br>Full report being prepared for your email.');
+}
+
+// ─── GHOST REVIVAL ───
+const ghosts = [
+  {name:'Chidi Okeke', time:'14 min ago', action:'Viewed <span>3-Bed Lekki Duplex</span> 4 times. No booking.', triggered:false},
+  {name:'Yemi Adebayo', time:'38 min ago', action:'Viewed <span>5-Bed Banana Island Villa</span>   price just dropped ₦5M.', triggered:true},
+  {name:'Kemi Hassan', time:'1h 12m ago', action:'Viewed <span>2-Bed VI Apartment</span> 3 times across 2 days.', triggered:false},
+  {name:'Emeka Obi', time:'2h ago', action:'Requested brochure 5 days ago. No follow-up response since.', triggered:false},
+  {name:'Tosin Alade', time:'3h ago', action:'Viewed <span>4-Bed Ikeja GRA</span>   similar property just listed cheaper.', triggered:true},
+];
+function renderGhosts() {
+  document.getElementById('ghostList').innerHTML = ghosts.map((g,i) => `
+    <div class="ghost-item ${g.triggered?'triggered':''}" id="ghost-${i}">
+      <div class="ghost-item-top"><span class="ghost-name">${g.name}</span><span class="ghost-time">${g.time}</span></div>
+      <div class="ghost-action">${g.action}</div>
+      <button class="ghost-trigger-btn" onclick="triggerRevival(${i},'${g.name}')">Fire Revival Message</button>
+    </div>`).join('');
+}
+renderGhosts();
+function triggerRevival(i, name) {
+  ghosts[i].triggered = true;
+  renderGhosts();
+  showToast(`<strong>Revival Sent to ${name}</strong><br>Personalized WhatsApp message fired. Tracking response.`);
+}
+
+// ─── FILTERS ───
+function filt(t, btn) {
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.card').forEach(c => {
+    c.style.display = (t==='all' || c.dataset.t===t) ? 'block' : 'none';
+  });
+}
+
+// ─── FORM SUBMIT ───
+function submitForm() {
+  const fn = document.getElementById('fn').value.trim();
+  const ph = document.getElementById('ph').value.trim();
+  const em = document.getElementById('em').value.trim();
+  if (!fn || !ph || !em) { showToast('Please fill in your name, phone, and email.'); return; }
+  document.querySelectorAll('#formBox > *:not(#formSuccess)').forEach(el => el.style.display='none');
+  document.getElementById('formSuccess').classList.add('on');
+  showToast(`<strong>Lead Captured   ${fn}</strong><br>Routed to strategy team. WhatsApp notification sent.`);
+}
+
+// ─── TOAST ───
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+// ─── SCROLL REVEAL ───
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+}, {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+// ─── HELPER ───
+function scrollTo(sel) { document.querySelector(sel)?.scrollIntoView({behavior:'smooth'}); }
+
+// ─── 3D MARQUEE BUILDER ───
+(function(){
+  const imgs = [
+    {url:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&q=75',label:'Lekki Phase 1'},
+    {url:'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=500&q=75',label:'Victoria Island'},
+    {url:'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=500&q=75',label:'Banana Island'},
+    {url:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&q=75',label:'Ikoyi'},
+    {url:'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=500&q=75',label:'Ikeja GRA'},
+    {url:'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=500&q=75',label:'Eko Atlantic'},
+    {url:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=75',label:'Magodo'},
+    {url:'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=500&q=75',label:'Ajah'},
+    {url:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500&q=75',label:'Surulere'},
+    {url:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=500&q=75',label:'Yaba'},
+    {url:'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=500&q=75',label:'Maryland'},
+    {url:'https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=500&q=75',label:'Gbagada'},
+  ];
+  const grid = document.getElementById('marqueeGrid');
+  if(!grid) return;
+  const chunkSize = Math.ceil(imgs.length/4);
+  for(let c=0;c<4;c++){
+    const col = document.createElement('div');
+    col.className = 'marquee-col';
+    const chunk = imgs.slice(c*chunkSize, c*chunkSize+chunkSize);
+    chunk.forEach(img => {
+      const card = document.createElement('div');
+      card.className = 'mq-card';
+      card.innerHTML = `<div class="mq-grid-line-h"></div><div class="mq-grid-line-v"></div><img src="${img.url}" alt="${img.label}" loading="lazy"><div class="mq-card-overlay"></div><div class="mq-card-label">${img.label}</div>`;
+      col.appendChild(card);
+    });
+    grid.appendChild(col);
+  }
+})();
+
+// ─── HERO BEAM CANVAS ───
+(function(){
+  const canvas = document.getElementById('heroBeams');
+  if(!canvas) return;
+  const hero = canvas.parentElement;
+  const ctx = canvas.getContext('2d');
+  let W, H, beams;
+  function resize(){
+    W = canvas.width = hero.offsetWidth;
+    H = canvas.height = hero.offsetHeight;
+    initBeams();
+  }
+  function initBeams(){
+    beams = Array.from({length:6},(_,i)=>({
+      x: W * (0.1 + i*0.16),
+      speed: 0.0003 + Math.random()*0.0002,
+      offset: Math.random()*Math.PI*2,
+      width: 60 + Math.random()*80,
+      alpha: 0.018 + Math.random()*0.022,
+    }));
+  }
+  function draw(ts){
+    ctx.clearRect(0,0,W,H);
+    beams.forEach(b=>{
+      const sway = Math.sin(ts*b.speed + b.offset)*W*0.04;
+      const grd = ctx.createLinearGradient(b.x+sway,0,b.x+sway+b.width,H);
+      grd.addColorStop(0,'rgba(184,151,58,0)');
+      grd.addColorStop(0.3,`rgba(184,151,58,${b.alpha})`);
+      grd.addColorStop(0.7,`rgba(212,175,85,${b.alpha*0.6})`);
+      grd.addColorStop(1,'rgba(184,151,58,0)');
+      ctx.fillStyle=grd;
+      ctx.fillRect(b.x+sway-b.width*0.5,0,b.width*2,H);
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();
+  window.addEventListener('resize',resize);
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>

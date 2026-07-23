@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolarIQ, Smart Solar, Smarter Savings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark-bg: #050A0F;
+  --panel-bg: rgba(10, 20, 30, 0.45);
+  --electric-amber: #F5A623;
+  --amber-glow: rgba(245, 166, 35, 0.4);
+  --green-glow: rgba(46, 204, 113, 0.3);
+  --text-primary: #FFFFFF;
+  --text-secondary: #8E9A9F;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--dark-bg);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* NAVIGATION (Tesla-inspired full-bleed floating look) */
+nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  height: 76px;
+  background: rgba(5, 10, 15, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  padding: 0 6%;
+  gap: 40px;
+}
+.logo{
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.logo span{color: var(--electric-amber)}
+.nav-links{display:flex;gap:36px;list-style:none;flex:1;justify-content: center;}
+.nav-links a{color: var(--text-secondary);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color: var(--electric-amber)}
+.nav-live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.75rem;color:#4ADE80;font-weight: 500;letter-spacing: 0.05em;}
+.nav-dot{width:8px;height:8px;background:#4ADE80;border-radius:50%;box-shadow: 0 0 10px #4ADE80;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(0.95)}}
+.nav-cta{background:transparent;color:#fff;border: 1px solid rgba(255,255,255,0.15);padding:10px 24px;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all .3s;font-family: 'Space Grotesk', sans-serif;}
+.nav-cta:hover{border-color: var(--electric-amber);color: var(--electric-amber);box-shadow: 0 0 15px rgba(245, 166, 35, 0.25);}
+
+/* HERO (Tesla Single CTA / Supabase Glow Hybrid) */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.2fr 0.8fr;align-items:center;padding:120px 6% 60px;gap:64px;position:relative;overflow:hidden}
+
+/* Cinematic Green Glow Emanaing from Behind Center/Left Solar Context */
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  left: 20%;
+  top: 30%;
+  background: radial-gradient(circle, rgba(46, 204, 113, 0.12) 0%, rgba(5, 10, 15, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+#heroCanvas{position:absolute;inset:0;pointer-events:none;z-index:1}
+.hero-left{position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(245, 166, 35, 0.08);padding:6px 16px;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--electric-amber);margin-bottom:28px}
+.hero h1{font-size:clamp(2.8rem, 4.5vw, 4.5rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:20px;letter-spacing:-.03em;text-transform: uppercase;}
+.hero h1 em{font-style:normal;color:var(--text-primary);position: relative;}
+.hero-sub{font-size:1.05rem;color:var(--text-secondary);max-width:520px;margin-bottom:40px;font-weight:300;line-height:1.8}
+
+/* INTERACTIVE INPUT BOX (Supabase Tech Glow Style) */
+.nl-box{background: rgba(255, 255, 255, 0.02);backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(8px);border: 1px solid rgba(255, 255, 255, 0.05);padding:24px;margin-bottom:32px;border-radius:4px;transition: border-color 0.3s;}
+.nl-box:focus-within{border-color: rgba(245, 166, 35, 0.35);box-shadow: 0 0 25px rgba(245, 166, 35, 0.05);}
+.nl-label{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--electric-amber);margin-bottom:12px}
+.nl-row{display:flex;gap:12px}
+.nl-in{flex:1;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.1);padding:12px 16px;font-family:'Space Grotesk',sans-serif;font-size:.9rem;color:#fff;outline:none;transition:all .2s}
+.nl-in::placeholder{color:rgba(255,255,255,0.25)}
+.nl-in:focus{border-color:var(--electric-amber)}
+.nl-btn{background:var(--electric-amber);color:#050A0F;padding:12px 24px;border:none;cursor:pointer;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:all 0.3s;font-family: 'Space Grotesk', sans-serif;}
+.nl-btn:hover{background:#FFFFFF;box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);}
+.nl-result{margin-top:20px;display:none}
+.nl-result-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.nl-stat{background:rgba(255,255,255,.02);padding:14px 18px;border: 1px solid rgba(255,255,255,0.05);border-radius: 4px;}
+.nl-stat-val{font-size:1.4rem;font-weight:700;color:var(--electric-amber);text-shadow: 0 0 12px var(--amber-glow);}
+.nl-stat-label{font-size:.68rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.08em;margin-top: 4px;}
+
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+.btn-gold{background:var(--electric-amber);color:#050A0F;padding:16px 36px;font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;box-shadow: 0 0 20px var(--amber-glow);}
+.btn-gold:hover{background:#fff;color:#050A0F;transform:translateY(-2px);box-shadow: 0 0 25px rgba(255,255,255,0.3);}
+.btn-ghost{background:transparent;color:#fff;padding:16px 36px;font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block}
+.btn-ghost:hover{border-color:var(--electric-amber);color:var(--electric-amber);background: rgba(245, 166, 35, 0.02);}
+
+/* GLASSMORPHISM AI PANEL (Supabase Inspired Modern Dark Dashboard style) */
+.ai-panel{background:var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.07);box-shadow:0 30px 60px rgba(0,0,0,.6);max-width:440px;margin-left:auto;position:relative;z-index:2;border-radius:8px;}
+.ai-panel-head{background:rgba(255,255,255,.02);border-bottom:1px solid rgba(255,255,255,.05);padding:16px 20px;display:flex;align-items:center;gap:12px}
+.ai-av{width:36px;height:36px;background:var(--electric-amber);display:flex;align-items:center;justify-content:center;font-weight:700;color:#050A0F;font-size:.95rem;border-radius:2px;}
+.ai-panel-head-text h4{color:#fff;font-size:.85rem;font-weight:600;letter-spacing: 0.02em;}
+.ai-panel-head-text p{color:var(--electric-amber);font-size:.7rem;letter-spacing: 0.04em;}
+.ai-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.05);background: rgba(0,0,0,0.15);}
+.ai-tab{flex:1;padding:12px 4px;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.ai-tab.on{color:var(--electric-amber);border-bottom-color:var(--electric-amber);background: rgba(245,166,35,0.02);}
+.ai-pane{display:none;padding:20px}
+.ai-pane.on{display:block}
+
+/* CHAT INTERNALS */
+.chat-body{height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.chat-body::-webkit-scrollbar{width:4px}
+.chat-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px;}
+.cmsg{display:flex;gap:10px;align-items:flex-start}
+.cmsg.u{flex-direction:row-reverse}
+.cav{width:26px;height:26px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700}
+.cav.ai{background:var(--electric-amber);color:#050A0F}
+.cav.me{background:rgba(255,255,255,.1);color:#fff}
+.cbub{padding:10px 14px;font-size:.82rem;line-height:1.5;max-width:80%;border-radius:4px;}
+.cbub.ai{background:rgba(255,255,255,.04);color:rgba(255,255,255,.9);border: 1px solid rgba(255,255,255,0.03);}
+.cbub.me{background:rgba(245, 166, 35, 0.1);color:#fff;font-weight:500;border: 1px solid rgba(245, 166, 35, 0.25);}
+.typing{display:flex;gap:4px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:4px;width:fit-content}
+.typing span{width:6px;height:6px;background:rgba(255,255,255,.4);border-radius:50%;animation:tdot 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-4px)}}
+.chat-in-row{display:flex;gap:8px}
+.chat-in{flex:1;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,.08);padding:10px 12px;font-family:'Space Grotesk',sans-serif;font-size:.82rem;color:#fff;outline:none}
+.chat-in:focus{border-color:var(--electric-amber)}
+.chat-in::placeholder{color:rgba(255,255,255,.25)}
+.send-b{width:36px;height:36px;background:var(--electric-amber);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition: background 0.2s;}
+.send-b:hover{background:#fff}
+.send-b svg{width:14px;height:14px;fill:#050A0F}
+
+/* MINI ROI GLASSMORPHISM */
+.roi-mini{display:flex;flex-direction:column;gap:12px}
+.roi-mini-input{background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,.08);padding:10px 12px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.85rem;outline:none;width:100%;transition:border-color .2s}
+.roi-mini-input:focus{border-color:var(--electric-amber)}
+.roi-mini-input::placeholder{color:rgba(255,255,255,.25)}
+.roi-mini-btn{background:var(--electric-amber);color:#050A0F;padding:12px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:none;cursor:pointer;width:100%;transition:all .2s}
+.roi-mini-btn:hover{background:#fff;box-shadow: 0 0 15px var(--amber-glow);}
+.roi-result{display:none;margin-top:16px}
+.roi-result-head{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--electric-amber);margin-bottom:12px}
+.roi-bars{display:flex;flex-direction:column;gap:10px}
+.roi-bar-row{display:flex;align-items:center;gap:12px}
+.roi-bar-label{font-size:.7rem;color:var(--text-secondary);width:85px;flex-shrink:0}
+.roi-bar-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;}
+.roi-bar-fill{height:100%;background:var(--electric-amber);box-shadow: 0 0 10px var(--electric-amber);transition:width 1.2s ease;border-radius:2px;}
+.roi-bar-val{font-size:.7rem;font-weight:600;color:var(--text-secondary);white-space:nowrap}
+.roi-payback{margin-top:16px;padding:14px 18px;background:rgba(255,255,255,0.02);border: 1px solid rgba(255,255,255,0.05);border-radius:4px;}
+.roi-payback-num{font-size:1.8rem;font-weight:700;color:#fff;text-shadow:0 0 15px rgba(255,255,255,0.2)}
+.roi-payback-label{font-size:.72rem;color:var(--text-secondary);margin-top:2px}
+
+/* STATS BAR (Tesla Flat Layout Over Dark Background) */
+.stats-bar{background:rgba(5, 10, 15, 0.6);backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);padding:32px 6%;display:grid;grid-template-columns:repeat(5,1fr);position:relative;z-index:1}
+.stat{text-align:center;padding:8px 12px;}
+.stat-n{font-size:2.4rem;font-weight:700;color:#fff;text-shadow: 0 0 20px rgba(255,255,255,0.15);display:flex;align-items:flex-end;justify-content:center;height:2.8rem;overflow:hidden}
+.stat-l{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--text-secondary);margin-top:6px;display:block;}
+
+/* 3D MARQUEE GRID WITH GLOW */
+.marquee-sec{background:var(--dark-bg);padding:80px 0;overflow:hidden;position:relative;z-index:1}
+.marquee-sec::before,.marquee-sec::after{content:'';position:absolute;top:0;bottom:0;width:160px;z-index:10;pointer-events:none}
+.marquee-sec::before{left:0;background:linear-gradient(to right,var(--dark-bg),transparent)}
+.marquee-sec::after{right:0;background:linear-gradient(to left,var(--dark-bg),transparent)}
+.marquee-label{text-align:center;font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:40px}
+.marquee-wrap{height:420px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.marquee-inner{width:1400px;height:1400px;flex-shrink:0;transform:scale(.55);transform-origin:center center}
+@media(min-width:768px){.marquee-inner{transform:scale(.75)}}
+@media(min-width:1200px){.marquee-inner{transform:scale(1)}}
+.marquee-grid{transform:rotateX(54deg) rotateY(0deg) rotateZ(-42deg);display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;top:360px;right:50%;width:100%}
+.mq-col{display:flex;flex-direction:column;gap:24px}
+.mq-col:nth-child(odd){animation:mup 14s ease-in-out infinite alternate}
+.mq-col:nth-child(even){animation:mdown 18s ease-in-out infinite alternate}
+@keyframes mup{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+@keyframes mdown{from{transform:translateY(0)}to{transform:translateY(100px)}}
+.mq-card{border-radius:4px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.08);aspect-ratio:970/700}
+.mq-card img{width:100%;height:100%;object-fit:cover;display:block;opacity: 0.6;transition: opacity 0.3s;}
+.mq-card:hover img{opacity: 0.85;}
+.mq-card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,10,15,.9) 0%,transparent 70%)}
+.mq-card-lbl{position:absolute;bottom:14px;left:16px;font-size:.68rem;font-weight:600;color:#fff;letter-spacing:.08em;text-transform:uppercase}
+
+/* GLOBAL SECTIONS BASE (Pure Whitespace & Stark Contrast, No Hard Decorative Borders) */
+.sec{padding:120px 6%;position:relative;z-index:1}
+.eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--electric-amber);margin-bottom:14px;display:block;}
+.sec-title{font-size:clamp(2.2rem, 3.5vw, 3.2rem);font-weight:700;color:#fff;line-height:1.15;margin-bottom:18px;letter-spacing:-.02em;text-transform: uppercase;}
+.sec-sub{font-size:1rem;color:var(--text-secondary);max-width:540px;line-height:1.8;font-weight:300;}
+
+/* GLASSMORPHISM ROI CALCULATOR MODULE */
+.calc-sec{background:var(--dark-bg)}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center;margin-top:64px}
+.calc-widget{background:var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.06);padding:48px 40px;border-radius:8px;}
+.calc-widget h3{font-size:1.6rem;font-weight: 700;color:#fff;margin-bottom:8px;text-transform: uppercase;letter-spacing: 0.02em;}
+.calc-widget p{font-size:.88rem;color:var(--text-secondary);margin-bottom:32px;line-height:1.7}
+.calc-fields{display:flex;flex-direction:column;gap:20px;margin-bottom:28px}
+.cf-group label{display:block;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px}
+.cf-group input,.cf-group select{width:100%;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.08);padding:12px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s}
+.cf-group input:focus,.cf-group select:focus{border-color:var(--electric-amber)}
+.cf-group input::placeholder{color:rgba(255,255,255,.2)}
+.cf-group select{color:rgba(255,255,255,.75);cursor: pointer;}
+.cf-group select option{background:#050A0F;color:#fff}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.calc-btn{width:100%;background:var(--electric-amber);color:#050A0F;padding:14px;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;font-family: 'Space Grotesk', sans-serif;}
+.calc-btn:hover{background:#fff;box-shadow: 0 0 20px var(--amber-glow);}
+.calc-result{display:none;margin-top:32px}
+.calc-result-title{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--electric-amber);margin-bottom:20px}
+.calc-big{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.calc-big-stat{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,0.05);padding:16px;border-radius:4px;}
+.calc-big-val{font-size:1.6rem;font-weight:700;color:#fff;line-height:1}
+.calc-big-label{font-size:.68rem;color:var(--text-secondary);margin-top:6px;text-transform:uppercase;letter-spacing:.06em}
+.calc-bars{display:flex;flex-direction:column;gap:12px}
+.calc-bar-row{display:flex;align-items:center;gap:14px}
+.calc-bar-label{font-size:.7rem;color:var(--text-secondary);width:110px;flex-shrink:0}
+.calc-bar-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;}
+.calc-bar-fill{height:100%;background:var(--electric-amber);box-shadow: 0 0 10px var(--electric-amber);transition:width 1.2s ease;border-radius:2px;}
+.calc-bar-val{font-size:.7rem;color:var(--text-secondary);font-weight: 600;}
+.calc-savings-banner{margin-top:24px;padding:16px;background:rgba(46,204,113,.04);border:1px solid rgba(46,204,113,0.25);border-radius:4px;}
+.calc-savings-val{font-size:1.6rem;color:#4ADE80;font-weight:700;text-shadow: 0 0 15px rgba(74,222,128,0.25);}
+.calc-savings-label{font-size:.75rem;color:var(--text-secondary);margin-top:4px}
+
+.calc-right h3{font-size:1.8rem;font-weight: 700;color:#fff;margin-bottom:16px;line-height:1.3;text-transform: uppercase;}
+.calc-right p{font-size:.95rem;color:var(--text-secondary);line-height:1.8;margin-bottom:36px;font-weight: 300;}
+.calc-perks{display:flex;flex-direction:column;gap:16px;list-style:none}
+.calc-perks li{display:flex;align-items:center;gap:14px;font-size:.9rem;color:var(--text-secondary);font-weight: 400;}
+.cperk-ico{width:24px;height:24px;background:rgba(245,166,35,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:2px;}
+.cperk-ico svg{width:12px;height:12px;stroke:var(--electric-amber);fill:none;stroke-width:3}
+
+/* ULTRA TECH PREMIUM PACKAGES ARCHITECTURE */
+.pkg-sec{background:var(--dark-bg)}
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px;}
+.pkg{background:var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:44px 36px;border:1px solid rgba(255,255,255,0.05);border-radius:6px;transition:all .3s;}
+.pkg.featured{border:1px solid rgba(245, 166, 35, 0.3);box-shadow: 0 0 40px rgba(245, 166, 35, 0.05);background: linear-gradient(180deg, rgba(10,20,30,0.6) 0%, rgba(5,10,15,0.4) 100%);}
+.pkg:hover{border-color: rgba(255,255,255,0.15);transform: translateY(-4px);}
+.pkg.featured:hover{border-color: var(--electric-amber);box-shadow: 0 0 50px rgba(245, 166, 35, 0.08);}
+.pkg-label{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:16px}
+.pkg.featured .pkg-label{color:var(--electric-amber);text-shadow: 0 0 10px var(--amber-glow);}
+.pkg-name{font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:8px;text-transform: uppercase;letter-spacing: 0.02em;}
+.pkg-price{font-size:2.4rem;font-weight:700;color:#fff;margin-bottom:6px;line-height:1;letter-spacing: -0.01em;}
+.pkg.featured .pkg-price{color:var(--electric-amber);text-shadow: 0 0 20px var(--amber-glow);}
+.pkg-price sub{font-size:.8rem;font-weight:400;color:var(--text-secondary);letter-spacing: 0;}
+.pkg-desc{font-size:.85rem;color:var(--text-secondary);margin-bottom:28px;line-height:1.7;font-weight: 300;}
+.pkg-divider{height:1px;background:rgba(255,255,255,.06);margin-bottom:24px}
+.pkg-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.pkg-features li{font-size:.85rem;color:var(--text-secondary);display:flex;align-items:center;gap:12px}
+.pkg.featured .pkg-features li{color:rgba(255,255,255,0.85)}
+.pkg-check{width:16px;height:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pkg-check svg{width:12px;height:12px;stroke:var(--electric-amber);fill:none;stroke-width:3}
+.pkg-cta{width:100%;padding:14px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .3s;border:1px solid rgba(255,255,255,0.15);background: transparent;color: #fff;font-family: 'Space Grotesk', sans-serif;}
+.pkg:not(.featured) .pkg-cta:hover{background:#fff;color:#050A0F;border-color: #fff;}
+.pkg.featured .pkg-cta{background:var(--electric-amber);color:#050A0F;border: none;box-shadow: 0 0 20px var(--amber-glow);}
+.pkg.featured .pkg-cta:hover{background:#fff;box-shadow: 0 0 25px rgba(255,255,255,0.3);}
+
+/* STEP PROGRESSION FLOW */
+.pipeline-sec{background:var(--dark-bg);position:relative}
+.pipeline-sec::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  right: 10%;
+  bottom: 10%;
+  background: radial-gradient(circle, rgba(46, 204, 113, 0.06) 0%, rgba(5, 10, 15, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(50px);
+}
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:64px}
+.pipe-step{background:var(--panel-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:36px 24px;border: 1px solid rgba(255,255,255,0.04);border-radius: 4px;transition:all .3s}
+.pipe-step:hover{background:rgba(255,255,255,.02);border-color: rgba(255,255,255,0.1);}
+.pipe-num{font-size:.75rem;font-weight: 700;color:var(--electric-amber);margin-bottom:20px;letter-spacing:.12em}
+.pipe-icon{width:40px;height:40px;display:flex;align-items:center;margin-bottom:20px}
+.pipe-icon svg{width:22px;height:22px;stroke:var(--electric-amber);fill:none;stroke-width:1.5}
+.pipe-step h3{font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:10px;line-height:1.3;text-transform: uppercase;letter-spacing: 0.02em;}
+.pipe-step p{font-size:.8rem;color:var(--text-secondary);line-height:1.7;font-weight: 300;}
+
+/* HIGH CONTRAST GLOW TECH FEATURES */
+.feat-sec{background:var(--dark-bg)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px}
+.feat-card{background: var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:40px 32px;border: 1px solid rgba(255,255,255,0.04);border-radius: 6px;position:relative;overflow:hidden;transition:all .3s}
+.feat-card:hover{border-color: rgba(255,255,255,0.12);transform: translateY(-2px);}
+.feat-icon{width:40px;height:40px;display:flex;align-items:center;margin-bottom:24px;position:relative;z-index:1}
+.feat-icon svg{width:24px;height:24px;stroke:var(--electric-amber);fill:none;stroke-width:1.5}
+.feat-card h3{font-size:1.2rem;font-weight:600;color:#fff;margin-bottom:10px;position:relative;z-index:1;text-transform: uppercase;letter-spacing: 0.02em;}
+.feat-card p{font-size:.88rem;color:var(--text-secondary);line-height:1.75;position:relative;z-index:1;font-weight: 300;}
+.feat-tag{display:inline-block;margin-top:20px;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--electric-amber);background:rgba(245,166,35,.06);padding:3px 10px;position:relative;z-index:1;border-radius: 2px;}
+
+/* AUTOMATION LIVE STATUS DASHBOARD */
+.ghost-sec{background:var(--dark-bg);display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center}
+.ghost-panel{background:rgba(6, 12, 20, 0.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);box-shadow: 0 20px 50px rgba(0,0,0,0.5);border-radius: 8px;overflow: hidden;}
+.ghost-head{background:rgba(255,255,255,.02);border-bottom:1px solid rgba(255,255,255,.05);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.ghost-title{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary)}
+.ghost-live{font-size:.7rem;color:#4ADE80;font-weight: 600;display:flex;align-items:center;gap:6px;letter-spacing: 0.05em;}
+.ghost-list{padding:16px;display:flex;flex-direction:column;gap:10px}
+.ghost-item{background:rgba(255,255,255,.01);padding:16px;border:1px solid rgba(255,255,255,0.03);border-radius:4px;cursor:pointer;transition:all .2s}
+.ghost-item:hover{background:rgba(255,255,255,.03);border-color: rgba(255,255,255,0.08);}
+.ghost-item.fired{border-left: 2px solid var(--electric-amber);background:rgba(245,166,35,.02);}
+.ghost-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.ghost-name{font-size:.85rem;font-weight:600;color:#fff}
+.ghost-time{font-size:.7rem;color:var(--text-secondary);font-weight: 500;}
+.ghost-action{font-size:.8rem;color:var(--text-secondary);line-height:1.5}
+.ghost-action span{color:var(--electric-amber);font-weight: 500;}
+.ghost-fire-btn{margin-top:12px;padding:6px 14px;background:var(--electric-amber);color:#050A0F;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:none;cursor:pointer;display:none;font-family: 'Space Grotesk', sans-serif;}
+.ghost-item:hover .ghost-fire-btn{display:inline-block}
+
+/* ROBUST SUPABASE-STYLE GRID METRICS MATRIX */
+.roi-sec{background:var(--dark-bg);padding:120px 6%;position:relative}
+.roi-matrix{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.roi-card{background:var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:40px 32px;border:1px solid rgba(255,255,255,0.05);border-radius:6px;position:relative;overflow:hidden;transition:all .3s}
+.roi-card:hover{border-color: rgba(255,255,255,0.12);background: rgba(10,20,30,0.55);}
+.roi-card-label{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:16px}
+.roi-pain{font-size:1.05rem;color:rgba(255,255,255,0.85);margin-bottom:16px;line-height:1.6;font-weight: 400;}
+.roi-solution{font-size:.85rem;color:var(--text-secondary);line-height:1.7;margin-bottom:28px;font-weight: 300;}
+.roi-number{font-size:3.2rem;font-weight:700;color:var(--electric-amber);line-height:1;letter-spacing:-.03em;text-shadow: 0 0 20px var(--amber-glow);}
+.roi-number-label{font-size:.7rem;color:var(--text-secondary);margin-top:6px;text-transform: uppercase;letter-spacing: 0.05em;}
+
+/* PERF TESTIMONIAL CARDS */
+.testi-sec{background:var(--dark-bg)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px}
+.testi{padding:40px 32px;background:var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.05);border-radius:6px;transition: all 0.3s;}
+.testi:hover{border-color: rgba(255,255,255,0.12);}
+.testi-q{font-size:2.5rem;color:var(--electric-amber);line-height:1;margin-bottom:4px;font-family: sans-serif;height: 20px;}
+.testi-text{font-size:.9rem;color:rgba(255,255,255,0.8);line-height:1.75;margin-bottom:28px;font-weight: 300;}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-av{width:36px;height:36px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--electric-amber);font-size:.88rem;border-radius:2px;}
+.testi-name{font-size:.9rem;font-weight:600;color:#fff}
+.testi-role{font-size:.75rem;color:var(--text-secondary)}
+.testi-savings{display:inline-block;margin-top:8px;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4ADE80;background:rgba(46,204,113,.06);border:1px solid rgba(46,204,113,.2);padding:3px 10px;border-radius:2px;}
+
+/* ACQUISITION CRM INGEST MODULE */
+.form-sec{background:var(--dark-bg);display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center;position:relative;z-index:1}
+.form-box{background:var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.06);padding:52px 44px;border-radius:8px;}
+.form-box h3{font-size:1.8rem;font-weight:700;color:#fff;margin-bottom:8px;text-transform: uppercase;letter-spacing: 0.02em;}
+.form-sub{font-size:.88rem;color:var(--text-secondary);margin-bottom:36px}
+.fg{margin-bottom:20px}
+.fg label{display:block;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px}
+.fg input,.fg select,.fg textarea{width:100%;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.08);padding:12px;font-family:'Space Grotesk',sans-serif;font-size:.9rem;color:#fff;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--electric-amber)}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.2)}
+.fg select{color:rgba(255,255,255,0.75);cursor: pointer;}
+.fg select option{background:#050A0F;color:#fff}
+.fg textarea{resize:vertical;min-height:88px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-submit{width:100%;background:var(--electric-amber);color:#050A0F;padding:14px;font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;margin-top:12px;transition:all .3s;font-family: 'Space Grotesk', sans-serif;}
+.form-submit:hover{background:var(--white);box-shadow: 0 0 20px var(--amber-glow);}
+.form-ok{display:none;text-align:center;padding:40px 20px}
+.form-ok.on{display:block}
+.form-ok-icon{width:56px;height:56px;background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.form-ok-icon svg{width:24px;height:24px;stroke:var(--electric-amber);fill:none;stroke-width:2.5}
+.form-ok h3{font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:10px}
+.form-ok p{font-size:.88rem;color:var(--text-secondary);line-height:1.7}
+.form-left h2{font-size:clamp(2rem, 3vw, 2.8rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:20px;letter-spacing:-.02em;text-transform: uppercase;}
+.form-left p{font-size:.95rem;color:var(--text-secondary);line-height:1.8;margin-bottom:36px;font-weight: 300;}
+.perks{list-style:none;display:flex;flex-direction:column;gap:16px}
+.perks li{display:flex;align-items:center;gap:14px;font-size:.9rem;color:var(--text-secondary)}
+.perk-ico{width:24px;height:24px;background:rgba(245,166,35,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:2px;}
+.perk-ico svg{width:12px;height:12px;stroke:var(--electric-amber);fill:none;stroke-width:3}
+
+/* MINIMAL FULL-BLEED FOOTER STRUCTURE */
+footer{background:rgba(3, 6, 10, 0.8);border-top: 1px solid rgba(255,255,255,0.04);padding:80px 6% 40px;position:relative;z-index:1}
+.foot-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:64px;margin-bottom:64px}
+.foot-logo{font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:16px;display:block;letter-spacing: 0.05em;text-transform: uppercase;}
+.foot-logo span{color:var(--electric-amber)}
+.foot-brand p{font-size:.85rem;color:var(--text-secondary);line-height:1.8;max-width:300px;font-weight: 300;}
+.foot-col h4{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin-bottom:20px}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.foot-col a{font-size:.85rem;color:var(--text-secondary);text-decoration:none;transition:color .2s}
+.foot-col a:hover{color:var(--electric-amber)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.04);padding-top:32px;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--text-secondary)}
+
+/* GLOBAL UTILITIES & NOTIFICATIONS */
+.wa{position:fixed;bottom:28px;right:28px;width:54px;height:54px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.4);cursor:pointer;z-index:400;text-decoration:none;transition:transform .2s}
+.wa:hover{transform:scale(1.06)}
+.wa svg{width:26px;height:26px;fill:#fff}
+.toast{position:fixed;bottom:96px;right:28px;background:rgba(10,20,30,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(245,166,35,.3);padding:16px 20px;font-size:.82rem;color:#fff;z-index:999;transform:translateY(20px);opacity:0;transition:all .4s;pointer-events:none;max-width:300px;border-radius:4px;box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+.toast.on{transform:translateY(0);opacity:1}
+.toast strong{color:var(--electric-amber)}
+
+/* SCROLL INTERSECTION REVEALS */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.215,.61,.355,1),transform .6s cubic-bezier(.215,.61,.355,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* BREAKPOINT RE-ARCHITECTURING */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;padding-top:110px;gap:48px;}
+  .ai-panel{max-width:100%;margin-left:0}
+  .calc-grid,.ghost-sec,.form-sec{grid-template-columns:1fr;gap:56px}
+  .pipeline{grid-template-columns:1fr 1fr}
+  .roi-matrix{grid-template-columns:1fr 1fr}
+  .pkg-grid{grid-template-columns:1fr;max-width:600px;margin: 48px auto 0;}
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .stats-bar{grid-template-columns:repeat(3,1fr);gap:24px 0;}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:48px}
+  .nav-links{display:none}
+  .testi-grid{grid-template-columns:1fr;max-width:600px;margin: 48px auto 0;}
+}
+@media(max-width:640px){
+  .roi-matrix{grid-template-columns:1fr}
+  .feat-grid{grid-template-columns:1fr}
+  .pipeline{grid-template-columns:1fr}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .fg-row{grid-template-columns:1fr;gap:0;}
+  .cf-row{grid-template-columns:1fr;gap:0;}
+  .calc-big{grid-template-columns:1fr}
+  .nl-result-row{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<style>
+#fa-demo-badge{position:fixed;top:12px;right:12px;z-index:99999;background:#161616;color:#f6f6f6;border:1px solid #347aea;border-radius:8px;padding:8px 14px;font:600 11px/1.4 -apple-system,Inter,sans-serif;letter-spacing:.03em;box-shadow:0 4px 20px rgba(0,0,0,.4);max-width:220px;cursor:default}
+#fa-demo-badge b{color:#347aea}
+@media(max-width:540px){#fa-demo-badge{font-size:10px;padding:6px 10px;max-width:170px}}
+</style>
+<div id="fa-demo-badge"><b>DEMO</b> &nbsp;This is a concept build made for portfolio purposes. Not a live product.</div>
+
+
+<nav>
+  <div class="logo">Solar<span>IQ</span></div>
+  <ul class="nav-links">
+    <li><a href="#calculator">ROI Calculator</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#contact">Get Started</a></li>
+  </ul>
+  <div class="nav-live"><span class="nav-dot"></span>System Online</div>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Free Quote</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-left">
+    <div class="hero-tag">AI-Powered Solar Intelligence</div>
+    <h1>Cut Your Bills.<br><em>Not Your Comfort.</em></h1>
+    <p class="hero-sub">SolarIQ gives solar companies a full AI sales system, instant quotes, ROI calculators, automated lead qualification, and 24/7 follow-up. More installs. Less chasing.</p>
+
+    <div class="nl-box">
+      <div class="nl-label">Instant AI Quote</div>
+      <div class="nl-row">
+        <input class="nl-in" id="nlIn" placeholder='Try: "4-bedroom house in Lagos, ₦80k NEPA bill"' onkeydown="if(event.key==='Enter')runNL()">
+        <button class="nl-btn" onclick="runNL()">Get Quote</button>
+      </div>
+      <div class="nl-result" id="nlResult">
+        <div class="nl-result-row" id="nlResultRow"></div>
+      </div>
+    </div>
+
+    <div class="hero-btns">
+      <a href="#calculator" class="btn-gold">Calculate My Savings</a>
+      <a href="#packages" class="btn-ghost">See Packages</a>
+    </div>
+  </div>
+
+  <!-- AI PANEL (Glassmorphism Frame) -->
+  <div class="ai-panel">
+    <div class="ai-panel-head">
+      <div class="ai-av">S</div>
+      <div class="ai-panel-head-text">
+        <h4>SolarIQ Assistant</h4>
+        <p>Lead Qualification Agent</p>
+      </div>
+      <div class="nav-dot" style="margin-left:auto"></div>
+    </div>
+    <div class="ai-tabs">
+      <div class="ai-tab on" onclick="switchTab('chat',this)">AI Chat</div>
+      <div class="ai-tab" onclick="switchTab('roi',this)">ROI Check</div>
+    </div>
+
+    <div class="ai-pane on" id="tab-chat">
+      <div class="chat-body" id="chatBody">
+        <div class="cmsg">
+          <div class="cav ai">S</div>
+          <div class="cbub ai">Welcome to SolarIQ. I can help you find the right solar system, calculate your savings, and get you a quote in minutes. Are you looking for a home or business solution?</div>
+        </div>
+      </div>
+      <div class="chat-in-row">
+        <input class="chat-in" id="chatIn" placeholder="Ask about solar..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="send-b" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg></button>
+      </div>
+    </div>
+
+    <div class="ai-pane" id="tab-roi">
+      <p style="font-size:.8rem;color:var(--text-secondary);margin-bottom:16px;line-height:1.6">Enter your monthly NEPA/generator spend to see how fast solar pays for itself.</p>
+      <div class="roi-mini">
+        <input class="roi-mini-input" id="roiSpend" placeholder="Monthly electricity/gen spend e.g. ₦80,000">
+        <select class="roi-mini-input" id="roiType">
+          <option value="" style="background:#050A0F; color:var(--text-secondary)">Property type</option>
+          <option style="background:#050A0F;">Home (1-2 bed)</option>
+          <option style="background:#050A0F;">Home (3-4 bed)</option>
+          <option style="background:#050A0F;">Home (5+ bed)</option>
+          <option style="background:#050A0F;">Small office / shop</option>
+          <option style="background:#050A0F;">Medium business</option>
+          <option style="background:#050A0F;">Large commercial</option>
+        </select>
+        <button class="roi-mini-btn" onclick="runMiniROI()">Calculate Payback</button>
+        <div class="roi-result" id="roiResultMini">
+          <div class="roi-result-head">Your Solar ROI Breakdown</div>
+          <div class="roi-bars" id="roiBars"></div>
+          <div class="roi-payback" id="roiPayback"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><span class="stat-n" data-t="2400">0</span><span class="stat-l">Systems Installed</span></div>
+  <div class="stat"><span class="stat-n" data-t="94">0</span><span class="stat-l">% Client Satisfaction</span></div>
+  <div class="stat"><span class="stat-n" data-t="3">0</span><span class="stat-l">Sec Quote Response</span></div>
+  <div class="stat"><span class="stat-n" data-t="18">0</span><span class="stat-l">Month Avg Payback</span></div>
+  <div class="stat"><span class="stat-n" data-t="68">0</span><span class="stat-l">% Bill Reduction Avg</span></div>
+</div>
+
+<!-- 3D MARQUEE -->
+<div class="marquee-sec">
+  <div class="marquee-label">Solar Installations Across Nigeria</div>
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      <div class="marquee-grid" id="marqueeGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ROI CALCULATOR -->
+<section class="calc-sec sec" id="calculator">
+  <div class="eyebrow">ROI Calculator</div>
+  <h2 class="sec-title">See Exactly How Much<br>You Will Save.</h2>
+  <p class="sec-sub">The number one reason people delay going solar is not knowing if it's worth it. This calculator ends that conversation in 30 seconds.</p>
+
+  <div class="calc-grid">
+    <div class="calc-widget">
+      <h3>Calculate Your Solar Savings</h3>
+      <p>Enter your current situation and get a full financial breakdown instantly.</p>
+      <div class="calc-fields">
+        <div class="cf-row">
+          <div class="cf-group">
+            <label>Monthly NEPA Bill</label>
+            <input type="text" id="cNepa" placeholder="e.g. ₦45,000">
+          </div>
+          <div class="cf-group">
+            <label>Monthly Gen Spend</label>
+            <input type="text" id="cGen" placeholder="e.g. ₦60,000">
+          </div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-group">
+            <label>Property Type</label>
+            <select id="cType">
+              <option value="">Select</option>
+              <option value="1">1-2 Bedroom Home</option>
+              <option value="2">3-4 Bedroom Home</option>
+              <option value="3">5+ Bedroom / Duplex</option>
+              <option value="4">Small Office / Shop</option>
+              <option value="5">Medium Business</option>
+              <option value="6">Large Industrial</option>
+            </select>
+          </div>
+          <div class="cf-group">
+            <label>Location</label>
+            <select id="cLoc">
+              <option value="">Select</option>
+              <option>Lagos</option><option>Abuja</option><option>Port Harcourt</option>
+              <option>Ibadan</option><option>Kano</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="cf-group">
+          <label>Daily Hours of Power Needed</label>
+          <select id="cHours">
+            <option value="">Select</option>
+            <option value="8">8 hours</option>
+            <option value="12">12 hours</option>
+            <option value="18">18 hours</option>
+            <option value="24">24 hours (full backup)</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="runCalc()">Calculate My Savings</button>
+      <div class="calc-result" id="calcResult">
+        <div class="calc-result-title">Your Personalised Solar Report</div>
+        <div class="calc-big" id="calcBig"></div>
+        <div class="calc-bars" id="calcBars"></div>
+        <div class="calc-savings-banner" id="calcSavings"></div>
+      </div>
+    </div>
+
+    <div class="calc-right">
+      <h3>Stop Paying for Power You Don't Control</h3>
+      <p>The average Nigerian household or business spends between ₦80,000 and ₦300,000 per month on electricity and generators combined. Solar eliminates 60 to 90% of that permanently.</p>
+      <ul class="calc-perks">
+        <li><div class="cperk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Real savings calculated based on your actual bills</li>
+        <li><div class="cperk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>System size recommendation included</li>
+        <li><div class="cperk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Payback period shown in months, not years</li>
+        <li><div class="cperk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Full quote sent to your WhatsApp automatically</li>
+        <li><div class="cperk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>No obligation, no sales pressure</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="pkg-sec sec" id="packages">
+  <div class="eyebrow">Solar Packages</div>
+  <h2 class="sec-title">The Right System<br>For Every Size.</h2>
+  <div class="pkg-grid">
+    <div class="pkg reveal">
+      <div class="pkg-label">Residential</div>
+      <div class="pkg-name">Home Starter</div>
+      <div class="pkg-price">₦1.2M <sub>/installed</sub></div>
+      <div class="pkg-desc">Perfect for 1-3 bedroom homes. Covers essential appliances and lighting with 24-hour backup.</div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>3.5kW Solar System</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>5kWh Battery Storage</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Covers fans, lights, TV, fridge</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>2-year full warranty</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Remote monitoring app</li>
+      </ul>
+      <button class="pkg-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get This Package</button>
+    </div>
+
+    <div class="pkg featured reveal">
+      <div class="pkg-label">Most Popular</div>
+      <div class="pkg-name">Home Premium</div>
+      <div class="pkg-price">₦2.8M <sub>/installed</sub></div>
+      <div class="pkg-desc">For 3-5 bedroom homes and small offices. Full AC coverage, generator replacement.</div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>10kW Solar System</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>15kWh Battery Storage</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Covers AC units, pumps, all appliances</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>5-year full warranty</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Smart energy dashboard</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Priority maintenance support</li>
+      </ul>
+      <button class="pkg-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get This Package</button>
+    </div>
+
+    <div class="pkg reveal">
+      <div class="pkg-label">Commercial / Industrial</div>
+      <div class="pkg-name">Business Power</div>
+      <div class="pkg-price">Custom <sub>/quote</sub></div>
+      <div class="pkg-desc">For businesses, factories, and large estates. Full energy independence with grid-tie option.</div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>20kW and above systems</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Industrial battery banks</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Grid-tie and net metering ready</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>10-year performance warranty</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Dedicated account manager</li>
+        <li><div class="pkg-check"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Monthly energy audit reports</li>
+      </ul>
+      <button class="pkg-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Request Custom Quote</button>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="pipeline-sec sec" id="how">
+  <div class="eyebrow">How It Works</div>
+  <h2 class="sec-title">From First Enquiry<br>to Installation Day.</h2>
+  <p class="sec-sub">Every step handled. No confusion. No waiting. Just a clear path from question to clean energy.</p>
+  <div class="pipeline">
+    <div class="pipe-step reveal">
+      <div class="pipe-num">01</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <h3>AI Qualifies the Lead</h3>
+      <p>Visitor types their situation. AI asks about property size, location, spend, and timeline. Serious buyers are identified immediately.</p>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">02</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+      <h3>Instant ROI Report</h3>
+      <p>System recommends the right package size, calculates exact monthly savings, and shows payback period in months.</p>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">03</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
+      <h3>Auto Proposal Sent</h3>
+      <p>A personalised PDF proposal with pricing, system specs, and savings projections hits their email and WhatsApp in under 60 seconds.</p>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">04</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <h3>Site Survey Booked</h3>
+      <p>Hot leads are sent a booking link and a technician is scheduled automatically. Agent gets notified via SMS and WhatsApp.</p>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">05</div>
+      <div class="pipe-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div>
+      <h3>Install and Go Live</h3>
+      <p>System installed within agreed timeline. Client gets access to the smart monitoring dashboard. Bills drop from day one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="feat-sec sec" id="features">
+  <div class="eyebrow">Platform Features</div>
+  <h2 class="sec-title">Everything a Solar Company<br>Needs to Scale.</h2>
+  <div class="feat-grid">
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <h3>Natural Language Quotes</h3>
+      <p>Customers describe their situation in plain text. The AI extracts property size, location, and power needs to generate a quote instantly.</p>
+      <span class="feat-tag">AI Powered</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+      <h3>Live ROI Calculator</h3>
+      <p>Shows exactly how much the client saves per month and how many months until full payback. Converts hesitant buyers into confident ones.</p>
+      <span class="feat-tag">Conversion Tool</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <h3>24/7 AI Sales Agent</h3>
+      <p>Answers every enquiry across WhatsApp, Instagram DMs, and your website at any hour. Qualifies and routes serious buyers to your team.</p>
+      <span class="feat-tag">Always On</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
+      <h3>Auto Proposal Generator</h3>
+      <p>Branded PDF proposals created and emailed automatically based on the client's inputs. No manual work from your sales team.</p>
+      <span class="feat-tag">60 Seconds</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8 9a16 16 0 0 0 6 6l1.27-.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <h3>Ghost Lead Revival</h3>
+      <p>Requested a quote then went quiet? The system sends a personalised follow-up at the right time to pull them back into the conversation.</p>
+      <span class="feat-tag">CRM Trigger</span>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <h3>Installer Dashboard</h3>
+      <p>Every lead, quote, site survey, and installation tracked in one dashboard. Weekly automated reports show conversion rates and revenue pipeline.</p>
+      <span class="feat-tag">Full Visibility</span>
+    </div>
+  </div>
+</section>
+
+<!-- GHOST REVIVAL -->
+<section class="ghost-sec sec">
+  <div>
+    <div class="eyebrow">Ghost Lead Revival</div>
+    <h2 class="sec-title">Your Interested Leads<br>Never Go Cold.</h2>
+    <p class="sec-sub" style="margin-bottom:36px">Most solar enquiries go cold because nobody followed up at the right time. The system watches what each lead did and sends the perfect message when it matters most.</p>
+    <ul class="perks">
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Tracks quote requests, calculator use, and page views</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Triggers personalized WhatsApp when lead goes quiet</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Price or promo changes alert interested leads instantly</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Re-engaged leads routed to agents within 60 seconds</li>
+    </ul>
+  </div>
+  <div class="ghost-panel reveal">
+    <div class="ghost-head">
+      <span class="ghost-title">Ghost Revival Queue</span>
+      <span class="ghost-live"><span class="nav-dot"></span>Monitoring</span>
+    </div>
+    <div class="ghost-list" id="ghostList"></div>
+  </div>
+</section>
+
+<!-- ROI MATRIX -->
+<section class="roi-sec" id="roi">
+  <div class="eyebrow">Why Solar Companies Need This</div>
+  <h2 class="sec-title">The Business Case<br>Is Undeniable.</h2>
+  <div class="roi-matrix">
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Quote Problem</div>
+      <div class="roi-pain">"We spend hours sending quotes to people who were just browsing."</div>
+      <div class="roi-solution">The AI pre-qualifies every enquiry before your team gets involved. You only touch serious buyers with real budgets.</div>
+      <div class="roi-number">70%</div>
+      <div class="roi-number-label">Reduction in wasted quote time</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Speed Problem</div>
+      <div class="roi-pain">"By the time we call back, they've already spoken to a competitor."</div>
+      <div class="roi-solution">AI responds in 3 seconds. Proposal sent in under a minute. Viewing booked before they close the tab.</div>
+      <div class="roi-number">3s</div>
+      <div class="roi-number-label">Response time, day or night</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Education Problem</div>
+      <div class="roi-pain">"People want solar but they don't understand the ROI so they delay forever."</div>
+      <div class="roi-solution">The live calculator shows exact savings and payback in months. Objections answered before the sales call even happens.</div>
+      <div class="roi-number">2×</div>
+      <div class="roi-number-label">Conversion rate improvement</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Follow-Up Problem</div>
+      <div class="roi-pain">"90% of our leads go quiet and we have no system to bring them back."</div>
+      <div class="roi-solution">Automated revival messages fire based on behaviour. Price drops and promos reach interested leads immediately and automatically.</div>
+      <div class="roi-number">3×</div>
+      <div class="roi-number-label">More site surveys booked</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Admin Problem</div>
+      <div class="roi-pain">"Our team wastes half their day on admin instead of closing installs."</div>
+      <div class="roi-solution">Proposals auto-generated. Surveys auto-booked. Leads auto-routed. Your team focuses only on closing and installation.</div>
+      <div class="roi-number">40h</div>
+      <div class="roi-number-label">Admin hours saved per month</div>
+    </div>
+    <div class="roi-card reveal">
+      <div class="roi-card-label">The Math</div>
+      <div class="roi-pain">"How does the cost of this system compare to what it brings in?"</div>
+      <div class="roi-solution">One additional residential install pays for several months of this system. One commercial install covers the full year. Easy decision.</div>
+      <div class="roi-number">1</div>
+      <div class="roi-number-label">Install closed = full cost recovered</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-sec sec" id="testimonials">
+  <div class="eyebrow">Client Results</div>
+  <h2 class="sec-title">Real Installers.<br>Real Numbers.</h2>
+  <div class="testi-grid">
+    <div class="testi reveal">
+      <div class="testi-q">"</div>
+      <p class="testi-text">Before SolarIQ, we were manually quoting everyone who sent a WhatsApp. Half of them weren't serious. Now the AI filters them and my team only talks to people ready to install. We're doing 40% more installs with the same team size.</p>
+      <div class="testi-author">
+        <div class="testi-av">EO</div>
+        <div>
+          <div class="testi-name">Emeka Obi</div>
+          <div class="testi-role">CEO, BrightPath Solar, Lagos</div>
+          <div class="testi-savings">+40% installs in 60 days</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-q">"</div>
+      <p class="testi-text">The ROI calculator is the best sales tool I've ever used. Customers come in asking "is it worth it?" and before I say a word the calculator has already shown them they'll save ₦80,000 a month. The conversation is completely different now.</p>
+      <div class="testi-author">
+        <div class="testi-av">FK</div>
+        <div>
+          <div class="testi-name">Fatima Kabir</div>
+          <div class="testi-role">Director, SunPower NG, Abuja</div>
+          <div class="testi-savings">3× faster close rate</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi reveal">
+      <div class="testi-q">"</div>
+      <p class="testi-text">We recovered 6 deals in the first month just from the ghost revival messages. People who had gone completely cold came back because the system messaged them when we ran a promo. That's pure money we would have left behind.</p>
+      <div class="testi-author">
+        <div class="testi-av">TN</div>
+        <div>
+          <div class="testi-name">Tunde Nwosu</div>
+          <div class="testi-role">Founder, Volta Solar Systems, PH</div>
+          <div class="testi-savings">6 recovered installs in month one</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-sec sec" id="contact">
+  <div class="form-left">
+    <div class="eyebrow">Get Started</div>
+    <h2>Ready to Build Your Solar Company's<br>Growth Machine?</h2>
+    <p>We set up the full AI system for your solar business, quoting engine, ROI calculator, lead qualification, WhatsApp automation, proposal generator, and dashboard. You focus on installs.</p>
+    <ul class="perks">
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>Full system live within 72 hours</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>AI trained on your packages and pricing</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>WhatsApp and Instagram AI connected from day one</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>ROI calculator branded to your company</li>
+      <li><div class="perk-ico"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>No long-term contracts, cancel anytime</li>
+    </ul>
+  </div>
+  <div class="form-box" id="formBox">
+    <h3>Book a Free Strategy Call</h3>
+    <p class="form-sub">We'll show you exactly what this looks like for your solar business.</p>
+    <div class="fg-row">
+      <div class="fg"><label>First Name</label><input type="text" id="fn" placeholder="Emeka"></div>
+      <div class="fg"><label>Last Name</label><input type="text" id="ln" placeholder="Obi"></div>
+    </div>
+    <div class="fg"><label>WhatsApp Number</label><input type="tel" id="ph" placeholder="+234 801 234 5678"></div>
+    <div class="fg"><label>Email</label><input type="email" id="em" placeholder="emeka@solarco.ng"></div>
+    <div class="fg"><label>Company Name</label><input type="text" id="co" placeholder="Your Solar Company"></div>
+    <div class="fg"><label>Monthly Installs (current)</label>
+      <select id="vol">
+        <option value="">Select range</option>
+        <option>1 to 5 installs/month</option>
+        <option>6 to 15 installs/month</option>
+        <option>16 to 40 installs/month</option>
+        <option>40+ installs/month</option>
+      </select>
+    </div>
+    <div class="fg"><label>Biggest Current Challenge</label><textarea id="msg" placeholder="e.g. Too many time-wasters, slow follow-up, manual quoting..."></textarea></div>
+    <button class="form-submit" onclick="submitForm()">Book Free Strategy Call</button>
+    <div class="form-ok" id="formOk">
+      <div class="form-ok-icon"><svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg></div>
+      <h3>You're In.</h3>
+      <p>We'll reach out on WhatsApp within 2 hours to confirm your call. Get ready to see this running for your business.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span class="foot-logo">Solar<span>IQ</span></span>
+      <p>The AI-powered solar sales system built for Nigerian installers. More qualified leads. Faster closes. More installs.</p>
+    </div>
+    <div class="foot-col"><h4>Platform</h4><ul>
+      <li><a href="#">ROI Calculator</a></li>
+      <li><a href="#">AI Quote Engine</a></li>
+      <li><a href="#">Lead Dashboard</a></li>
+      <li><a href="#">Installer App</a></li>
+    </ul></div>
+    <div class="foot-col"><h4>Company</h4><ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Case Studies</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul></div>
+    <div class="foot-col"><h4>Support</h4><ul>
+      <li><a href="#">WhatsApp Us</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul></div>
+  </div>
+  <div class="foot-bottom">
+    <span>2026 SolarIQ. All rights reserved.</span>
+    <span>Built for Nigerian Solar Companies</span>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/2348001234567" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+</a>
+<div class="toast" id="toast"></div>
+
+<script>
+// TABS
+function switchTab(id,el){
+  document.querySelectorAll('.ai-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.ai-pane').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tab-'+id).classList.add('on');
+}
+
+// HERO AMBER BEAM CANVAS (Recolored to match F5A623 Electric Amber theme)
+(function(){
+  const c=document.getElementById('heroCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const hero=c.parentElement;
+  let W,H,beams;
+  function resize(){W=c.width=hero.offsetWidth;H=c.height=hero.offsetHeight;init()}
+  function init(){beams=Array.from({length:6},(_, i)=>({x:W*(0.08+i*0.16),spd:0.0002+Math.random()*0.0002,off:Math.random()*Math.PI*2,w:60+Math.random()*80,a:0.012+Math.random()*0.018}))}
+  function draw(ts){
+    ctx.clearRect(0,0,W,H);
+    beams.forEach(b=>{
+      const sw=Math.sin(ts*b.spd+b.off)*W*0.03;
+      const g=ctx.createLinearGradient(b.x+sw,0,b.x+sw+b.w,H);
+      g.addColorStop(0,'rgba(5,10,15,0)');
+      g.addColorStop(0.4,`rgba(245,166,35,${b.a})`);
+      g.addColorStop(0.6,`rgba(245,166,35,${b.a*0.5})`);
+      g.addColorStop(1,'rgba(5,10,15,0)');
+      ctx.fillStyle=g;ctx.fillRect(b.x+sw-b.w*.5,0,b.w*2,H);
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();window.addEventListener('resize',resize);requestAnimationFrame(draw);
+})();
+
+// SLOT MACHINE STATS (Color-matched to pure emissive white text on dark grid background)
+function buildSlot(el){
+  const target=parseInt(el.dataset.t);
+  const suffix=el.parentElement.querySelector('.stat-l').textContent.includes('%')?'':'+';
+  const digits=String(target).split('');
+  el.style.cssText='display:flex;align-items:flex-end;justify-content:center;overflow:hidden;height:2.8rem;line-height:1';
+  el.innerHTML=digits.map((d,i)=>{
+    const nums=Array.from({length:11},(_,n)=>n%10);
+    return `<span style="display:flex;flex-direction:column;transition:transform ${0.6+i*0.08}s cubic-bezier(.22,1,.36,1);transform:translateY(0)" data-d="${d}">${nums.map(n=>`<span style="display:block;height:2.8rem;font-size:2.4rem;font-weight:700;color:#fff;text-align:center;min-width:.7ch">${n}</span>`).join('')}</span>`;
+  }).join('')+`<span style="font-size:2.4rem;font-weight:700;color:#fff;line-height:2.8rem">${suffix}</span>`;
+  setTimeout(()=>el.querySelectorAll('[data-d]').forEach(col=>{col.style.transform=`translateY(calc(-${parseInt(col.dataset.d)}*2.8rem))`}),120);
+}
+const sBar=document.querySelector('.stats-bar');
+if(sBar){const so=new IntersectionObserver(e=>{if(e[0].isIntersecting){document.querySelectorAll('[data-t]').forEach(buildSlot);so.disconnect()}},{threshold:.3});so.observe(sBar)}
+
+// NL QUOTE
+const nlData=[
+  {label:'System Size',vals:['3.5kW','5kW','10kW','15kW','20kW']},
+  {label:'Est. Install Cost',vals:['₦1.2M','₦1.8M','₦2.8M','₦4.2M','₦6.5M']},
+  {label:'Monthly Savings',vals:['₦35,000','₦55,000','₦95,000','₦140,000','₦210,000']},
+];
+function runNL(){
+  const q=document.getElementById('nlIn').value.toLowerCase();
+  if(!q.trim())return;
+  let tier=1;
+  if(q.includes('5')||q.includes('large')||q.includes('industrial')||q.includes('factory'))tier=4;
+  else if(q.includes('4')||q.includes('duplex')||q.includes('office')||q.includes('business'))tier=2;
+  else if(q.includes('3')||q.includes('medium'))tier=1;
+  else if(q.includes('1')||q.includes('small')||q.includes('mini'))tier=0;
+  const res=document.getElementById('nlResult');
+  document.getElementById('nlResultRow').innerHTML=nlData.map(d=>`<div class="nl-stat"><div class="nl-stat-val">${d.vals[tier]}</div><div class="nl-stat-label">${d.label}</div></div>`).join('');
+  res.style.display='block';
+}
+
+// AI CHAT
+const history=[];
+async function sendMsg(){
+  const inp=document.getElementById('chatIn');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';addMsg(txt,true);history.push({role:'user',content:txt});showTyping();
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      model:'claude-sonnet-4-6',max_tokens:1000,
+      system:`You are SolarIQ's AI sales assistant for a Nigerian solar energy company. Qualify leads by asking: property type (home/commercial), location, monthly electricity and generator spend in naira, number of rooms or power load, timeline, and budget. After 2-3 exchanges score them HOT (ready to install, has budget), WARM (interested, unclear timeline), or COLD (browsing). Recommend appropriate package sizes. Be concise, friendly, and knowledgeable about Nigerian electricity challenges like NEPA/PHCN issues. Use naira. Keep replies under 3 sentences.`,
+      messages:history
+    })});
+    removeTyping();
+    const data=await r.json();
+    const reply=data.content?.[0]?.text||"Let me connect you with one of our solar consultants.";
+    history.push({role:'assistant',content:reply});
+    const hot=reply.toLowerCase().includes('hot')||reply.toLowerCase().includes('connect')||reply.toLowerCase().includes('consultant');
+    addMsg(reply,false,hot?'hot':null);
+  }catch(e){
+    removeTyping();const fb=getFallback(txt);history.push({role:'assistant',content:fb.t});addMsg(fb.t,false,fb.s);
+  }
+}
+function getFallback(q){
+  const l=q.toLowerCase();
+  if(l.includes('home')||l.includes('house')||l.includes('apartment'))return{t:"Great. What size is the property and what's your current monthly spend on NEPA and generator combined?",s:null};
+  if(l.includes('office')||l.includes('business')||l.includes('factory'))return{t:"For commercial installations we need to know your peak power load and hours of operation. What's your monthly generator spend right now?",s:null};
+  if(l.includes('budget')||l.includes('million')||l.includes('cost')||l.includes('price'))return{t:"Our systems start from ₦1.2M for residential. What's your property type and size so I can give you the right recommendation?",s:null};
+  if(l.includes('ready')||l.includes('now')||l.includes('asap')||l.includes('urgent'))return{t:"Perfect timing. Can I get your location and property type so we can arrange a free site survey this week?",s:'hot'};
+  if(l.includes('hi')||l.includes('hello')||l.includes('hey'))return{t:"Hello! I'm here to help you go solar and cut your electricity bills. Are you looking for a home or business solution?",s:null};
+  return{t:"I can help with that. To recommend the right system, what's your property type and how much do you currently spend on electricity and fuel each month?",s:null};
+}
+function addMsg(txt,isU,score){
+  const body=document.getElementById('chatBody');
+  const d=document.createElement('div');d.className='cmsg'+(isU?' u':'');
+  const av=document.createElement('div');av.className='cav '+(isU?'me':'ai');av.textContent=isU?'You':'S';
+  const b=document.createElement('div');b.className='cbub '+(isU?'me':'ai');b.textContent=txt;
+  if(score==='hot'&&!isU){
+    const p=document.createElement('div');
+    p.style.cssText='display:inline-block;margin-top:8px;padding:3px 10px;font-size:.65rem;font-weight:700;background:rgba(245,166,35,0.1);color:var(--electric-amber);border:1px solid rgba(245,166,35,0.3);border-radius:2px;letter-spacing:0.05em;';
+    p.textContent='HOT LEAD ROUTING TO CONSULTANT';b.appendChild(document.createElement('br'));b.appendChild(p);
+    showToast('<strong>Hot Lead Detected</strong><br>Routing to solar consultant via WhatsApp.');
+  }
+  d.appendChild(av);d.appendChild(b);body.appendChild(d);body.scrollTop=body.scrollHeight;
+}
+function showTyping(){
+  const body=document.getElementById('chatBody');
+  const d=document.createElement('div');d.className='cmsg';d.id='typing';
+  d.innerHTML='<div class="cav ai">S</div><div class="typing"><span></span><span></span><span></span></div>';
+  body.appendChild(d);body.scrollTop=body.scrollHeight;
+}
+function removeTyping(){const t=document.getElementById('typing');if(t)t.remove()}
+
+// MINI ROI
+function runMiniROI(){
+  const spend=document.getElementById('roiSpend').value;
+  const type=document.getElementById('roiType').value;
+  if(!spend||!type){showToast('Please fill both fields');return}
+  const monthly=parseInt(spend.replace(/[^0-9]/g,''))||80000;
+  const saving=Math.round(monthly*0.72);
+  const systemCost=type.includes('Large')?6500000:type.includes('Medium')?3500000:type.includes('office')||type.includes('shop')?2200000:type.includes('5+')?2800000:type.includes('3-4')?1800000:1200000;
+  const payback=Math.round(systemCost/saving);
+  const bars=[
+    {l:'Bill reduction',v:72},{l:'ROI efficiency',v:85},{l:'System uptime',v:96},{l:'Payback certainty',v:90}
+  ];
+  document.getElementById('roiBars').innerHTML=bars.map(b=>`<div class="roi-bar-row"><span class="roi-bar-label">${b.l}</span><div class="roi-bar-track"><div class="roi-bar-fill" style="width:0%" data-w="${b.v}%"></div></div><span class="roi-bar-val">${b.v}%</span></div>`).join('');
+  document.getElementById('roiPayback').innerHTML=`<div class="roi-payback-num">${payback} months</div><div class="roi-payback-label">until full payback, saving ₦${saving.toLocaleString()}/mo after that</div>`;
+  const res=document.getElementById('roiResultMini');res.style.display='block';
+  setTimeout(()=>document.querySelectorAll('.roi-bar-fill').forEach(f=>f.style.width=f.dataset.w),100);
+}
+
+// FULL CALCULATOR
+function runCalc(){
+  const nepa=parseInt((document.getElementById('cNepa').value||'0').replace(/[^0-9]/g,''));
+  const gen=parseInt((document.getElementById('cGen').value||'0').replace(/[^0-9]/g,''));
+  const type=document.getElementById('cType').value;
+  const hours=document.getElementById('cHours').value;
+  if(!type||!hours||(nepa+gen===0)){showToast('Please complete all fields');return}
+  const total=nepa+gen||100000;
+  const saving=Math.round(total*0.72);
+  const sizeMap={'1':'3.5kW','2':'7kW','3':'12kW','4':'10kW','5':'20kW','6':'50kW+'};
+  const costMap={'1':1200000,'2':2000000,'3':3200000,'4':2800000,'5':5500000,'6':12000000};
+  const size=sizeMap[type]||'10kW';
+  const cost=costMap[type]||3000000;
+  const payback=Math.round(cost/saving);
+  const yr5=saving*60-cost;
+  document.getElementById('calcBig').innerHTML=`
+    <div class="calc-big-stat"><div class="calc-big-val">${size}</div><div class="calc-big-label">Recommended System</div></div>
+    <div class="calc-big-stat"><div class="calc-big-val">₦${(cost/1000000).toFixed(1)}M</div><div class="calc-big-label">Estimated Install Cost</div></div>
+    <div class="calc-big-stat"><div class="calc-big-val">${payback}mo</div><div class="calc-big-label">Payback Period</div></div>
+    <div class="calc-big-stat"><div class="calc-big-val">₦${saving.toLocaleString()}</div><div class="calc-big-label">Monthly Savings</div></div>`;
+  const bars=[
+    {l:'Bill eliminated',v:72},{l:'Gen dependency',v:85},{l:'System efficiency',v:94},{l:'ROI at 5yrs',v:Math.min(Math.round((yr5/cost)*100),98)}
+  ];
+  document.getElementById('calcBars').innerHTML=bars.map(b=>`<div class="calc-bar-row"><span class="calc-bar-label">${b.l}</span><div class="calc-bar-track"><div class="calc-bar-fill" style="width:0%" data-w="${b.v}%"></div></div><span class="calc-bar-val">${b.v}%</span></div>`).join('');
+  document.getElementById('calcSavings').innerHTML=`<div class="calc-savings-val">₦${Math.max(yr5,0).toLocaleString()}</div><div class="calc-savings-label">Total net savings over 5 years after full system cost</div>`;
+  const res=document.getElementById('calcResult');res.style.display='block';
+  setTimeout(()=>document.querySelectorAll('.calc-bar-fill').forEach(f=>f.style.width=f.dataset.w),100);
+  showToast('<strong>Report Ready</strong><br>Full proposal being prepared for your WhatsApp.');
+}
+
+// MARQUEE
+(function(){
+  const imgs=[
+    {url:'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500&q=75',lbl:'Residential Install'},
+    {url:'https://images.unsplash.com/photo-1548337138-e87d889cc369?w=500&q=75',lbl:'Commercial Rooftop'},
+    {url:'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=500&q=75',lbl:'Industrial System'},
+    {url:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=75',lbl:'Lagos Home Install'},
+    {url:'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=500&q=75',lbl:'Solar Farm'},
+    {url:'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=500&q=75',lbl:'Battery Storage'},
+    {url:'https://images.unsplash.com/photo-1592833159155-c62df1b65634?w=500&q=75',lbl:'Panel Array'},
+    {url:'https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?w=500&q=75',lbl:'Smart Monitoring'},
+    {url:'https://images.unsplash.com/photo-1569701813229-33284b643e3c?w=500&q=75',lbl:'Abuja Install'},
+    {url:'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&q=75',lbl:'Off-grid System'},
+    {url:'https://images.unsplash.com/photo-1583345237708-add35a664d77?w=500&q=75',lbl:'Estate Setup'},
+    {url:'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=500&q=75',lbl:'Green Energy'},
+  ];
+  const grid=document.getElementById('marqueeGrid');if(!grid)return;
+  const chunk=Math.ceil(imgs.length/4);
+  for(let c=0;c<4;c++){
+    const col=document.createElement('div');col.className='mq-col';
+    imgs.slice(c*chunk,c*chunk+chunk).forEach(img=>{
+      const card=document.createElement('div');card.className='mq-card';
+      card.innerHTML=`<img src="${img.url}" alt="${img.lbl}" loading="lazy"><div class="mq-card-ov"></div><div class="mq-card-lbl">${img.lbl}</div>`;
+      col.appendChild(card);
+    });
+    grid.appendChild(col);
+  }
+})();
+
+// GHOST REVIVAL
+const ghosts=[
+  {name:'Chukwudi Eze',time:'8 min ago',action:'Used ROI calculator, ₦120k/mo spend. <span>Never submitted quote form.</span>'},
+  {name:'Aisha Bello',time:'25 min ago',action:'Viewed Home Premium package <span>4 times</span> across 3 days. No contact.'},
+  {name:'Rotimi Adeyemi',time:'1h ago',action:'Requested commercial quote. <span>Opened WhatsApp link, didn\'t message.</span>'},
+  {name:'Ngozi Okafor',time:'2h ago',action:'Calculator showed <span>18-month payback.</span> Left without booking site survey.'},
+  {name:'Sani Garba',time:'4h ago',action:'Enquired about 5-bed duplex system. <span>Price promo now active for his tier.</span>'},
+];
+function renderGhosts(){
+  document.getElementById('ghostList').innerHTML=ghosts.map((g,i)=>`
+    <div class="ghost-item ${g.fired?'fired':''}" id="gh${i}">
+      <div class="ghost-top"><span class="ghost-name">${g.name}</span><span class="ghost-time">${g.time}</span></div>
+      <div class="ghost-action">${g.action}</div>
+      <button class="ghost-fire-btn" onclick="fireGhost(${i},'${g.name}')">Send Revival Message</button>
+    </div>`).join('');
+}
+renderGhosts();
+function fireGhost(i,name){ghosts[i].fired=true;renderGhosts();showToast(`<strong>Message Sent to ${name}</strong><br>Personalised WhatsApp fired. Tracking response.`)}
+
+// FORM
+function submitForm(){
+  const fn=document.getElementById('fn').value.trim();
+  const ph=document.getElementById('ph').value.trim();
+  const em=document.getElementById('em').value.trim();
+  if(!fn||!ph||!em){showToast('Please fill name, phone, and email.');return}
+  document.querySelectorAll('#formBox > *:not(#formOk)').forEach(el=>el.style.display='none');
+  document.getElementById('formOk').classList.add('on');
+  showToast(`<strong>Lead Captured</strong><br>Strategy call request from ${fn} routed to team.`);
+}
+
+// TOAST
+function showToast(msg){const t=document.getElementById('toast');t.innerHTML=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),4000)}
+
+// REVEAL
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
