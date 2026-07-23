@@ -3,621 +3,206 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlowAI — AI Automation</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Allen Greg Omoregie — Builder & Media Founder</title>
+<meta name="description" content="Portfolio: Sportsguys Media, CreatorPulse, and a suite of AI product demos.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#161616; --bg2:#0f0f0f; --panel:#232323; --panel2:#2C2C2C;
+  --white:#f6f6f6; --white2:#eeeef0; --dim:#dedede; --mute:#8a8a8a;
+  --blue:#347aea; --blue2:#1e4ba3; --blue3:#223068;
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-  :root {
-    --bg: #08080f;
-    --card: #101018;
-    --border: rgba(255,255,255,0.07);
-    --accent: #00e5a0;
-    --accent2: #6c5ce7;
-    --text: #e8e8f0;
-    --muted: #72728a;
-    --white: #ffffff;
-  }
+/* Ethereal beams background */
+.beams{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.beam{position:absolute;top:-20%;width:2px;height:140%;background:linear-gradient(to bottom,transparent,rgba(52,122,234,.5),rgba(255,255,255,.15),transparent);filter:blur(1px);animation:sway 14s ease-in-out infinite}
+.beam:nth-child(1){left:8%;animation-delay:0s;opacity:.5}
+.beam:nth-child(2){left:22%;animation-delay:2s;opacity:.3;width:1px}
+.beam:nth-child(3){left:41%;animation-delay:4s;opacity:.55}
+.beam:nth-child(4){left:58%;animation-delay:1s;opacity:.25;width:1px}
+.beam:nth-child(5){left:74%;animation-delay:5s;opacity:.5}
+.beam:nth-child(6){left:89%;animation-delay:3s;opacity:.3;width:1px}
+@keyframes sway{0%,100%{transform:rotate(-3deg) translateX(0)}50%{transform:rotate(3deg) translateX(30px)}}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;background:repeating-linear-gradient(0deg,transparent,transparent 2px,#fff 2px,#fff 3px)}
 
-  html { scroll-behavior: smooth; }
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 5vw;background:rgba(22,22,22,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-mark{font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:-.01em}
+.nav-mark span{color:var(--blue)}
+.nav-links{display:flex;gap:28px;font-size:13px;color:var(--dim)}
+.nav-links a{color:var(--dim);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+@media(max-width:640px){.nav-links{display:none}}
 
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    line-height: 1.65;
-    font-size: 15px;
-  }
+/* hero */
+.hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 5vw;max-width:980px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:22px}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(38px,7vw,84px);line-height:1.03;letter-spacing:-.02em;color:var(--white)}
+.hero h1 em{font-style:italic;color:var(--dim)}
+.hero p{margin-top:26px;font-size:clamp(15px,2vw,19px);color:var(--dim);max-width:560px;line-height:1.6}
+.hero-links{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;letter-spacing:.01em}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue2);transform:translateY(-1px)}
+.btn-ghost{border:1px solid rgba(255,255,255,.16);color:var(--white)}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
 
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 18px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(8,8,15,0.9);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
+/* sections */
+section{position:relative;z-index:2;padding:90px 5vw}
+.section-head{max-width:640px;margin-bottom:48px}
+.section-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.section-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4vw,40px);letter-spacing:-.01em}
+.section-head p{color:var(--mute);margin-top:14px;font-size:15px;line-height:1.6}
 
-  .logo {
-    font-weight: 800;
-    font-size: 1.2rem;
-    color: var(--white);
-    letter-spacing: -0.02em;
-  }
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:rgba(255,255,255,.08);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.stat{background:var(--panel);padding:28px 22px}
+.stat .n{font-family:var(--serif);font-weight:700;font-size:clamp(24px,3vw,34px);color:var(--white)}
+.stat .l{font-size:12px;color:var(--mute);margin-top:6px;letter-spacing:.02em}
 
-  .logo span { color: var(--accent); }
+/* projects grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:26px;text-decoration:none;color:var(--white);transition:all .25s;display:flex;flex-direction:column;min-height:190px;position:relative;overflow:hidden}
+.card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.35)}
+.card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.card h3{font-family:var(--serif);font-weight:600;font-size:20px;margin-bottom:10px}
+.card p{font-size:13px;color:var(--mute);line-height:1.55;flex:1}
+.card .go{font-size:12px;color:var(--dim);margin-top:16px;display:flex;align-items:center;gap:6px}
+.card:hover .go{color:var(--blue)}
+.badge-live{display:inline-block;font-size:9px;padding:3px 8px;border-radius:20px;background:rgba(52,122,234,.15);color:var(--blue);letter-spacing:.05em;margin-left:8px;vertical-align:middle}
 
-  .nav-cta {
-    font-size: 0.82rem;
-    font-weight: 600;
-    padding: 9px 20px;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 100px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
+/* stack */
+.stack-list{display:flex;flex-wrap:wrap;gap:10px}
+.chip{font-family:var(--mono);font-size:12px;padding:8px 14px;border-radius:8px;background:var(--panel);border:1px solid rgba(255,255,255,.08);color:var(--dim)}
 
-  .nav-cta:hover { opacity: 0.85; }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 120px 24px 80px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 16px;
-    background: rgba(0,229,160,0.07);
-    border: 1px solid rgba(0,229,160,0.18);
-    border-radius: 100px;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--accent);
-    margin-bottom: 26px;
-    animation: fadeUp 0.7s ease both;
-  }
-
-  .badge-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .hero h1 {
-    font-weight: 800;
-    font-size: clamp(1.9rem, 4.5vw, 3.6rem);
-    line-height: 1.12;
-    letter-spacing: -0.03em;
-    max-width: 740px;
-    animation: fadeUp 0.8s 0.1s ease both;
-  }
-
-  .hero h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-
-  .hero p {
-    font-size: 0.98rem;
-    color: var(--muted);
-    max-width: 440px;
-    margin: 18px auto 36px;
-    font-weight: 400;
-    animation: fadeUp 0.9s 0.2s ease both;
-  }
-
-  .hero-btns {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    animation: fadeUp 1s 0.3s ease both;
-  }
-
-  .btn-primary {
-    padding: 13px 28px;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 100px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: transform 0.2s, opacity 0.2s;
-    font-family: inherit;
-  }
-
-  .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
-
-  .btn-secondary {
-    padding: 13px 28px;
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    font-size: 0.88rem;
-    font-weight: 400;
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color 0.2s;
-    font-family: inherit;
-  }
-
-  .btn-secondary:hover { border-color: rgba(255,255,255,0.2); }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* SECTIONS */
-  section {
-    padding: 90px 24px;
-    max-width: 1060px;
-    margin: 0 auto;
-  }
-
-  .section-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
-
-  .section-title {
-    font-weight: 800;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    line-height: 1.18;
-    letter-spacing: -0.025em;
-    margin-bottom: 12px;
-  }
-
-  .section-sub {
-    color: var(--muted);
-    font-size: 0.93rem;
-    max-width: 460px;
-    font-weight: 400;
-  }
-
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: var(--border);
-    max-width: 1060px;
-    margin: 0 auto;
-  }
-
-  /* WHO YOU HELP */
-  .who-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 16px;
-    margin-top: 44px;
-  }
-
-  .who-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 30px 26px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-
-  .who-card:hover {
-    border-color: rgba(0,229,160,0.22);
-    transform: translateY(-3px);
-  }
-
-  .who-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .who-card:hover::before { opacity: 1; }
-
-  .who-icon { font-size: 1.7rem; margin-bottom: 16px; }
-
-  .who-card h3 {
-    font-weight: 700;
-    font-size: 1.05rem;
-    margin-bottom: 8px;
-  }
-
-  .who-card p {
-    color: var(--muted);
-    font-size: 0.86rem;
-    line-height: 1.65;
-  }
-
-  /* SERVICES */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 16px;
-    margin-top: 44px;
-  }
-
-  .service-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 28px 24px;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-
-  .service-card:hover {
-    border-color: rgba(108,92,231,0.28);
-    transform: translateY(-3px);
-  }
-
-  .service-num {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--accent2);
-    letter-spacing: 0.1em;
-    margin-bottom: 16px;
-  }
-
-  .service-icon {
-    width: 42px; height: 42px;
-    border-radius: 10px;
-    background: rgba(108,92,231,0.1);
-    border: 1px solid rgba(108,92,231,0.18);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    margin-bottom: 16px;
-  }
-
-  .service-card h3 {
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 8px;
-  }
-
-  .service-card p {
-    color: var(--muted);
-    font-size: 0.84rem;
-    line-height: 1.65;
-  }
-
-  /* DEMO */
-  .demo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
-    margin-top: 44px;
-  }
-
-  .demo-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    aspect-ratio: 16/9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    transition: border-color 0.3s;
-  }
-
-  .demo-card:hover { border-color: rgba(0,229,160,0.18); }
-
-  .play-btn {
-    width: 50px; height: 50px;
-    border-radius: 50%;
-    background: rgba(0,229,160,0.08);
-    border: 1px solid rgba(0,229,160,0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    transition: background 0.2s;
-  }
-
-  .demo-card:hover .play-btn { background: rgba(0,229,160,0.15); }
-
-  .demo-label {
-    font-size: 0.82rem;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  .demo-coming {
-    font-size: 0.67rem;
-    color: rgba(114,114,138,0.5);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  /* CONTACT */
-  .contact-wrap {
-    margin-top: 44px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
-  }
-
-  .contact-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 28px 26px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    text-decoration: none;
-    color: var(--text);
-    transition: border-color 0.3s, transform 0.3s;
-  }
-
-  .contact-card:hover {
-    border-color: rgba(0,229,160,0.22);
-    transform: translateY(-3px);
-  }
-
-  .contact-icon-wrap {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    flex-shrink: 0;
-  }
-
-  .whatsapp-bg { background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.18); }
-  .email-bg { background: rgba(0,229,160,0.08); border: 1px solid rgba(0,229,160,0.18); }
-
-  .contact-info small {
-    display: block;
-    font-size: 0.68rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 3px;
-  }
-
-  .contact-info span {
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 28px 40px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.8rem;
-  }
-
-  footer strong { color: var(--accent); font-weight: 600; }
-
-  /* SCROLL REVEAL */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 600px) {
-    nav { padding: 16px 20px; }
-    section { padding: 60px 20px; }
-    .hero { padding: 100px 20px 60px; }
-    .hero-btns { flex-direction: column; align-items: center; }
-    .btn-primary, .btn-secondary { width: 100%; max-width: 260px; text-align: center; }
-  }
+/* footer */
+footer{position:relative;z-index:2;padding:60px 5vw 40px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+footer .f-left{font-family:var(--serif);font-size:16px}
+footer a{color:var(--dim);text-decoration:none;font-size:13px}
+footer a:hover{color:var(--blue)}
+.f-links{display:flex;gap:20px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<div class="beams"><div class="beam"></div><div class="beam"></div><div class="beam"></div><div class="beam"></div><div class="beam"></div><div class="beam"></div></div>
+<div class="grain"></div>
+
 <nav>
-  <div class="logo">Flow<span>AI</span></div>
-  <a href="#contact" class="nav-cta">Get Started</a>
+  <div class="nav-mark">flow<span>ai</span></div>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#projects">Projects</a>
+    <a href="#stack">Stack</a>
+    <a href="#contact">Contact</a>
+  </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
-  <div class="badge"><span class="badge-dot"></span>AI Automation for Growing Businesses</div>
-  <h1>Turn More Leads Into <em>Customers</em> With AI Automation</h1>
-  <p>Stop losing leads to slow follow-ups. We build AI systems that engage, qualify, and book for you 24/7.</p>
-  <div class="hero-btns">
-    <a href="#contact" class="btn-primary">Work With Us</a>
-    <a href="#services" class="btn-secondary">See What We Do</a>
+  <div class="eyebrow">Portfolio — Lagos, Nigeria</div>
+  <h1>Allen Greg Omoregie<br><em>builds media brands and AI products.</em></h1>
+  <p>Founder of Sportsguys Media and creator of CreatorPulse. I write the content, design the systems, and ship the software myself, entirely from a phone, deploying to production the same day an idea shows up.</p>
+  <div class="hero-links">
+    <a class="btn btn-primary" href="#projects">See the work</a>
+    <a class="btn btn-ghost" href="mailto:sportsguycollabs@gmail.com">Get in touch</a>
   </div>
 </div>
 
-<div class="divider"></div>
-
-<!-- WHO YOU HELP -->
-<section id="who">
-  <div class="reveal">
-    <div class="section-label">Who We Help</div>
-    <h2 class="section-title">Built for people who sell knowledge and services</h2>
-    <p class="section-sub">If you are generating leads but losing them before they convert, we are for you.</p>
+<section id="work">
+  <div class="section-head">
+    <div class="section-eyebrow">Track record</div>
+    <h2>Built an audience from zero, no paid promotion.</h2>
+    <p>Sportsguys Media grew organically on faceless football content, peaking at 2.4M+ monthly views with no ad spend, just a repeatable content system.</p>
   </div>
-  <div class="who-grid">
-    <div class="who-card reveal">
-      <div class="who-icon">🎯</div>
-      <h3>Coaches</h3>
-      <p>Spend less time chasing clients. Let AI handle your lead intake, screening, and booking while you focus on coaching.</p>
-    </div>
-    <div class="who-card reveal">
-      <div class="who-icon">💼</div>
-      <h3>Consultants</h3>
-      <p>Automate discovery calls, follow-ups, and proposals. Build a pipeline that runs without you babysitting it.</p>
-    </div>
-    <div class="who-card reveal">
-      <div class="who-icon">🌐</div>
-      <h3>Online Businesses</h3>
-      <p>Scale your customer interactions without scaling your team. AI handles the repetitive work so you can focus on revenue.</p>
-    </div>
+  <div class="stats">
+    <div class="stat"><div class="n">2.4M+</div><div class="l">Peak monthly views</div></div>
+    <div class="stat"><div class="n">2.3M</div><div class="l">Top single post</div></div>
+    <div class="stat"><div class="n">$0</div><div class="l">Paid promotion spent</div></div>
+    <div class="stat"><div class="n">84%</div><div class="l">Male audience, 18–34</div></div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="reveal">
-    <div class="section-label">What We Build</div>
-    <h2 class="section-title">Our Services</h2>
-    <p class="section-sub">Four automations that work together to convert more leads, faster.</p>
+<section id="projects">
+  <div class="section-head">
+    <div class="section-eyebrow">Selected builds</div>
+    <h2>Products, demos, and automation systems.</h2>
+    <p>A mix of live products and interactive concept demos. Everything below runs right in the browser, tap through and try it.</p>
   </div>
-  <div class="services-grid">
-    <div class="service-card reveal">
-      <div class="service-num">01</div>
-      <div class="service-icon">🤖</div>
-      <h3>AI Chatbots</h3>
-      <p>Custom-trained bots that answer questions, handle objections, and move leads through your funnel automatically.</p>
-    </div>
-    <div class="service-card reveal">
-      <div class="service-num">02</div>
-      <div class="service-icon">🎯</div>
-      <h3>Lead Qualification</h3>
-      <p>AI that filters and scores your leads so you only spend time on the ones most likely to buy.</p>
-    </div>
-    <div class="service-card reveal">
-      <div class="service-num">03</div>
-      <div class="service-icon">📅</div>
-      <h3>Appointment Booking</h3>
-      <p>Let prospects book directly into your calendar through a simple AI conversation. No back and forth needed.</p>
-    </div>
-    <div class="service-card reveal">
-      <div class="service-num">04</div>
-      <div class="service-icon">🔁</div>
-      <h3>Follow-Up Automation</h3>
-      <p>Never let a warm lead go cold. Automated sequences that follow up at the right time, every time.</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- DEMO VIDEOS -->
-<section id="demos">
-  <div class="reveal">
-    <div class="section-label">See It In Action</div>
-    <h2 class="section-title">Demo Videos</h2>
-    <p class="section-sub">Watch real AI automation systems at work. Videos coming very soon.</p>
-  </div>
-  <div class="demo-grid">
-    <div class="demo-card reveal">
-      <div class="play-btn">▶</div>
-      <div class="demo-label">AI Chatbot Demo</div>
-      <div class="demo-coming">Coming Soon</div>
-    </div>
-    <div class="demo-card reveal">
-      <div class="play-btn">▶</div>
-      <div class="demo-label">Lead Qualification Demo</div>
-      <div class="demo-coming">Coming Soon</div>
-    </div>
-    <div class="demo-card reveal">
-      <div class="play-btn">▶</div>
-      <div class="demo-label">Booking Automation Demo</div>
-      <div class="demo-coming">Coming Soon</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="reveal">
-    <div class="section-label">Get In Touch</div>
-    <h2 class="section-title">Ready to automate your growth?</h2>
-    <p class="section-sub">Reach out on WhatsApp or email and we will figure out exactly what you need.</p>
-  </div>
-  <div class="contact-wrap">
-    <a href="https://wa.me/2348101748673" target="_blank" class="contact-card reveal">
-      <div class="contact-icon-wrap whatsapp-bg">💬</div>
-      <div class="contact-info">
-        <small>WhatsApp</small>
-        <span>08101748673</span>
-      </div>
+  <div class="grid">
+    <a class="card" href="demos/creatorpulse.html">
+      <div class="tag">SaaS · Content Engine <span class="badge-live">Demo mode</span></div>
+      <h3>CreatorPulse</h3>
+      <p>An AI content engine for creators: trending stories by niche, script generation, scheduling, and a Create Studio. Log in with any email to explore.</p>
+      <div class="go">Open demo →</div>
     </a>
-    <a href="mailto:client1flowai@gmail.com" class="contact-card reveal">
-      <div class="contact-icon-wrap email-bg">✉️</div>
-      <div class="contact-info">
-        <small>Email</small>
-        <span>client1flowai@gmail.com</span>
-      </div>
+    <a class="card" href="demos/phantom-cmo.html">
+      <div class="tag">AI Agent · Marketing Strategy <span class="badge-live">Demo mode</span></div>
+      <h3>Phantom CMO</h3>
+      <p>A horror-themed marketing intelligence tool. Feed it two URLs and it builds a full 30-day competitive strategy, ICP, hooks, and copy.</p>
+      <div class="go">Open demo →</div>
+    </a>
+    <a class="card" href="demos/primero-realty.html">
+      <div class="tag">Client Demo · Real Estate</div>
+      <h3>Primero Realty AI Ecosystem</h3>
+      <p>An AI-powered property discovery and lead qualification concept, built for a real estate client pitch.</p>
+      <div class="go">Open demo →</div>
+    </a>
+    <a class="card" href="demos/solariq.html">
+      <div class="tag">Client Demo · Solar & Energy</div>
+      <h3>SolarIQ</h3>
+      <p>A Tesla-inspired product site for a solar company, smart savings calculator and a near-black, amber-accented aesthetic.</p>
+      <div class="go">Open demo →</div>
+    </a>
+    <a class="card" href="demos/wanderlust-ai.html">
+      <div class="tag">Client Demo · Travel</div>
+      <h3>Wanderlust AI</h3>
+      <p>An AI travel concierge concept for a travel agency, itinerary building and personalized trip planning.</p>
+      <div class="go">Open demo →</div>
+    </a>
+    <a class="card" href="demos/joyaesthetics.html">
+      <div class="tag">Client Demo · Fashion</div>
+      <h3>JOYAESTHETICS</h3>
+      <p>A luxury fashion brand pitch with an AI style consultant, bespoke order flow, and booking system.</p>
+      <div class="go">Open demo →</div>
+    </a>
+    <a class="card" href="demos/nova-crypto.html">
+      <div class="tag">Concept · Crypto Exchange</div>
+      <h3>Nova Crypto</h3>
+      <p>A next-gen crypto exchange concept interface, clean data-forward design for a fast-moving market.</p>
+      <div class="go">Open demo →</div>
     </a>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2025 <strong>FlowAI</strong>. Automating Growth, One Lead at a Time.</p>
+<section id="stack">
+  <div class="section-head">
+    <div class="section-eyebrow">How I build</div>
+    <h2>Stack and workflow.</h2>
+    <p>Entirely mobile-first: every product on this page was built and shipped from an Android phone.</p>
+  </div>
+  <div class="stack-list">
+    <span class="chip">React / Vanilla JS</span>
+    <span class="chip">Node.js / Express</span>
+    <span class="chip">Supabase</span>
+    <span class="chip">GitHub + Render</span>
+    <span class="chip">Groq / LLM APIs</span>
+    <span class="chip">Claude + Lovable</span>
+    <span class="chip">Content strategy</span>
+    <span class="chip">Growth &amp; distribution</span>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="f-left">Let's talk.</div>
+  <div class="f-links">
+    <a href="mailto:sportsguycollabs@gmail.com">sportsguycollabs@gmail.com</a>
+    <a href="https://github.com/Alleq2th" target="_blank">GitHub</a>
+  </div>
 </footer>
 
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
 </body>
 </html>
