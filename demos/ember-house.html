@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBER HOUSE, A Modern Fire Kitchen (Demo)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Playfair+Display:wght@600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{background:#100D0C;font-family:'Manrope',sans-serif;color:#EDE7DE}
+  .serif{font-family:'Playfair Display',serif}
+  .script{font-family:'Cormorant Garamond',serif;font-style:italic}
+  .ember{color:#E0672B}
+  .bg-ember{background:#E0672B}
+  .border-ember{border-color:#E0672B}
+  .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;background:repeating-linear-gradient(0deg,transparent,transparent 2px,#fff 2px,#fff 3px)}
+  .glass{background:rgba(255,255,255,.03);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08)}
+  .hover-lift{transition:transform .35s ease, box-shadow .35s ease}
+  .hover-lift:hover{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  .fade-in{animation:fadeIn .8s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .ember-glow{box-shadow:0 0 60px rgba(224,103,43,.25)}
+  ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#E0672B;border-radius:10px}
+  .heat-dot{width:9px;height:9px;border-radius:50%;background:#3A3532}
+  .heat-dot.active{background:#E0672B}
+</style>
+</head>
+<body class="overflow-x-hidden">
+<div class="grain"></div>
+
+<!-- DEMO BADGE -->
+<div class="fixed top-3 right-3 z-[999] glass rounded-lg px-4 py-2.5 max-w-[210px] border-ember/40">
+  <span class="text-[10px] font-bold ember tracking-widest">DEMO</span>
+  <p class="text-[10px] text-[#c9c2b6] mt-1 leading-snug">Concept build for portfolio purposes. Not a live restaurant.</p>
+</div>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-50 glass">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-10 py-4">
+    <div class="serif text-xl md:text-2xl font-bold tracking-wide">EMBER<span class="ember">HOUSE</span></div>
+    <div class="hidden md:flex gap-9 text-sm text-[#c9c2b6]">
+      <a href="#menu" class="hover:text-white transition">Menu</a>
+      <a href="#story" class="hover:text-white transition">Our Fire</a>
+      <a href="#gallery" class="hover:text-white transition">Gallery</a>
+      <a href="#reserve" class="hover:text-white transition">Reserve</a>
+    </div>
+    <a href="#reserve" class="bg-ember text-black text-sm font-bold px-5 py-2.5 rounded-full hover:brightness-110 transition">Book a Table</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative min-h-screen flex items-center pt-24 overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(224,103,43,.15),transparent_60%)]"></div>
+  <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-12 items-center relative z-10">
+    <div class="fade-in">
+      <div class="inline-flex items-center gap-2 border border-ember/40 rounded-full px-4 py-1.5 mb-7">
+        <span class="w-1.5 h-1.5 rounded-full bg-ember animate-pulse"></span>
+        <span class="text-xs tracking-widest uppercase text-[#c9c2b6]">Open fire kitchen &middot; Est. tonight</span>
+      </div>
+      <h1 class="serif text-5xl md:text-7xl font-extrabold leading-[1.02]">Everything<br>Touched by <span class="ember script font-normal">Fire.</span></h1>
+      <p class="mt-6 text-[#c9c2b6] text-lg max-w-md leading-relaxed">Wood-fired, slow-charred, built for the table. Every dish finished over open flame, plated in front of you.</p>
+      <div class="mt-9 flex flex-wrap gap-4">
+        <a href="#reserve" class="bg-ember text-black font-bold px-7 py-3.5 rounded-full hover:brightness-110 transition">Reserve a Table</a>
+        <a href="#menu" class="border border-white/20 px-7 py-3.5 rounded-full hover:border-ember hover:ember transition">View Menu</a>
+      </div>
+      <div class="mt-12 flex gap-10">
+        <div><div class="serif text-3xl font-bold">4.9</div><div class="text-xs text-[#8a8175] mt-1">Guest rating</div></div>
+        <div><div class="serif text-3xl font-bold">14</div><div class="text-xs text-[#8a8175] mt-1">Signature dishes</div></div>
+        <div><div class="serif text-3xl font-bold">100%</div><div class="text-xs text-[#8a8175] mt-1">Open flame cooked</div></div>
+      </div>
+    </div>
+    <div class="relative fade-in" style="animation-delay:.15s">
+      <div class="rounded-3xl overflow-hidden ember-glow border border-white/10">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=80" class="w-full h-[520px] object-cover">
+      </div>
+      <div class="absolute -bottom-6 -left-6 glass rounded-2xl p-4 w-52 hidden sm:block">
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=100&q=80" class="w-11 h-11 rounded-full object-cover">
+          <div>
+            <div class="text-sm font-semibold">Smoked Short Rib</div>
+            <div class="text-xs ember">Chef's pick tonight</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI CONCIERGE -->
+<section class="max-w-4xl mx-auto px-6 md:px-10 py-6 relative z-10">
+  <div class="glass rounded-2xl p-6 md:p-8 border border-white/10">
+    <div class="flex items-center gap-3 mb-5">
+      <div class="w-9 h-9 rounded-full bg-ember/20 border border-ember/40 flex items-center justify-center">
+        <svg class="w-4 h-4 ember" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <div>
+        <div class="font-semibold text-sm">Ask the Kitchen</div>
+        <div class="text-xs text-[#8a8175]">AI menu concierge, tell it what you're craving</div>
+      </div>
+    </div>
+    <div id="concierge-log" class="space-y-3 mb-4 min-h-[40px]"></div>
+    <div class="flex gap-2">
+      <input id="concierge-input" type="text" placeholder="e.g. something for two, not too spicy..." class="flex-1 bg-black/30 border border-white/10 rounded-full px-5 py-3 text-sm outline-none focus:border-ember transition">
+      <button onclick="askConcierge()" class="bg-ember text-black font-bold px-6 rounded-full text-sm hover:brightness-110 transition">Ask</button>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-4">
+      <button onclick="quickAsk('Best for a birthday')" class="text-xs border border-white/10 rounded-full px-3.5 py-1.5 text-[#c9c2b6] hover:border-ember hover:ember transition">Best for a birthday</button>
+      <button onclick="quickAsk('Something light')" class="text-xs border border-white/10 rounded-full px-3.5 py-1.5 text-[#c9c2b6] hover:border-ember hover:ember transition">Something light</button>
+      <button onclick="quickAsk('Not spicy at all')" class="text-xs border border-white/10 rounded-full px-3.5 py-1.5 text-[#c9c2b6] hover:border-ember hover:ember transition">Not spicy at all</button>
+    </div>
+  </div>
+</section>
+
+<!-- MENU / VISUAL DISH BUILDER -->
+<section id="menu" class="max-w-7xl mx-auto px-6 md:px-10 py-24 relative z-10">
+  <div class="text-center max-w-xl mx-auto mb-14">
+    <div class="text-xs tracking-widest uppercase ember mb-3">Signature Dishes</div>
+    <h2 class="serif text-4xl md:text-5xl font-bold">Built Over Fire.</h2>
+    <p class="text-[#8a8175] mt-4">Tap a dish to build it your way, heat level and all.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-6" id="dish-grid"></div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="max-w-7xl mx-auto px-6 md:px-10 py-24 grid md:grid-cols-2 gap-14 items-center relative z-10">
+  <div class="rounded-3xl overflow-hidden border border-white/10 order-2 md:order-1">
+    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=900&q=80" class="w-full h-[420px] object-cover">
+  </div>
+  <div class="order-1 md:order-2">
+    <div class="text-xs tracking-widest uppercase ember mb-3">Our Fire</div>
+    <h2 class="serif text-4xl font-bold leading-tight">No gas.<br>No shortcuts.<br><span class="script ember font-normal">Just wood.</span></h2>
+    <p class="text-[#c9c2b6] mt-6 leading-relaxed">Every dish that leaves our kitchen has touched real flame. Our chefs work an open hearth built from reclaimed oak, finishing each plate table-side so you see the fire before you taste it.</p>
+    <div class="mt-8 flex gap-4">
+      <div class="flex-1 border-l-2 border-ember pl-4">
+        <div class="serif text-2xl font-bold">12yrs</div>
+        <div class="text-xs text-[#8a8175] mt-1">Head chef experience</div>
+      </div>
+      <div class="flex-1 border-l-2 border-ember pl-4">
+        <div class="serif text-2xl font-bold">Daily</div>
+        <div class="text-xs text-[#8a8175] mt-1">Fresh sourced ingredients</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="max-w-7xl mx-auto px-6 md:px-10 py-24 relative z-10">
+  <div class="text-center max-w-xl mx-auto mb-14">
+    <div class="text-xs tracking-widest uppercase ember mb-3">The Room</div>
+    <h2 class="serif text-4xl md:text-5xl font-bold">A Feast for the Eyes.</h2>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=80" class="rounded-2xl h-64 w-full object-cover hover-lift">
+    <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=500&q=80" class="rounded-2xl h-64 w-full object-cover hover-lift mt-8">
+    <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=500&q=80" class="rounded-2xl h-64 w-full object-cover hover-lift">
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80" class="rounded-2xl h-64 w-full object-cover hover-lift mt-8">
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="max-w-7xl mx-auto px-6 md:px-10 py-24 relative z-10">
+  <div class="text-center max-w-xl mx-auto mb-14">
+    <div class="text-xs tracking-widest uppercase ember mb-3">Guests Say</div>
+    <h2 class="serif text-4xl md:text-5xl font-bold">They Loved It.</h2>
+  </div>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="glass rounded-2xl p-6 hover-lift">
+      <div class="ember text-lg mb-3">★★★★★</div>
+      <p class="text-sm text-[#c9c2b6] leading-relaxed">The short rib alone is worth the reservation. Best table-side finish I've seen in the city.</p>
+      <div class="mt-4 text-xs text-[#8a8175]">Amara O.</div>
+    </div>
+    <div class="glass rounded-2xl p-6 hover-lift">
+      <div class="ember text-lg mb-3">★★★★★</div>
+      <p class="text-sm text-[#c9c2b6] leading-relaxed">Asked the AI concierge for something light, it nailed the recommendation first try.</p>
+      <div class="mt-4 text-xs text-[#8a8175]">Daniel K.</div>
+    </div>
+    <div class="glass rounded-2xl p-6 hover-lift">
+      <div class="ember text-lg mb-3">★★★★★</div>
+      <p class="text-sm text-[#c9c2b6] leading-relaxed">Booked for an anniversary and they had a dessert waiting with a note. Small details, huge impact.</p>
+      <div class="mt-4 text-xs text-[#8a8175]">Priya M.</div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVE -->
+<section id="reserve" class="max-w-4xl mx-auto px-6 md:px-10 py-24 relative z-10">
+  <div class="glass rounded-3xl p-8 md:p-12 text-center ember-glow border border-ember/30">
+    <div class="text-xs tracking-widest uppercase ember mb-3">Reserve</div>
+    <h2 class="serif text-3xl md:text-4xl font-bold mb-6">Your Table by the Fire.</h2>
+    <div class="grid md:grid-cols-3 gap-3 mb-5">
+      <input type="date" class="bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-ember">
+      <select class="bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-ember">
+        <option>7:00 PM</option><option>7:30 PM</option><option>8:00 PM</option><option>8:30 PM</option>
+      </select>
+      <select class="bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-ember">
+        <option>2 Guests</option><option>4 Guests</option><option>6 Guests</option><option>Large party</option>
+      </select>
+    </div>
+    <input type="text" placeholder="Any occasion? (birthday, anniversary...)" class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-ember mb-5">
+    <button onclick="alert('Demo only — reservation not actually submitted.')" class="bg-ember text-black font-bold px-10 py-3.5 rounded-full hover:brightness-110 transition w-full md:w-auto">Confirm Reservation</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/10 py-10 px-6 md:px-10 relative z-10">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="serif text-lg font-bold">EMBER<span class="ember">HOUSE</span></div>
+    <div class="text-xs text-[#8a8175]">Concept demo, built by Allen Greg Omoregie &middot; flowai</div>
+  </div>
+</footer>
+
+<script>
+const DISHES = [
+  {name:"Smoked Short Rib", desc:"12hr wood smoked, bourbon glaze", price:"$34", img:"https://images.unsplash.com/photo-1544025162-d76694265947?w=500&q=80", heat:1},
+  {name:"Charred Octopus", desc:"Fire-kissed, chili lime butter", price:"$28", img:"https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500&q=80", heat:2},
+  {name:"Ember Ribeye", desc:"Dry aged 28 days, open flame", price:"$52", img:"https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=500&q=80", heat:1},
+  {name:"Blackened Cauliflower", desc:"Whole roasted, tahini char", price:"$19", img:"https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&q=80", heat:2},
+  {name:"Flame Roasted Salmon", desc:"Cedar plank, citrus glaze", price:"$31", img:"https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&q=80", heat:0},
+  {name:"Hearth Lamb Chops", desc:"Rosemary rubbed, slow char", price:"$38", img:"https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=500&q=80", heat:1},
+];
+
+function heatDots(level){
+  let d = '';
+  for(let i=0;i<3;i++) d += `<span class="heat-dot ${i<=level?'active':''}"></span>`;
+  return d;
+}
+
+const grid = document.getElementById('dish-grid');
+DISHES.forEach((d,i)=>{
+  const card = document.createElement('div');
+  card.className = 'glass rounded-2xl overflow-hidden hover-lift cursor-pointer group';
+  card.innerHTML = `
+    <div class="h-56 overflow-hidden"><img src="${d.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
+    <div class="p-5">
+      <div class="flex justify-between items-start mb-1">
+        <h3 class="serif font-bold text-lg">${d.name}</h3>
+        <span class="ember font-bold text-sm">${d.price}</span>
+      </div>
+      <p class="text-xs text-[#8a8175] mb-3">${d.desc}</p>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="text-[10px] text-[#8a8175] uppercase tracking-wider mr-1">Heat</span>${heatDots(d.heat)}
+        </div>
+        <button onclick="event.stopPropagation();alert('Demo only — customized ${d.name} added to order.')" class="text-xs border border-ember/40 ember rounded-full px-3 py-1 hover:bg-ember hover:text-black transition">Build it</button>
+      </div>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+
+const RESPONSES = {
+  'birthday': "For a birthday, go with the Ember Ribeye to share, and we'll send out a plated dessert with a candle, on the house.",
+  'light': "The Flame Roasted Salmon or Blackened Cauliflower are both light, bright, and still finished over open fire.",
+  'spicy': "Stick with the Flame Roasted Salmon or Hearth Lamb Chops, both mild with zero heat, full flavor from the char instead."
+};
+
+function quickAsk(text){
+  document.getElementById('concierge-input').value = text;
+  askConcierge();
+}
+
+function askConcierge(){
+  const input = document.getElementById('concierge-input');
+  const q = input.value.trim();
+  if(!q) return;
+  const log = document.getElementById('concierge-log');
+
+  const userMsg = document.createElement('div');
+  userMsg.className = 'flex justify-end';
+  userMsg.innerHTML = `<div class="bg-ember/20 border border-ember/30 rounded-2xl rounded-br-sm px-4 py-2.5 text-sm max-w-[80%]">${q}</div>`;
+  log.appendChild(userMsg);
+
+  let reply = "Based on what you're after, I'd suggest the Smoked Short Rib, it's our most requested dish and pairs well with almost anything on the table.";
+  const ql = q.toLowerCase();
+  if(ql.includes('birthday')) reply = RESPONSES.birthday;
+  else if(ql.includes('light')) reply = RESPONSES.light;
+  else if(ql.includes('spicy') || ql.includes('not spicy')) reply = RESPONSES.spicy;
+
+  setTimeout(()=>{
+    const botMsg = document.createElement('div');
+    botMsg.className = 'flex justify-start';
+    botMsg.innerHTML = `<div class="glass rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm max-w-[80%] text-[#EDE7DE]">${reply}</div>`;
+    log.appendChild(botMsg);
+    log.scrollIntoView({behavior:'smooth', block:'end'});
+  }, 500);
+
+  input.value = '';
+}
+</script>
+
+</body>
+</html>
