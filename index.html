@@ -1,214 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Allen Greg Omoregie — Builder & Media Founder</title>
-<meta name="description" content="Portfolio: Sportsguys Media, CreatorPulse, and a suite of AI product demos.">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f3f0e8">
+<meta name="description" content="Selected work by Allen Greg Omoregie: media, digital products, and browser-playable concepts.">
+<title>Allen Greg Omoregie — Work, in progress.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#161616; --bg2:#0f0f0f; --panel:#232323; --panel2:#2C2C2C;
-  --white:#f6f6f6; --white2:#eeeef0; --dim:#dedede; --mute:#8a8a8a;
-  --blue:#347aea; --blue2:#1e4ba3; --blue3:#223068;
-  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--white);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-
-/* Ethereal beams background */
-.beams{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.beam{position:absolute;top:-20%;width:2px;height:140%;background:linear-gradient(to bottom,transparent,rgba(52,122,234,.5),rgba(255,255,255,.15),transparent);filter:blur(1px);animation:sway 14s ease-in-out infinite}
-.beam:nth-child(1){left:8%;animation-delay:0s;opacity:.5}
-.beam:nth-child(2){left:22%;animation-delay:2s;opacity:.3;width:1px}
-.beam:nth-child(3){left:41%;animation-delay:4s;opacity:.55}
-.beam:nth-child(4){left:58%;animation-delay:1s;opacity:.25;width:1px}
-.beam:nth-child(5){left:74%;animation-delay:5s;opacity:.5}
-.beam:nth-child(6){left:89%;animation-delay:3s;opacity:.3;width:1px}
-@keyframes sway{0%,100%{transform:rotate(-3deg) translateX(0)}50%{transform:rotate(3deg) translateX(30px)}}
-.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;background:repeating-linear-gradient(0deg,transparent,transparent 2px,#fff 2px,#fff 3px)}
-
-/* nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 5vw;background:rgba(22,22,22,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-mark{font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:-.01em}
-.nav-mark span{color:var(--blue)}
-.nav-links{display:flex;gap:28px;font-size:13px;color:var(--dim)}
-.nav-links a{color:var(--dim);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--white)}
-@media(max-width:640px){.nav-links{display:none}}
-
-/* hero */
-.hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 5vw;max-width:980px}
-.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:22px}
-.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(38px,7vw,84px);line-height:1.03;letter-spacing:-.02em;color:var(--white)}
-.hero h1 em{font-style:italic;color:var(--dim)}
-.hero p{margin-top:26px;font-size:clamp(15px,2vw,19px);color:var(--dim);max-width:560px;line-height:1.6}
-.hero-links{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;letter-spacing:.01em}
-.btn-primary{background:var(--blue);color:#fff}
-.btn-primary:hover{background:var(--blue2);transform:translateY(-1px)}
-.btn-ghost{border:1px solid rgba(255,255,255,.16);color:var(--white)}
-.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
-
-/* sections */
-section{position:relative;z-index:2;padding:90px 5vw}
-.section-head{max-width:640px;margin-bottom:48px}
-.section-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
-.section-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4vw,40px);letter-spacing:-.01em}
-.section-head p{color:var(--mute);margin-top:14px;font-size:15px;line-height:1.6}
-
-/* stats */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:rgba(255,255,255,.08);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
-.stat{background:var(--panel);padding:28px 22px}
-.stat .n{font-family:var(--serif);font-weight:700;font-size:clamp(24px,3vw,34px);color:var(--white)}
-.stat .l{font-size:12px;color:var(--mute);margin-top:6px;letter-spacing:.02em}
-
-/* projects grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
-.card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:26px;text-decoration:none;color:var(--white);transition:all .25s;display:flex;flex-direction:column;min-height:190px;position:relative;overflow:hidden}
-.card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.35)}
-.card .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
-.card h3{font-family:var(--serif);font-weight:600;font-size:20px;margin-bottom:10px}
-.card p{font-size:13px;color:var(--mute);line-height:1.55;flex:1}
-.card .go{font-size:12px;color:var(--dim);margin-top:16px;display:flex;align-items:center;gap:6px}
-.card:hover .go{color:var(--blue)}
-.badge-live{display:inline-block;font-size:9px;padding:3px 8px;border-radius:20px;background:rgba(52,122,234,.15);color:var(--blue);letter-spacing:.05em;margin-left:8px;vertical-align:middle}
-
-/* stack */
-.stack-list{display:flex;flex-wrap:wrap;gap:10px}
-.chip{font-family:var(--mono);font-size:12px;padding:8px 14px;border-radius:8px;background:var(--panel);border:1px solid rgba(255,255,255,.08);color:var(--dim)}
-
-/* footer */
-footer{position:relative;z-index:2;padding:60px 5vw 40px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-footer .f-left{font-family:var(--serif);font-size:16px}
-footer a{color:var(--dim);text-decoration:none;font-size:13px}
-footer a:hover{color:var(--blue)}
-.f-links{display:flex;gap:20px;flex-wrap:wrap}
+:root{--paper:#f3f0e8;--ink:#191916;--muted:#66655f;--line:#d8d4c9;--blue:#273cf5;--acid:#d6ed55;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',sans-serif;--mono:'DM Mono',monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit}.wrap{width:min(1380px,90vw);margin:auto}::selection{background:var(--acid);color:var(--ink)}
+.topline{display:flex;justify-content:space-between;align-items:center;padding:16px 5vw;border-bottom:1px solid var(--line);font:10px var(--mono);letter-spacing:.11em;text-transform:uppercase}.availability{display:inline-flex;align-items:center;gap:8px}.availability:before{content:"";width:7px;height:7px;background:#4d8f63;border-radius:50%;box-shadow:0 0 0 4px #4d8f631a}
+nav{position:sticky;top:0;z-index:20;background:#f3f0e8ed;backdrop-filter:blur(12px);display:flex;justify-content:space-between;align-items:center;padding:18px 5vw;border-bottom:1px solid #d8d4c980}.mark{font:600 18px var(--serif);letter-spacing:-.04em}.mark span{color:var(--blue)}.navlinks{display:flex;gap:30px;font-size:12px;color:var(--muted)}.navlinks a:hover{color:var(--blue)}.nav-cta{font-size:11px;padding:10px 15px;border:1px solid var(--ink);border-radius:99px}.nav-cta:hover{background:var(--ink);color:var(--paper)}
+.hero{min-height:690px;display:grid;grid-template-columns:1.25fr .75fr;gap:8vw;align-items:end;padding:112px 0 96px;position:relative}.hero:after{content:"";position:absolute;right:6%;top:18%;width:210px;height:210px;background:var(--acid);border-radius:50%;filter:blur(1px);z-index:-1}.eyebrow,.label{font:10px var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}h1{font:500 clamp(60px,9vw,136px)/.91 var(--serif);letter-spacing:-.075em;max-width:900px;margin:24px 0 28px}h1 em{font-weight:500} .hero-lede{font-size:clamp(16px,1.7vw,20px);line-height:1.6;color:#4e4e49;max-width:520px}.hero-side{align-self:end;max-width:335px;padding-bottom:10px}.hero-side p{font-size:14px;line-height:1.8;color:var(--muted)}.hero-actions{display:flex;align-items:center;gap:16px;margin-top:28px}.primary{display:inline-flex;gap:24px;align-items:center;padding:13px 17px;background:var(--blue);color:white;border-radius:99px;font-size:12px}.primary:hover{background:#1728ca}.text-link{font-size:12px;border-bottom:1px solid var(--ink);padding-bottom:4px}.hero-index{position:absolute;right:0;top:50%;font:10px var(--mono);writing-mode:vertical-rl;color:var(--muted)}
+.rule{border-top:1px solid var(--ink);padding:16px 0;display:flex;justify-content:space-between;gap:20px;font:10px var(--mono);letter-spacing:.11em;text-transform:uppercase}.intro{padding:30px 0 100px;display:grid;grid-template-columns:.6fr 1.4fr;gap:8vw}.intro-copy{font:clamp(25px,3.5vw,46px)/1.2 var(--serif);letter-spacing:-.04em;max-width:860px}.intro-copy em{color:var(--blue)}
+.work-head{padding:58px 0 32px;display:flex;justify-content:space-between;align-items:end;gap:24px}.work-head h2,.other-head h2{font:500 clamp(42px,7vw,86px)/.95 var(--serif);letter-spacing:-.065em;margin:13px 0 0}.work-head p{max-width:320px;font-size:13px;line-height:1.7;color:var(--muted)}.work-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:42px 24px}.project{min-width:0}.preview{position:relative;height:clamp(230px,34vw,470px);overflow:hidden;background:#e6e1d7;border:1px solid #19191624;isolation:isolate}.preview iframe{display:block;width:100%;height:100%;border:0;background:#fff;pointer-events:none}.preview:after{content:"";position:absolute;inset:0;border:1px solid #19191610;pointer-events:none}.preview-label{position:absolute;left:14px;top:14px;z-index:2;background:var(--paper);padding:7px 9px;font:9px var(--mono);letter-spacing:.1em;text-transform:uppercase}.preview-open{position:absolute;right:14px;bottom:14px;z-index:3;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--acid);font-size:19px;transition:transform .2s}.project:hover .preview-open{transform:rotate(45deg)}.project-info{display:grid;grid-template-columns:1fr auto;gap:15px;padding:15px 2px 0;border-top:1px solid var(--line)}.project-title{font:500 25px var(--serif);letter-spacing:-.04em}.project-kicker{font:9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}.project-desc{font-size:12px;line-height:1.65;color:var(--muted);max-width:470px;margin:7px 0 0}.project-arrow{align-self:center;font:20px var(--sans)}.project:hover .project-arrow{color:var(--blue)}.project-foot{display:flex;justify-content:space-between;color:var(--muted);font:9px var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-top:12px}.work-note{font-size:11px;color:var(--muted);margin:30px 0 100px}
+.track{margin:15px 0 80px;background:var(--ink);color:var(--paper);padding:40px;display:grid;grid-template-columns:1fr 2fr;gap:7vw;align-items:center}.track h2{font:500 clamp(30px,4vw,50px)/1.1 var(--serif);letter-spacing:-.05em;margin:12px 0}.track p{font-size:12px;line-height:1.8;color:#c0beb6;max-width:410px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#ffffff28;border:1px solid #ffffff28}.stat{background:var(--ink);padding:23px}.stat b{display:block;font:500 clamp(26px,4vw,43px) var(--serif)}.stat span{display:block;margin-top:6px;color:#a7a59d;font:9px var(--mono);letter-spacing:.09em;text-transform:uppercase}
+.end{border-top:1px solid var(--ink);padding:90px 0 55px;display:grid;grid-template-columns:1fr 1fr;gap:35px}.end h2{font:500 clamp(55px,9vw,110px)/.9 var(--serif);letter-spacing:-.07em;margin:15px 0}.end aside{align-self:end;justify-self:end;max-width:340px}.end aside p{font-size:14px;line-height:1.8;color:var(--muted)}.contact{display:inline-flex;margin-top:16px;padding:13px 17px;background:var(--acid);border-radius:99px;font-size:12px}.footer{border-top:1px solid var(--line);padding:18px 0 26px;display:flex;justify-content:space-between;gap:16px;font:9px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:760px){.topline{font-size:8px}.navlinks{display:none}.hero{min-height:0;grid-template-columns:1fr;gap:34px;padding:95px 0 78px}.hero:after{width:120px;height:120px;right:6%;top:10%}.hero-index{display:none}.hero-side{max-width:500px}.intro{grid-template-columns:1fr;gap:24px;padding-bottom:70px}.work-head{display:block;padding-top:40px}.work-head p{margin-top:20px}.work-grid{grid-template-columns:1fr;gap:35px}.preview{height:68vw;max-height:440px}.project-title{font-size:23px}.track{grid-template-columns:1fr;padding:25px;gap:20px}.end{grid-template-columns:1fr;padding-top:65px}.end aside{justify-self:start}.footer{font-size:8px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
 </style>
-</head>
-<body>
-
-<div class="beams"><div class="beam"></div><div class="beam"></div><div class="beam"></div><div class="beam"></div><div class="beam"></div><div class="beam"></div></div>
-<div class="grain"></div>
-
-<nav>
-  <div class="nav-mark">flow<span>ai</span></div>
-  <div class="nav-links">
-    <a href="#work">Work</a>
-    <a href="#projects">Projects</a>
-    <a href="#stack">Stack</a>
-    <a href="#contact">Contact</a>
-  </div>
-</nav>
-
-<div class="hero">
-  <div class="eyebrow">Portfolio — Lagos, Nigeria</div>
-  <h1>Allen Greg Omoregie<br><em>builds media brands and AI products.</em></h1>
-  <p>Founder of Sportsguys Media and creator of CreatorPulse. I write the content, design the systems, and ship the software myself, entirely from a phone, deploying to production the same day an idea shows up.</p>
-  <div class="hero-links">
-    <a class="btn btn-primary" href="#projects">See the work</a>
-    <a class="btn btn-ghost" href="mailto:sportsguycollabs@gmail.com">Get in touch</a>
-  </div>
-</div>
-
-<section id="work">
-  <div class="section-head">
-    <div class="section-eyebrow">Track record</div>
-    <h2>Built an audience from zero, no paid promotion.</h2>
-    <p>Sportsguys Media grew organically on faceless football content, peaking at 2.4M+ monthly views with no ad spend, just a repeatable content system.</p>
-  </div>
-  <div class="stats">
-    <div class="stat"><div class="n">2.4M+</div><div class="l">Peak monthly views</div></div>
-    <div class="stat"><div class="n">2.3M</div><div class="l">Top single post</div></div>
-    <div class="stat"><div class="n">$0</div><div class="l">Paid promotion spent</div></div>
-    <div class="stat"><div class="n">84%</div><div class="l">Male audience, 18–34</div></div>
-  </div>
+</head><body>
+<div class="topline"><span>Allen Greg Omoregie · Lagos, NG</span><span class="availability">Independent maker · open to select work</span></div>
+<nav><a class="mark" href="#top">Allen Greg<span>.</span></a><div class="navlinks"><a href="#about">Approach</a><a href="#work">Selected work</a><a href="#track">Media</a></div><a class="nav-cta" href="mailto:sportsguycollabs@gmail.com">Say hello ↗</a></nav>
+<main class="wrap" id="top">
+<section class="hero"><div><div class="eyebrow">Independent builder · media & digital products</div><h1>Make the thing<br>you <em>wish existed.</em></h1><p class="hero-lede">I build media brands, useful software and sharp digital experiences, moving from first sketch to something you can actually try.</p></div><div class="hero-side"><div class="label">A little about the work</div><p>Sportsguys Media grew from a simple football-content experiment. Now I bring that same instinct for the hook, the system and the details to products for people with something to say.</p><div class="hero-actions"><a class="primary" href="#work">Explore the work <span>↓</span></a><a class="text-link" href="mailto:sportsguycollabs@gmail.com">Start a conversation</a></div></div><div class="hero-index">01 / THE PRACTICE</div></section>
+<div class="rule"><span>Good work should feel considered</span><span>Portfolio · 2026</span></div>
+<section class="intro" id="about"><div class="label">The point of view<br>— 01</div><div class="intro-copy">A product can be clever and still feel human. I care about the moment it <em>clicks</em>: a clear idea, a distinct voice, and a small detail that makes someone want to keep exploring.</div></section>
+<div class="rule" id="work"><span>Selected work</span><span>08 concepts · 01 skincare launch</span></div>
+<div class="work-head"><div><div class="label">Made to be explored</div><h2>Not just a screenshot.</h2></div><p>Each window below is a live, playable browser demo. Open any one to explore its own world and interactions.</p></div>
+<section class="work-grid" aria-label="Interactive website portfolio">
+<article class="project"><a href="demos/creatorpulse.html" aria-label="Open CreatorPulse demo"><div class="preview"><span class="preview-label">01 · Creator tools</span><iframe src="demos/creatorpulse.html" loading="lazy" title="CreatorPulse live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Creator software · Social</div><a class="project-title" href="demos/creatorpulse.html">CreatorPulse</a><p class="project-desc">A creator’s daily desk for spotting a story, shaping a point of view and turning it into a post.</p></div><a class="project-arrow" href="demos/creatorpulse.html" aria-label="Open CreatorPulse">↗</a></div><div class="project-foot"><span>Trend → draft → calendar</span><span>Try the demo</span></div></article>
+<article class="project"><a href="demos/phantom-cmo.html" aria-label="Open Phantom CMO demo"><div class="preview"><span class="preview-label">02 · Brand strategy</span><iframe src="demos/phantom-cmo.html" loading="lazy" title="Phantom CMO live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Marketing intelligence · Concept</div><a class="project-title" href="demos/phantom-cmo.html">Phantom CMO</a><p class="project-desc">A dark-room strategy desk that turns a brand brief into a practical campaign direction.</p></div><a class="project-arrow" href="demos/phantom-cmo.html" aria-label="Open Phantom CMO">↗</a></div><div class="project-foot"><span>Positioning, hooks, campaign</span><span>Try the demo</span></div></article>
+<article class="project"><a href="demos/primero-realty.html" aria-label="Open Primero Realty demo"><div class="preview"><span class="preview-label">03 · Property</span><iframe src="demos/primero-realty.html" loading="lazy" title="Primero Realty live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Real estate · Lagos</div><a class="project-title" href="demos/primero-realty.html">Primero Realty</a><p class="project-desc">A property experience that makes the next step feel clear, whether you’re exploring or ready to move.</p></div><a class="project-arrow" href="demos/primero-realty.html" aria-label="Open Primero Realty">↗</a></div><div class="project-foot"><span>Discovery · qualification · insight</span><span>Try the demo</span></div></article>
+<article class="project"><a href="demos/solariq.html" aria-label="Open SolarIQ demo"><div class="preview"><span class="preview-label">04 · Energy</span><iframe src="demos/solariq.html" loading="lazy" title="SolarIQ live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Solar · Savings</div><a class="project-title" href="demos/solariq.html">SolarIQ</a><p class="project-desc">An energy brand built around the question people actually ask first: what could solar change at home?</p></div><a class="project-arrow" href="demos/solariq.html" aria-label="Open SolarIQ">↗</a></div><div class="project-foot"><span>Calculator · recommendations</span><span>Try the demo</span></div></article>
+<article class="project"><a href="demos/wanderlust-ai.html" aria-label="Open Wanderlust demo"><div class="preview"><span class="preview-label">05 · Travel</span><iframe src="demos/wanderlust-ai.html" loading="lazy" title="Wanderlust live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Travel · Planning</div><a class="project-title" href="demos/wanderlust-ai.html">Wanderlust</a><p class="project-desc">A guided trip-planning concept that starts with the reason to go, not an endless list of destinations.</p></div><a class="project-arrow" href="demos/wanderlust-ai.html" aria-label="Open Wanderlust">↗</a></div><div class="project-foot"><span>Trip fit · planning · enquiry</span><span>Try the demo</span></div></article>
+<article class="project"><a href="demos/joyaesthetics.html" aria-label="Open Joyaesthetics demo"><div class="preview"><span class="preview-label">06 · Fashion</span><iframe src="demos/joyaesthetics.html" loading="lazy" title="Joyaesthetics live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Fashion · Editorial</div><a class="project-title" href="demos/joyaesthetics.html">Joyaesthetics</a><p class="project-desc">A fashion house concept with a confident point of view, personal styling and a considered bespoke journey.</p></div><a class="project-arrow" href="demos/joyaesthetics.html" aria-label="Open Joyaesthetics">↗</a></div><div class="project-foot"><span>Collection · styling · appointment</span><span>Try the demo</span></div></article>
+<article class="project"><a href="demos/ember-house.html" aria-label="Open Ember House demo"><div class="preview"><span class="preview-label">07 · Hospitality</span><iframe src="demos/ember-house.html" loading="lazy" title="Ember House live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Restaurant · Lagos</div><a class="project-title" href="demos/ember-house.html">Ember House</a><p class="project-desc">A fire-led restaurant identity with a menu built to be explored and a warm local reservation flow.</p></div><a class="project-arrow" href="demos/ember-house.html" aria-label="Open Ember House">↗</a></div><div class="project-foot"><span>Menu · concierge · booking concept</span><span>Try the demo</span></div></article>
+<article class="project"><a href="demos/nova-crypto.html" aria-label="Open Nova demo"><div class="preview"><span class="preview-label">08 · Digital finance</span><iframe src="demos/nova-crypto.html" loading="lazy" title="Nova live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Crypto · Interface concept</div><a class="project-title" href="demos/nova-crypto.html">Nova</a><p class="project-desc">A data-forward exchange concept focused on making a fast-moving market feel a little more legible.</p></div><a class="project-arrow" href="demos/nova-crypto.html" aria-label="Open Nova">↗</a></div><div class="project-foot"><span>Market view · portfolio concept</span><span>Try the demo</span></div></article>
+<article class="project"><a href="demos/omelia.html" aria-label="Open OMÉLIA skincare demo"><div class="preview"><span class="preview-label">09 · Beauty</span><iframe src="demos/omelia.html" loading="lazy" title="OMÉLIA live demo preview" tabindex="-1"></iframe><span class="preview-open" aria-hidden="true">↗</span></div></a><div class="project-info"><div><div class="project-kicker">Skincare · Commerce concept</div><a class="project-title" href="demos/omelia.html">OMÉLIA</a><p class="project-desc">An editorial skincare storefront built around an unhurried ritual, clear formulas and a tactile sample bag.</p></div><a class="project-arrow" href="demos/omelia.html" aria-label="Open OMÉLIA">↗</a></div><div class="project-foot"><span>Brand · product · shopping concept</span><span>Try the demo</span></div></article>
 </section>
-
-<section id="projects">
-  <div class="section-head">
-    <div class="section-eyebrow">Selected builds</div>
-    <h2>Products, demos, and automation systems.</h2>
-    <p>A mix of live products and interactive concept demos. Everything below runs right in the browser, tap through and try it.</p>
-  </div>
-  <div class="grid">
-    <a class="card" href="demos/creatorpulse.html">
-      <div class="tag">SaaS · Content Engine <span class="badge-live">Demo mode</span></div>
-      <h3>CreatorPulse</h3>
-      <p>An AI content engine for creators: trending stories by niche, script generation, scheduling, and a Create Studio. Log in with any email to explore.</p>
-      <div class="go">Open demo →</div>
-    </a>
-    <a class="card" href="demos/phantom-cmo.html">
-      <div class="tag">AI Agent · Marketing Strategy <span class="badge-live">Demo mode</span></div>
-      <h3>Phantom CMO</h3>
-      <p>A horror-themed marketing intelligence tool. Feed it two URLs and it builds a full 30-day competitive strategy, ICP, hooks, and copy.</p>
-      <div class="go">Open demo →</div>
-    </a>
-    <a class="card" href="demos/primero-realty.html">
-      <div class="tag">Client Demo · Real Estate</div>
-      <h3>Primero Realty AI Ecosystem</h3>
-      <p>An AI-powered property discovery and lead qualification concept, built for a real estate client pitch.</p>
-      <div class="go">Open demo →</div>
-    </a>
-    <a class="card" href="demos/solariq.html">
-      <div class="tag">Client Demo · Solar & Energy</div>
-      <h3>SolarIQ</h3>
-      <p>A Tesla-inspired product site for a solar company, smart savings calculator and a near-black, amber-accented aesthetic.</p>
-      <div class="go">Open demo →</div>
-    </a>
-    <a class="card" href="demos/wanderlust-ai.html">
-      <div class="tag">Client Demo · Travel</div>
-      <h3>Wanderlust AI</h3>
-      <p>An AI travel concierge concept for a travel agency, itinerary building and personalized trip planning.</p>
-      <div class="go">Open demo →</div>
-    </a>
-    <a class="card" href="demos/joyaesthetics.html">
-      <div class="tag">Client Demo · Fashion</div>
-      <h3>JOYAESTHETICS</h3>
-      <p>A luxury fashion brand pitch with an AI style consultant, bespoke order flow, and booking system.</p>
-      <div class="go">Open demo →</div>
-    </a>
-    <a class="card" href="demos/ember-house.html">
-      <div class="tag">Concept · Restaurant</div>
-      <h3>EMBER HOUSE</h3>
-      <p>A modern fire-kitchen restaurant concept: AI menu concierge, a visual dish builder with heat-level picker, and a smart reservation flow.</p>
-      <div class="go">Open demo →</div>
-    </a>
-    <a class="card" href="demos/nova-crypto.html">
-      <div class="tag">Concept · Crypto Exchange</div>
-      <h3>Nova Crypto</h3>
-      <p>A next-gen crypto exchange concept interface, clean data-forward design for a fast-moving market.</p>
-      <div class="go">Open demo →</div>
-    </a>
-  </div>
-</section>
-
-<section id="stack">
-  <div class="section-head">
-    <div class="section-eyebrow">How I build</div>
-    <h2>Stack and workflow.</h2>
-    <p>Entirely mobile-first: every product on this page was built and shipped from an Android phone.</p>
-  </div>
-  <div class="stack-list">
-    <span class="chip">React / Vanilla JS</span>
-    <span class="chip">Node.js / Express</span>
-    <span class="chip">Supabase</span>
-    <span class="chip">GitHub + Render</span>
-    <span class="chip">Groq / LLM APIs</span>
-    <span class="chip">Claude + Lovable</span>
-    <span class="chip">Content strategy</span>
-    <span class="chip">Growth &amp; distribution</span>
-  </div>
-</section>
-
-<footer id="contact">
-  <div class="f-left">Let's talk.</div>
-  <div class="f-links">
-    <a href="mailto:sportsguycollabs@gmail.com">sportsguycollabs@gmail.com</a>
-    <a href="https://github.com/Alleq2th" target="_blank">GitHub</a>
-  </div>
-</footer>
-
-</body>
-</html>
+<p class="work-note">Previews show each experience in place. The demos use fictional sample data; forms and checkout flows do not contact a business.</p>
+<section class="track" id="track"><div><div class="label" style="color:var(--acid)">Built in public · Sportsguys Media</div><h2>Audience before algorithms.</h2><p>Sportsguys Media is where I learned the rhythm of a good story and the discipline of showing up. The figures are platform analytics from the period shown, not a forecast.</p></div><div class="stats"><div class="stat"><b>2.4M+</b><span>Peak monthly views</span></div><div class="stat"><b>2.3M</b><span>Top single post</span></div><div class="stat"><b>$0</b><span>Paid promotion spent</span></div><div class="stat"><b>84%</b><span>Audience · men aged 18–34</span></div></div></section>
+<section class="end" id="contact"><div><div class="label">Have a good problem?</div><h2>Let’s make<br>it matter.</h2></div><aside><p>I’m interested in thoughtful collaborations across content, product and digital experience. If there’s a real problem to solve, tell me about it.</p><a class="contact" href="mailto:sportsguycollabs@gmail.com">Tell me what you’re building ↗</a></aside></section>
+<footer class="footer"><span>Allen Greg Omoregie · Lagos</span><span>Made with intent · © 2026</span><a href="https://github.com/Alleq2th" target="_blank" rel="noopener">GitHub ↗</a></footer>
+</main>
+<script>
+// Keep interactive previews from stealing scroll or clicks; each project opens on demand.
+document.querySelectorAll('.preview iframe').forEach(frame=>{frame.setAttribute('loading','lazy');frame.setAttribute('referrerpolicy','no-referrer');});
+</script>
+</body></html>

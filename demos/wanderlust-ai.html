@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<meta name="description" content="A travel planning concept with local sample recommendations and mock enquiries.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Wanderlust AI, Travel Agency</title>
+<title>Wanderlust — A trip with a point of view.</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
 <style>
@@ -44,6 +45,10 @@ body{font-family:'Inter',sans-serif;background:#f0f4f8}
 .modal-box{background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.25);width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:3px}
+</style>
+
+<style id="portfolio-finishing">
+:focus-visible{outline:2px solid currentColor;outline-offset:3px} img{max-width:100%} @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -638,11 +643,11 @@ body{font-family:'Inter',sans-serif;background:#f0f4f8}
 <script>
 var S = {destination:"",purpose:"",budget:"",timeline:"",passengers:"",name:"",email:"",phone:""};
 var leads = [
-  {id:1,name:"Adaeze Okonkwo",email:"adaeze@gmail.com",phone:"+2348012345678",destination:"United Kingdom",purpose:"Study Abroad",budget:"$3,000-$5,000",timeline:"1-3 Months",passengers:"Solo",status:"Qualified",score:87,date:"2026-06-07",notes:"Ready to apply. Has all documents."},
-  {id:2,name:"Emeka Nwosu",email:"emeka.n@yahoo.com",phone:"+2348023456789",destination:"Canada",purpose:"Relocation",budget:"$5,000+",timeline:"3-6 Months",passengers:"Family",status:"Contacted",score:92,date:"2026-06-06",notes:"Strong profile. Follow up Friday."},
-  {id:3,name:"Fatima Bello",email:"fatima.b@hotmail.com",phone:"+2348034567890",destination:"Dubai",purpose:"Tourism",budget:"$1,000-$3,000",timeline:"This Month",passengers:"Couple",status:"Hot",score:95,date:"2026-06-08",notes:"Very urgent. Wants to travel June 20."},
-  {id:4,name:"Chukwudi Eze",email:"chukwudi@gmail.com",phone:"+2348045678901",destination:"USA",purpose:"Business",budget:"$3,000-$5,000",timeline:"1-3 Months",passengers:"Solo",status:"New",score:73,date:"2026-06-08",notes:""},
-  {id:5,name:"Ngozi Adeyemi",email:"ngozi.a@outlook.com",phone:"+2348056789012",destination:"Europe",purpose:"Tourism",budget:"$1,000-$3,000",timeline:"3-6 Months",passengers:"Couple",status:"New",score:61,date:"2026-06-05",notes:""}
+  {id:1,name:"Sample enquiry 01",email:"sample01@example.test",phone:"+234 800 000 0001",destination:"United Kingdom",purpose:"Study Abroad",budget:"$3,000-$5,000",timeline:"1-3 Months",passengers:"Solo",status:"Qualified",score:87,date:"2026-06-07",notes:"Example record only; no real applicant data."},
+  {id:2,name:"Sample enquiry 02",email:"sample02@example.test",phone:"+234 800 000 0002",destination:"Canada",purpose:"Relocation",budget:"$5,000+",timeline:"3-6 Months",passengers:"Family",status:"Contacted",score:92,date:"2026-06-06",notes:"Example record only."},
+  {id:3,name:"Sample enquiry 03",email:"sample03@example.test",phone:"+234 800 000 0003",destination:"Dubai",purpose:"Tourism",budget:"$1,000-$3,000",timeline:"This Month",passengers:"Couple",status:"Hot",score:95,date:"2026-06-08",notes:"Example record only."},
+  {id:4,name:"Sample enquiry 04",email:"sample04@example.test",phone:"+234 800 000 0004",destination:"USA",purpose:"Business",budget:"$3,000-$5,000",timeline:"1-3 Months",passengers:"Solo",status:"New",score:73,date:"2026-06-08",notes:""},
+  {id:5,name:"Sample enquiry 05",email:"sample05@example.test",phone:"+234 800 000 0005",destination:"Europe",purpose:"Tourism",budget:"$1,000-$3,000",timeline:"3-6 Months",passengers:"Couple",status:"New",score:61,date:"2026-06-05",notes:""}
 ];
 
 var destImgs = {
@@ -653,15 +658,18 @@ var destImgs = {
   "USA":"https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=600&q=80"
 };
 
+function localTravelReply(prompt, kind) {
+  var q=String(prompt||"").toLowerCase();
+  if(kind==="quote") return "Your " + (S.destination||"trip") + " plan is ready to explore. Based on your " + (S.budget||"selected") + " budget and " + (S.timeline||"chosen") + " timeline, start by checking current official visa guidance, confirming document requirements, and comparing refundable flight options. Planning estimate only; verify all costs and entry rules with official sources before booking.";
+  if(kind==="destination") return /beach|warm|relax|sun/.test(q) ? "Consider Dubai for a short, warm-weather break, or compare coastal European options if a slower pace matters more. Check seasonal conditions and entry requirements before deciding." : /study|school|university/.test(q) ? "The UK and Canada are worth comparing for study. Start with your course, institution, and application deadline, then confirm visa and funding rules on official government sites." : /family|move|relocat/.test(q) ? "Compare Canada and the UK against your work, study, and family eligibility. Immigration rules change, so use each government's official eligibility checker before making plans." : "For a first shortlist, compare the UK, Canada, Dubai, and Europe against your purpose, budget, and dates. Tell me which matters most and I can narrow the options.";
+  if(/visa|document|passport/.test(q)) return "Requirements depend on your passport and destination. Start with the destination government's official immigration site, check passport validity, application timing, proof of funds, and required supporting documents. Avoid booking non-refundable travel before approval.";
+  if(/budget|cost|price|naira|\$/.test(q)) return "Costs vary by dates, destination, and exchange rates. Compare flexible flight dates and accommodation, keep a contingency for fees and insurance, and confirm current prices directly with providers.";
+  return "I can help you compare destinations, outline a planning checklist, or think through timing and budget. Which destination or part of the trip are you considering?";
+}
+
 async function claude(prompt, sys) {
-  sys = sys || "You are a helpful travel assistant for a Nigerian travel agency. Be concise and practical.";
-  var r = await fetch("https://api.anthropic.com/v1/messages", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:[{role:"user",content:prompt}]})
-  });
-  var d = await r.json();
-  return (d.content||[]).map(function(b){return b.text||"";}).join("") || "Sorry, could not get a response.";
+  // Local concept response; never sends visitor input to an external service.
+  return localTravelReply(prompt, "faq");
 }
 
 function switchView(v) {
@@ -731,7 +739,7 @@ async function doQuote() {
   if(!S.name||!S.email||!S.phone){alert("Please fill in all fields.");return;}
   showStep("s-load");
   try {
-    var reply=await claude("Generate a short travel quote for a Nigerian going to "+S.destination+" for "+S.purpose+". Budget: "+S.budget+". Timeline: "+S.timeline+". Passengers: "+S.passengers+". Include cost range in USD and NGN (N1,550/$1), visa time, and 2 tips. Under 120 words, warm and professional.","You are a premium travel agency. Write concise, helpful quotes with NGN prices.");
+    var reply=localTravelReply("", "quote");
     saveLead();
     showStep("s6");
     document.getElementById("prog").style.width="100%";
@@ -764,7 +772,7 @@ function doSubmit() {
 }
 function doWhatsApp() {
   var msg=encodeURIComponent("Hi! I submitted a travel enquiry via Wanderlust AI. Destination: "+S.destination+", Purpose: "+S.purpose+", Budget: "+S.budget+". My name is "+S.name+". Looking forward to hearing from you!");
-  window.open("https://wa.me/2348000000000?text="+msg,"_blank");
+  alert("Demo only: no message was sent. Your sample enquiry is shown here for demonstration.");
 }
 
 // MODALS
@@ -794,7 +802,7 @@ async function chatSend(preset){
   typing.textContent="Typing...";
   document.getElementById("chat-box").appendChild(typing);
   document.getElementById("chat-box").scrollTop=99999;
-  var reply=await claude(msg,"You are a helpful travel assistant for a Nigerian agency specialising in Dubai, UK, Canada, USA and Europe. Answer questions about visas, processing times, documents, and travel tips concisely (under 90 words). Be warm and friendly.");
+  var reply=localTravelReply(msg, "faq");
   var t=document.getElementById("typing"); if(t) t.remove();
   chatAppend(reply,"ai");
 }
@@ -831,7 +839,7 @@ async function runAIDest(){
   if(!txt) return;
   document.getElementById("ai-dest-load").classList.remove("hidden");
   document.getElementById("ai-dest-res").classList.add("hidden");
-  var reply=await claude("A customer says: '"+txt+"'. Recommend ONE destination from: Dubai, UK, Canada, USA, Europe. Give destination, 2 reasons it fits, and 1 quick tip. Under 80 words.","You are a travel expert helping Nigerians pick the best destination. Be enthusiastic and specific.");
+  var reply=localTravelReply(txt, "destination");
   document.getElementById("ai-dest-load").classList.add("hidden");
   document.getElementById("ai-dest-res").textContent=reply;
   document.getElementById("ai-dest-res").classList.remove("hidden");
@@ -910,7 +918,7 @@ function openLead(id){
   var l=leads.find(function(x){return x.id===id;}); if(!l) return;
   document.getElementById("m-lead-name").textContent=l.name;
   var sBtns=["New","Contacted","Qualified","Hot","Closed"].map(function(s){
-    return "<button onclick="updStatus("+l.id+",'"+s+"');closeModal('m-lead');openLead("+l.id+")" style=""+stStyle(s)+";padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700;border:0;cursor:pointer"+(s===l.status?";outline:2px solid #2563eb;outline-offset:2px":"")+"">"+s+"</button>";
+    return `<button onclick="updStatus(${l.id},'${s}');closeModal('m-lead');openLead(${l.id})" style="${stStyle(s)};padding:4px 12px;border-radius:8px;font-size:11px;font-weight:700;border:0;cursor:pointer${s===l.status?';outline:2px solid #2563eb;outline-offset:2px':''}">${s}</button>`;
   }).join("");
   document.getElementById("m-lead-body").innerHTML=
     "<div style='background:#f8fafc;border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:16px'>"+
@@ -953,8 +961,7 @@ async function aiStrat(id){
 
 function sendWA(id){
   var l=leads.find(function(x){return x.id===id;}); if(!l) return;
-  var msg=encodeURIComponent("Hi "+l.name+"! This is the team at Wanderlust AI. We received your enquiry for "+l.destination+" ("+l.purpose+", "+l.budget+"). We would love to make this trip happen for you! When is a good time to chat?");
-  window.open("https://wa.me/"+l.phone.replace(/\D/g,"")+"?text="+msg,"_blank");
+  alert("Demo only: no WhatsApp message was sent.");
 }
 
 function addLead(){
@@ -965,7 +972,7 @@ function addLead(){
 }
 
 function recoverMissed(){
-  alert("Automation triggered: 3 follow-up WhatsApp messages queued for leads who dropped off mid-funnel. They will receive personalised re-engagement messages within 30 minutes.");
+  alert("Demo only: the follow-up sequence is previewed here; no messages were queued or sent.");
 }
 
 // TOOLS
@@ -975,8 +982,7 @@ async function checkVisa(){
   document.getElementById("visa-load").classList.remove("hidden");
   var reply=await claude("Visa check: "+p+" passport holder applying for "+d+". Give: visa type, processing time, max stay, 4 key documents, one important tip. Under 120 words.","You are a visa expert for African travellers. Be precise and practical.");
   document.getElementById("visa-load").classList.add("hidden");
-  document.getElementById("visa-res").innerHTML="<strong>Visa Assessment</strong><br><br>"+reply.replace(/
-/g,"<br>");
+  document.getElementById("visa-res").innerHTML="<strong>Visa Assessment</strong><br><br>"+reply.replace(/\n/g,"<br>");
   document.getElementById("visa-res").classList.remove("hidden");
 }
 async function genChecklist(){
@@ -985,8 +991,7 @@ async function genChecklist(){
   document.getElementById("cl-load").classList.remove("hidden");
   var reply=await claude("Travel checklist for Nigerian going to "+d+" for "+p+". 3 sections: DOCUMENTS, PACKING, BEFORE YOU FLY. 4-5 items each. Start each item with a checkmark.","Travel preparation expert. Return a clean practical checklist.");
   document.getElementById("cl-load").classList.add("hidden");
-  var html=reply.split("
-").map(function(line){
+  var html=reply.split("\n").map(function(line){
     if(!line.trim()) return "";
     if(line.trim()===line.trim().toUpperCase()&&line.trim().length>2) return "<div style='font-weight:700;color:#374151;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin:12px 0 6px'>"+line+"</div>";
     return "<div style='display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #f9fafb'><span style='color:#16a34a'>✓</span><span style='color:#374151;font-size:13px'>"+line.replace(/^[✓☑●•\-]/,"").trim()+"</span></div>";
@@ -1000,8 +1005,7 @@ async function runBudget(){
   document.getElementById("bg-load").classList.remove("hidden");
   var reply=await claude("Budget breakdown for Nigerian going to "+d+", "+p+". Costs for: Visa fees, Flights (Lagos return), Accommodation (7 nights), Daily expenses, Travel insurance. Show USD and NGN (N1,550/$). Total range at bottom. Under 130 words.","Travel finance expert. Give realistic 2026 cost estimates.");
   document.getElementById("bg-load").classList.add("hidden");
-  document.getElementById("bg-res").innerHTML="<strong>Budget Breakdown</strong><br><br>"+reply.replace(/
-/g,"<br>");
+  document.getElementById("bg-res").innerHTML="<strong>Budget Breakdown</strong><br><br>"+reply.replace(/\n/g,"<br>");
   document.getElementById("bg-res").classList.remove("hidden");
 }
 async function runDestRec(){

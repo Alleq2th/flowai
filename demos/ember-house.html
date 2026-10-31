@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="An interactive fire-kitchen restaurant concept with a local menu concierge and sample reservation flow.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMBER HOUSE, A Modern Fire Kitchen (Demo)</title>
+<title>Ember House — A table worth gathering around.</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Playfair+Display:wght@600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -24,6 +25,10 @@
   ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#E0672B;border-radius:10px}
   .heat-dot{width:9px;height:9px;border-radius:50%;background:#3A3532}
   .heat-dot.active{background:#E0672B}
+</style>
+
+<style id="portfolio-finishing">
+:focus-visible{outline:2px solid currentColor;outline-offset:3px} img{max-width:100%} @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body class="overflow-x-hidden">
@@ -198,7 +203,7 @@
       </select>
     </div>
     <input type="text" placeholder="Any occasion? (birthday, anniversary...)" class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-ember mb-5">
-    <button onclick="alert('Demo only — reservation not actually submitted.')" class="bg-ember text-black font-bold px-10 py-3.5 rounded-full hover:brightness-110 transition w-full md:w-auto">Confirm Reservation</button>
+    <button id="reserve-submit" class="bg-ember text-black font-bold px-10 py-3.5 rounded-full hover:brightness-110 transition w-full md:w-auto">Check availability</button><p id="reserve-result" role="status" class="text-sm mt-4 text-[#c9c2b6]"></p>
   </div>
 </section>
 
@@ -220,12 +225,24 @@ const DISHES = [
   {name:"Hearth Lamb Chops", desc:"Rosemary rubbed, slow char", price:"$38", img:"https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=500&q=80", heat:1},
 ];
 
+function buildDish(name){ const dish=DISHES.find(x=>x.name===name); if(!dish)return; const log=document.getElementById('concierge-log'); const row=document.createElement('div'); row.className='flex justify-start'; row.innerHTML='<div class="glass rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm max-w-[80%] text-[#EDE7DE]">'+name+' selected. Choose your heat level: mild, medium, or hot. This is a sample order only.</div>'; log.appendChild(row); log.scrollTop=log.scrollHeight; document.getElementById('concierge-input').focus(); }
 function heatDots(level){
   let d = '';
   for(let i=0;i<3;i++) d += `<span class="heat-dot ${i<=level?'active':''}"></span>`;
   return d;
 }
 
+// The booking form and menu builder are local concept interactions; nothing is submitted.
+const booking = document.querySelector('#reserve');
+const bookingInputs = booking.querySelectorAll('input, select');
+const dateField = booking.querySelector('input[type="date"]');
+if(dateField) dateField.min = new Date().toISOString().slice(0,10);
+document.getElementById('reserve-submit').addEventListener('click', () => {
+  const date = dateField && dateField.value;
+  const result = document.getElementById('reserve-result');
+  if(!date){ dateField.focus(); result.textContent = 'Choose a date to see available tables.'; return; }
+  result.textContent = `Demo request noted for ${date} at ${bookingInputs[1].value}, ${bookingInputs[2].value}. No reservation was sent.`;
+});
 const grid = document.getElementById('dish-grid');
 DISHES.forEach((d,i)=>{
   const card = document.createElement('div');
@@ -242,7 +259,7 @@ DISHES.forEach((d,i)=>{
         <div class="flex items-center gap-1.5">
           <span class="text-[10px] text-[#8a8175] uppercase tracking-wider mr-1">Heat</span>${heatDots(d.heat)}
         </div>
-        <button onclick="event.stopPropagation();alert('Demo only — customized ${d.name} added to order.')" class="text-xs border border-ember/40 ember rounded-full px-3 py-1 hover:bg-ember hover:text-black transition">Build it</button>
+        <button onclick="event.stopPropagation();buildDish('${d.name}')" class="text-xs border border-ember/40 ember rounded-full px-3 py-1 hover:bg-ember hover:text-black transition">Build it</button>
       </div>
     </div>
   `;
