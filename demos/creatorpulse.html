@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>CreatorPulse (Demo), Content engine for creators</title>
+<title>CreatorPulse — Your content, in motion.</title>
 <meta name="description" content="Trending stories, scripts, thumbnails, and a schedule that actually thinks. Built for creators across 130+ niches."/>
 <meta name="theme-color" content="#0A0A0F"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -495,11 +495,15 @@ body{padding-bottom:var(--tab-h);letter-spacing:-0.005em}
 /* Legacy st- styles kept for other refs */
 </style>
 
+
+<style id="portfolio-finishing">
+:focus-visible{outline:2px solid currentColor;outline-offset:3px} img{max-width:100%} @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
 </head>
 <body>
 
 <style>#fa-demo-badge{position:fixed;top:10px;right:10px;z-index:99999;background:#141420;color:#F5F5F7;border:1px solid #7C3AED;border-radius:8px;padding:7px 12px;font:600 10px/1.4 'Inter',sans-serif;letter-spacing:.02em;box-shadow:0 4px 20px rgba(0,0,0,.5);max-width:190px}#fa-demo-badge b{color:#9F67FF}</style>
-<div id="fa-demo-badge"><b>DEMO</b> &nbsp;Local sample data, log in with any email/password.</div>
+<div id="fa-demo-badge"><b>DEMO</b> &nbsp;Interactive sample mode · no account required.</div>
 <div id="root"></div>
 
 <script>
@@ -520,7 +524,7 @@ body{padding-bottom:var(--tab-h);letter-spacing:-0.005em}
         summary: `Sample trending story for the ${niche} niche, generated for this demo. In the live app this pulls real, live headlines every few minutes.`,
         niche: niche,
         source: SOURCES[i%SOURCES.length],
-        image: `https://picsum.photos/seed/${encodeURIComponent(niche+i)}/400/400`,
+        image: "",
         score: 70 + Math.floor(Math.random()*30),
         tags: [niche, "trending"],
         url: "#",
@@ -547,7 +551,7 @@ body{padding-bottom:var(--tab-h);letter-spacing:-0.005em}
 
   window.fetch = async function(input, init){
     const url = typeof input === "string" ? input : (input && input.url) || "";
-    if(!/\/api\//.test(url)) return REAL_FETCH(input, init);
+    if(!/\/api\//.test(url)) return J({});
 
     await wait(350 + Math.random()*450);
     const path = url.split("?")[0].replace(/^https?:\/\/[^/]+/, "");
@@ -565,7 +569,7 @@ body{padding-bottom:var(--tab-h);letter-spacing:-0.005em}
     if(path.endsWith("/api/events")) return J({events: mockArticles(params.get("niche")||"General", 3)});
     if(path.endsWith("/api/notifications")) return J({notifications: mockArticles("Football/Soccer", 3).map(a=>({niche:a.niche, headline:a.headline, time:"2h ago"}))});
     if(path.endsWith("/api/generate")) return J({text: mockGenerate(body.system, body.user)});
-    if(path.endsWith("/api/generate-image")) { const img = `https://picsum.photos/seed/${encodeURIComponent(body.prompt||"cp")}${Math.random()}/800/800`; return J({image: img, images: [img,img,img,img,img]}); }
+    if(path.endsWith("/api/generate-image")) { const svg = "data:image/svg+xml,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#302449"/><stop offset="1" stop-color="#e03c82"/></linearGradient></defs><rect width="800" height="800" fill="url(#g)"/><circle cx="620" cy="170" r="120" fill="#ffd166" opacity=".8"/><text x="56" y="710" fill="white" font-size="34" font-family="sans-serif">CREATORPULSE · SAMPLE</text></svg>`); return J({image:svg,images:[svg,svg,svg,svg,svg]}); }
     if(path.endsWith("/api/save-post")) return J({success:true, id: Date.now()});
     if(path.endsWith("/api/delete-post")) return J({success:true});
     if(path.endsWith("/api/transcribe")) return J({text:"This is a demo transcription. Voice to script isn't wired up in this static demo, but works live in the full product."});
@@ -574,7 +578,7 @@ body{padding-bottom:var(--tab-h);letter-spacing:-0.005em}
     if(path.endsWith("/api/account/export")) return J({data:{}});
     if(path.endsWith("/api/account/reset")) return J({success:true});
     if(path.endsWith("/api/contact")) return J({success:true});
-    if(path.endsWith("/api/image-proxy")) return REAL_FETCH(params.get("url") || url, init).catch(()=>J({}));
+    if(path.endsWith("/api/image-proxy")) return J({});
     return J({});
   };
 })();
@@ -2790,7 +2794,12 @@ function checkAuthRedirect(){
     if(!S.user.niches?.length){ S.mode = "onboard"; S.onboard.name = S.user.name || ""; render(); }
     else { S.mode = "app"; render(); bootApp(); }
   } else {
-    S.mode = "auth"; render();
+    // Enter with a fictional, local sample creator; no signup or personal data required.
+    S.token = "demo-token";
+    S.user = {id:"demo", name:"Demo Creator", email:"demo@example.test", niches:["Football/Soccer","AI & Tech News"], platforms:["tiktok","instagram"], primaryPlatform:"tiktok", postsPerDay:3};
+    S.mode = "app";
+    render();
+    bootApp();
   }
   // Refresh trends every 20 min
   setInterval(() => { if(S.mode==="app"){ loadTrends(); loadNotifs(); }}, 20*60*1000);
