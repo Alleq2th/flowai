@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#161616">
+  <meta name="description" content="Ember House: wood-fired, slow-charred dining built for the table.">
+  <title>Ember House: A table worth gathering around</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#161616;--ink-2:#232323;--ink-3:#2c2c2c;--paper:#f6f6f6;--soft:#eeeef0;--muted:#b5b5b5;--text-2:#55524e;--ember:#c16a42;--r:12px;--serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',Arial,sans-serif;--nav-h:72px;scroll-behavior:smooth}
+    *{box-sizing:border-box}
+    html{scroll-padding-top:calc(var(--nav-h) + 16px)}
+    body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:16px;line-height:1.6;overflow-x:hidden}
+    body.menu-open{overflow:hidden}
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    button,a,input,select{-webkit-tap-highlight-color:transparent}
+    :focus-visible{outline:2px solid var(--ember);outline-offset:4px}
+    img{display:block;max-width:100%}
+    ::selection{background:var(--ember);color:var(--ink)}
+    h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:0;margin:0}
+    p{margin:0}
+    .wrap{width:min(1240px,calc(100% - 64px));margin-inline:auto}
+    .section{padding:clamp(80px,10vw,152px) 0}
+    .h2{font-size:clamp(40px,5.2vw,64px);line-height:1.08}
+    .lead{color:var(--muted);font-size:16px;max-width:448px;margin-top:16px}
+    .accent{color:var(--ember)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 32px;border:0;border-radius:var(--r);background:var(--ember);color:var(--ink);font-size:16px;font-weight:700;cursor:pointer;transition:background .25s ease-out,transform .2s ease-out}
+    .btn:hover{background:#d17a51;transform:translateY(-2px)}
+    .btn:active{transform:scale(.97)}
+    .btn-light{background:var(--paper);color:var(--ink)}
+    .btn-light:hover{background:var(--soft)}
+    .btn-sm{min-height:40px;padding:0 16px;font-size:14px}
+
+    /* Navigation: glass lives on a pseudo-element so the mobile menu can sit fixed on top of the page */
+    .nav{height:var(--nav-h);position:fixed;z-index:50;inset:0 0 auto}
+    .nav:before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(22,22,22,.8);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+    .nav-inner{height:100%;display:flex;align-items:center;justify-content:space-between}
+    .brand{font:400 24px/1 var(--serif);white-space:nowrap}
+    .brand span{color:var(--ember)}
+    .nav-links{display:flex;align-items:center;gap:32px;margin-left:auto;margin-right:32px}
+    .nav-links a{font-size:15px;font-weight:500;color:var(--soft);transition:color .2s ease-out}
+    .nav-links a:hover{color:var(--ember)}
+    .nav-cta{min-height:44px;padding:0 24px;font-size:15px}
+    .menu-toggle{display:none;align-items:center;gap:8px;height:44px;padding:0 16px;border:0;border-radius:var(--r);background:var(--paper);color:var(--ink);font-size:15px;font-weight:700;cursor:pointer;transition:transform .2s ease-out}
+    .menu-toggle:active{transform:scale(.97)}
+    .bars{position:relative;width:16px;height:2px;background:currentColor;transition:background .2s}
+    .bars:before,.bars:after{content:"";position:absolute;left:0;width:100%;height:2px;background:currentColor;transition:transform .2s ease-out,top .2s ease-out}
+    .bars:before{top:-5px}.bars:after{top:5px}
+    .menu-toggle[aria-expanded="true"] .bars{background:transparent}
+    .menu-toggle[aria-expanded="true"] .bars:before{top:0;transform:rotate(45deg)}
+    .menu-toggle[aria-expanded="true"] .bars:after{top:0;transform:rotate(-45deg)}
+
+    /* Hero */
+    .hero{min-height:min(920px,100svh);padding:calc(var(--nav-h) + 64px) 0 80px;position:relative;isolation:isolate;display:flex;align-items:center;overflow:hidden}
+    .hero:before{content:"";position:absolute;z-index:-1;inset:0 0 0 32%;background:linear-gradient(rgba(22,22,22,.55),rgba(22,22,22,.55)),url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1900&q=88') center/cover}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.5fr);align-items:end;gap:40px}
+    .hero-copy{max-width:760px;animation:heroIn .9s .1s ease-out both}
+    .hero h1{font-size:clamp(56px,8vw,104px);line-height:1.02}
+    .hero-copy>p{max-width:464px;margin:24px 0 32px;color:var(--soft);font-size:17px;line-height:1.7}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:16px}
+    .hero-aside{justify-self:end;max-width:240px;padding-bottom:8px}
+    .hero-aside .small-label{color:var(--ember);font-size:14px;font-weight:700}
+    .hero-aside strong{display:block;font:400 24px/1.2 var(--serif);margin:8px 0}
+    .hero-aside p{color:var(--soft);font-size:14px;line-height:1.7}
+
+    /* Concierge */
+    .concierge{background:var(--paper);color:var(--ink);padding:80px 0}
+    .concierge-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:9%;align-items:start}
+    .concierge-intro h2{font-size:clamp(36px,4vw,48px);line-height:1.1}
+    .concierge-intro p{color:var(--text-2);font-size:16px;max-width:336px;margin-top:16px}
+    .concierge-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:24px}
+    .concierge-top strong{font:400 24px var(--serif)}
+    .concierge-top span{font-size:14px;color:var(--text-2)}
+    .chat-log{display:flex;flex-direction:column;gap:8px;min-height:64px;max-height:240px;overflow:auto}
+    .chat-message{max-width:min(88%,464px);padding:16px;border-radius:var(--r);font-size:15px;line-height:1.6}
+    .chat-message.assistant{align-self:flex-start;background:var(--soft);color:var(--ink-2)}
+    .chat-message.user{align-self:flex-end;background:var(--ink-2);color:var(--paper)}
+    .chat-form{display:flex;gap:8px;margin-top:24px}
+    .chat-form input{min-width:0;flex:1;height:56px;border:0;border-radius:var(--r);background:var(--soft);padding:0 16px;color:var(--ink);font-size:15px}
+    .chat-form input::placeholder{color:#76736e}
+    .chat-form .btn{padding:0 24px}
+    .quick-prompts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    .quick-prompts button{border:0;border-radius:var(--r);background:var(--soft);padding:8px 16px;color:var(--ink-2);font-size:14px;cursor:pointer;transition:background .2s ease-out,transform .2s ease-out}
+    .quick-prompts button:hover{background:#dedede}
+    .quick-prompts button:active{transform:scale(.97)}
+    .concierge-note{margin-top:16px;color:var(--text-2);font-size:13px}
+
+    /* Menu */
+    .menu-section{background:var(--ink)}
+    .menu-head{max-width:560px;margin-bottom:64px}
+    .dish-grid{display:grid;grid-template-columns:1.08fr .92fr 1fr;gap:48px 24px;align-items:start}
+    .dish{min-width:0}
+    .dish:nth-child(2){margin-top:96px}.dish:nth-child(3){margin-top:32px}.dish:nth-child(4){margin-top:-16px}.dish:nth-child(5){margin-top:64px}
+    .dish-image{overflow:hidden;border-radius:var(--r);background:var(--ink-3);aspect-ratio:4/4.7}
+    .dish:nth-child(2) .dish-image,.dish:nth-child(5) .dish-image{aspect-ratio:4/5.5}
+    .dish:nth-child(3) .dish-image{aspect-ratio:1}
+    .dish-image img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease-out}
+    .dish:hover .dish-image img{transform:scale(1.04)}
+    .dish-info{padding-top:16px}
+    .dish-title-row{display:flex;justify-content:space-between;gap:16px;align-items:baseline}
+    .dish h3{font-size:clamp(22px,2vw,28px);line-height:1.15}
+    .dish-price{font-size:16px;color:var(--ember);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .dish-info>p{color:var(--muted);font-size:14px;margin:8px 0 16px}
+    .dish-controls{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .heat-control{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
+    .heat-dots{display:flex;gap:4px}
+    .heat-dots i{width:8px;height:8px;border-radius:50%;background:#4a4a4a}
+    .heat-dots i.active{background:var(--ember)}
+    .dish-build{border:0;border-radius:var(--r);background:var(--ink-3);padding:8px 16px;color:var(--paper);font-size:14px;font-weight:500;cursor:pointer;transition:background .2s ease-out,transform .2s ease-out}
+    .dish-build:hover{background:#3a3a3a}
+    .dish-build:active{transform:scale(.97)}
+
+    /* Story (wow section) */
+    .story{background:var(--paper);color:var(--ink);padding:clamp(96px,12vw,168px) 0;overflow:hidden}
+    .story-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:8%;align-items:center}
+    .story-visual{position:relative;min-height:608px}
+    .story-visual img{position:absolute;inset:0;width:88%;height:100%;object-fit:cover;border-radius:var(--r)}
+    .story-stamp{position:absolute;right:0;bottom:48px;width:192px;aspect-ratio:1;background:var(--ember);color:var(--ink);border-radius:var(--r);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px}
+    .story-stamp span{font-size:14px;font-weight:500}
+    .story-stamp strong{font:400 32px/1.1 var(--serif);margin-top:8px}
+    .story-copy h2{font-size:clamp(44px,5.6vw,72px);line-height:1.05;margin-bottom:24px}
+    .story-copy>p{font-size:16px;line-height:1.8;color:var(--text-2);max-width:448px}
+    .story-facts{display:flex;gap:48px;margin-top:40px}
+    .story-fact strong{display:block;font:400 28px/1.2 var(--serif)}
+    .story-fact span{display:block;margin-top:4px;color:var(--text-2);font-size:14px}
+
+    .fire-interlude{min-height:576px;position:relative;isolation:isolate;display:flex;align-items:center;overflow:hidden;background:var(--ink-2)}
+    .fire-interlude:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(22,22,22,.62),rgba(22,22,22,.62)),url('https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=1800&q=85') center/cover}
+    .fire-copy{max-width:760px;padding:96px 0}
+    .fire-copy h2{font-size:clamp(48px,8vw,96px);line-height:1}
+    .fire-copy p{max-width:416px;margin-top:24px;color:var(--soft);font-size:16px;line-height:1.8}
+
+    /* Gallery */
+    .gallery-head{display:flex;align-items:end;justify-content:space-between;gap:32px;margin-bottom:48px}
+    .gallery-note{max-width:224px;color:var(--muted);font-size:14px;line-height:1.7}
+    .gallery-grid{display:grid;grid-template-columns:1.12fr .78fr 1fr;grid-template-rows:224px 224px;gap:16px}
+    .gallery-item{margin:0;overflow:hidden;border-radius:var(--r);background:var(--ink-3)}
+    .gallery-item:first-child{grid-row:1/3}
+    .gallery-item:nth-child(2){grid-column:2;grid-row:1}
+    .gallery-item:nth-child(3){grid-column:3;grid-row:1/3}
+    .gallery-item:nth-child(4){grid-column:2;grid-row:2}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease-out}
+    .gallery-item:hover img{transform:scale(1.04)}
+
+    /* Table-side experience */
+    .guest-section{background:var(--ink-2);padding:clamp(80px,10vw,128px) 0}
+    .guest-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:10%;align-items:start}
+    .guest-heading p{color:var(--muted);font-size:16px;max-width:320px;margin-top:16px}
+    .moments{display:grid;grid-template-columns:1fr 1fr;gap:48px 32px}
+    .moment h3{font-size:28px;line-height:1.15;margin-bottom:8px}
+    .moment p{color:var(--muted);font-size:15px;line-height:1.7}
+    .moment:nth-child(2){margin-top:64px}
+    .moment:nth-child(3){grid-column:1/-1;max-width:416px}
+
+    /* Reservation */
+    .reserve-section{padding:clamp(96px,12vw,152px) 0;background:var(--paper);color:var(--ink)}
+    .reserve-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:10%;align-items:start}
+    .reserve-copy h2{font-size:clamp(42px,5vw,64px);line-height:1.08}
+    .reserve-copy p{color:var(--text-2);font-size:16px;max-width:320px;line-height:1.7;margin-top:24px}
+    .booking-form{background:var(--soft);border-radius:var(--r);padding:clamp(24px,4vw,48px)}
+    .booking-form h3{font-size:28px;margin-bottom:8px}
+    .booking-form>form>.intro{font-size:15px;color:var(--text-2);margin-bottom:24px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .field{display:flex;flex-direction:column;gap:8px}
+    .field.full{grid-column:1/-1}
+    .field label{font-size:14px;font-weight:500;color:var(--ink-2)}
+    .field input,.field select{width:100%;height:56px;border:0;border-radius:var(--r);background:var(--paper);color:var(--ink);padding:0 16px;font-size:15px}
+    .field input::placeholder{color:#76736e}
+    .field select{cursor:pointer}
+    .optional{color:var(--text-2);font-weight:400}
+    .booking-submit{width:100%;margin-top:24px}
+    .booking-status{min-height:24px;margin-top:16px;font-size:15px;color:var(--text-2)}
+    .booking-status.error{color:#a33f2b}
+    .booking-status.success{color:#2f5c40}
+    .demo-note{font-size:13px;color:var(--text-2);margin-top:8px;line-height:1.6}
+
+    /* Footer */
+    .footer{background:var(--ink);padding:64px 0 32px}
+    .footer-main{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;padding-bottom:48px}
+    .footer-brand p{max-width:272px;color:var(--muted);font-size:14px;line-height:1.7;margin-top:16px}
+    .footer-links{display:flex;gap:64px}
+    .footer-col strong{display:block;color:var(--ember);font-size:15px;font-weight:700;margin-bottom:8px}
+    .footer-col a{display:block;color:var(--soft);font-size:15px;padding:8px 0}
+    .footer-col a:hover{color:var(--ember)}
+    .footer-bottom{display:flex;justify-content:space-between;gap:16px;color:var(--muted);font-size:13px}
+
+    /* Motion */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease-out,transform .7s ease-out}
+    .reveal.is-visible{opacity:1;transform:none}
+    @keyframes heroIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+
+    /* Responsive */
+    @media(max-width:900px){
+      .wrap{width:min(100% - 48px,720px)}
+      .nav-links{gap:24px;margin-right:24px}
+      .hero:before{left:8%;background-position:58% center}
+      .hero-grid{grid-template-columns:1fr .45fr;gap:24px}
+      .concierge-layout{grid-template-columns:.7fr 1.3fr;gap:7%}
+      .story-visual{min-height:528px}
+      .gallery-grid{grid-template-rows:192px 192px}
+      .footer-links{gap:32px}
+    }
+    @media(max-width:680px){
+      :root{--nav-h:72px}
+      .wrap{width:calc(100% - 40px)}
+      .nav-cta{display:none}
+      .menu-toggle{display:inline-flex}
+      .nav-links{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;margin:0;padding:32px 24px;background:var(--ink);flex-direction:column;align-items:stretch;gap:8px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s ease-out,transform .25s ease-out,visibility .25s}
+      .nav-links.open{opacity:1;visibility:visible;transform:none}
+      .nav-links a{padding:16px 0;font:400 32px/1.2 var(--serif)}
+      .hero{padding:calc(var(--nav-h) + 64px) 0 80px}
+      .hero:before{inset:0;background:linear-gradient(rgba(22,22,22,.6),rgba(22,22,22,.6)),url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1100&q=85') 58% center/cover}
+      .hero-grid{display:block}
+      .hero h1{font-size:clamp(52px,14vw,80px)}
+      .hero-copy>p{font-size:16px;max-width:368px}
+      .hero-aside{display:none}
+      .concierge{padding:64px 0}
+      .concierge-layout{grid-template-columns:1fr;gap:32px}
+      .concierge-intro h2{font-size:40px}
+      .concierge-top{flex-direction:column;gap:4px}
+      .menu-head{margin-bottom:40px}
+      .dish-grid{grid-template-columns:1fr 1fr;gap:40px 16px}
+      .dish:nth-child(n){margin-top:0}
+      .dish:nth-child(even){padding-top:40px}
+      .dish-image,.dish:nth-child(n) .dish-image{aspect-ratio:4/5}
+      .dish h3{font-size:20px}
+      .dish-title-row{flex-direction:column;gap:4px}
+      .dish-info>p{min-height:40px}
+      .dish-controls{align-items:flex-start;flex-direction:column;gap:8px}
+      .story{padding:88px 0}
+      .story-layout{grid-template-columns:1fr;gap:32px}
+      .story-visual{min-height:440px}
+      .story-stamp{width:152px;bottom:24px;padding:16px}
+      .story-stamp strong{font-size:26px}
+      .story-copy h2{font-size:48px}
+      .story-facts{gap:32px;margin-top:32px}
+      .fire-interlude{min-height:496px}
+      .fire-copy{padding:80px 0}
+      .fire-copy h2{font-size:clamp(48px,13vw,72px)}
+      .gallery-head{display:block;margin-bottom:32px}
+      .gallery-note{margin-top:16px;max-width:320px}
+      .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:240px 160px 192px;gap:8px}
+      .gallery-item:first-child{grid-column:1/3;grid-row:1}
+      .gallery-item:nth-child(2){grid-column:1;grid-row:2}
+      .gallery-item:nth-child(3){grid-column:2;grid-row:2/4}
+      .gallery-item:nth-child(4){grid-column:1;grid-row:3}
+      .guest-layout{grid-template-columns:1fr;gap:40px}
+      .moments{grid-template-columns:1fr;gap:32px}
+      .moment:nth-child(2){margin-top:0}
+      .reserve-layout{grid-template-columns:1fr;gap:32px}
+      .booking-form{padding:24px 16px}
+      .form-grid{gap:16px 8px}
+      .footer-main{display:block}
+      .footer-links{margin-top:32px;gap:40px}
+      .footer-bottom{flex-direction:column;gap:8px}
+    }
+    @media(max-width:390px){
+      .wrap{width:calc(100% - 32px)}
+      .hero h1{font-size:50px}
+      .btn{padding:0 24px}
+      .story-copy h2{font-size:42px}
+      .gallery-grid{grid-template-rows:200px 144px 160px}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Ember House home">Ember <span>House</span></a>
+      <nav class="nav-links" id="primary-nav" aria-label="Main navigation">
+        <a href="#menu">Menu</a><a href="#story">Our fire</a><a href="#gallery">Gallery</a><a href="#reserve">Reserve</a>
+      </nav>
+      <a class="btn nav-cta" href="#reserve">Book a table</a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false"><span class="bars" aria-hidden="true"></span><span class="menu-label">Menu</span></button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-title">Everything touched by <span class="accent">fire</span></h1>
+          <p>Wood-fired, slow-charred, built for the table. Every dish finished over open flame, plated in front of you.</p>
+          <div class="hero-actions"><a class="btn" href="#reserve">Reserve a table</a><a class="btn btn-light" href="#menu">View menu</a></div>
+        </div>
+        <aside class="hero-aside" aria-label="Featured dish">
+          <span class="small-label">From the fire</span><strong>Smoked Short Rib</strong><p>Slow smoke. Deep char. A little sweetness at the finish.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="concierge" aria-labelledby="concierge-title">
+      <div class="wrap concierge-layout">
+        <div class="concierge-intro reveal"><h2 id="concierge-title">Suggestions from the kitchen</h2><p>Tell us what you are in the mood for and we will point you towards something worth gathering around.</p></div>
+        <div class="concierge-panel reveal">
+          <div class="concierge-top"><strong>Ask the kitchen</strong><span>Concept demo</span></div>
+          <div class="chat-log" id="concierge-log" aria-live="polite"><div class="chat-message assistant">Welcome to Ember House. What sounds good tonight: something rich, something light, or a little heat?</div></div>
+          <form class="chat-form" id="concierge-form"><input id="concierge-input" type="text" maxlength="180" placeholder="Something for two, not too spicy" aria-label="Tell the kitchen what you are craving"><button class="btn" type="submit">Ask</button></form>
+          <div class="quick-prompts"><button type="button" data-prompt="Best for a birthday">Best for a birthday</button><button type="button" data-prompt="Something light">Something light</button><button type="button" data-prompt="Not spicy at all">Not spicy at all</button></div>
+          <p class="concierge-note">This is a local sample interaction, not a live AI service.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section menu-section" id="menu" aria-labelledby="menu-title">
+      <div class="wrap">
+        <div class="menu-head reveal"><h2 class="h2" id="menu-title">Signature dishes built over <span class="accent">fire</span></h2><p class="lead">Tap a dish to pick a heat level and build a plate around it.</p></div>
+        <div class="dish-grid" id="dish-grid">
+          <article class="dish reveal" data-dish="Smoked Short Rib"><div class="dish-image"><img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=85" alt="Smoked beef short rib with a deep char" loading="lazy"></div><div class="dish-info"><div class="dish-title-row"><h3>Smoked Short Rib</h3><span class="dish-price">$34</span></div><p>12hr wood smoked, bourbon glaze</p><div class="dish-controls"><span class="heat-control">Heat <span class="heat-dots" aria-label="Medium heat"><i class="active"></i><i class="active"></i><i></i></span></span><button class="dish-build" type="button">Build plate</button></div></div></article>
+          <article class="dish reveal" data-dish="Charred Octopus"><div class="dish-image"><img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=900&q=85" alt="Charred seafood dish with herbs" loading="lazy"></div><div class="dish-info"><div class="dish-title-row"><h3>Charred Octopus</h3><span class="dish-price">$28</span></div><p>Fire-kissed, chili lime butter</p><div class="dish-controls"><span class="heat-control">Heat <span class="heat-dots" aria-label="Hot"><i class="active"></i><i class="active"></i><i class="active"></i></span></span><button class="dish-build" type="button">Build plate</button></div></div></article>
+          <article class="dish reveal" data-dish="Ember Ribeye"><div class="dish-image"><img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=900&q=85" alt="Grilled ribeye steak served on a dark plate" loading="lazy"></div><div class="dish-info"><div class="dish-title-row"><h3>Ember Ribeye</h3><span class="dish-price">$52</span></div><p>Dry aged 28 days, open flame</p><div class="dish-controls"><span class="heat-control">Heat <span class="heat-dots" aria-label="Medium heat"><i class="active"></i><i class="active"></i><i></i></span></span><button class="dish-build" type="button">Build plate</button></div></div></article>
+          <article class="dish reveal" data-dish="Blackened Cauliflower"><div class="dish-image"><img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=900&q=85" alt="Fresh vegetable dish with greens" loading="lazy"></div><div class="dish-info"><div class="dish-title-row"><h3>Blackened Cauliflower</h3><span class="dish-price">$19</span></div><p>Whole roasted, tahini char</p><div class="dish-controls"><span class="heat-control">Heat <span class="heat-dots" aria-label="Hot"><i class="active"></i><i class="active"></i><i class="active"></i></span></span><button class="dish-build" type="button">Build plate</button></div></div></article>
+          <article class="dish reveal" data-dish="Flame Roasted Salmon"><div class="dish-image"><img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=900&q=85" alt="Roasted salmon with citrus and herbs" loading="lazy"></div><div class="dish-info"><div class="dish-title-row"><h3>Flame Roasted Salmon</h3><span class="dish-price">$31</span></div><p>Cedar plank, citrus glaze</p><div class="dish-controls"><span class="heat-control">Heat <span class="heat-dots" aria-label="Mild"><i class="active"></i><i></i><i></i></span></span><button class="dish-build" type="button">Build plate</button></div></div></article>
+          <article class="dish reveal" data-dish="Hearth Lamb Chops"><div class="dish-image"><img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=900&q=85" alt="Grilled lamb chops with herbs" loading="lazy"></div><div class="dish-info"><div class="dish-title-row"><h3>Hearth Lamb Chops</h3><span class="dish-price">$38</span></div><p>Rosemary rubbed, slow char</p><div class="dish-controls"><span class="heat-control">Heat <span class="heat-dots" aria-label="Medium heat"><i class="active"></i><i class="active"></i><i></i></span></span><button class="dish-build" type="button">Build plate</button></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="story" id="story" aria-labelledby="story-title">
+      <div class="wrap story-layout">
+        <div class="story-visual reveal"><img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1100&q=85" alt="Chef working in a warm restaurant kitchen" loading="lazy"><div class="story-stamp"><span>Our way of cooking</span><strong>By the flame</strong></div></div>
+        <div class="story-copy reveal"><h2 id="story-title">Real wood, no gas, no <span class="accent">shortcuts</span></h2><p>Every dish that leaves our kitchen has touched real flame. Our chefs work an open hearth built from reclaimed oak, finishing each plate table-side so you see the fire before you taste it.</p><div class="story-facts"><div class="story-fact"><strong>Reclaimed oak</strong><span>Fuel for the hearth</span></div><div class="story-fact"><strong>Daily</strong><span>Fresh sourced ingredients</span></div></div></div>
+      </div>
+    </section>
+
+    <section class="fire-interlude" aria-labelledby="fire-title"><div class="wrap fire-copy reveal"><h2 id="fire-title">Fire is the <span class="accent">ingredient</span></h2><p>Source with care. Let the flame do its work. Finish with intention. That is the rhythm behind every plate.</p></div></section>
+
+    <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title"><div class="wrap"><div class="gallery-head reveal"><h2 class="h2" id="gallery-title">The room, <span class="accent">up close</span></h2><p class="gallery-note">A glimpse of the atmosphere, the craft and the moments around the table.</p></div><div class="gallery-grid"><figure class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85" alt="An intimate fine dining table setting" loading="lazy"></figure><figure class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=800&q=85" alt="A restaurant dish prepared for sharing" loading="lazy"></figure><figure class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1000&q=85" alt="Warmly lit restaurant dining room" loading="lazy"></figure><figure class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=800&q=85" alt="A chef's carefully plated dish" loading="lazy"></figure></div></div></section>
+
+    <section class="guest-section" aria-labelledby="guest-title"><div class="wrap guest-layout"><div class="guest-heading reveal"><h2 class="h2" id="guest-title">Table-side finish for the moments that stay</h2><p>Good food brings people to the table. The moments around it are what bring them back.</p></div><div class="moments"><div class="moment reveal"><h3>The fire</h3><p>Every plate is finished over the hearth, in front of you.</p></div><div class="moment reveal"><h3>The table</h3><p>Dishes arrive built for sharing, made for the centre of the table.</p></div><div class="moment reveal"><h3>The evening</h3><p>Seatings run from 7:00 PM to 8:30 PM. Tell us the occasion when you book.</p></div></div></div></section>
+
+    <section class="reserve-section" id="reserve" aria-labelledby="reserve-title"><div class="wrap reserve-layout"><div class="reserve-copy reveal"><h2 id="reserve-title">Reserve your table by the <span class="accent">fire</span></h2><p>Make an evening of it. Choose a date, find your time and tell us who is joining you.</p></div><div class="booking-form reveal"><form id="booking-form" novalidate><h3>Plan your visit</h3><p class="intro">Choose your preferred details below.</p><div class="form-grid"><div class="field"><label for="booking-date">Date</label><input type="date" id="booking-date" name="date" required></div><div class="field"><label for="booking-time">Preferred time</label><select id="booking-time" name="time" required><option value="">Choose a time</option><option>7:00 PM</option><option>7:30 PM</option><option>8:00 PM</option><option>8:30 PM</option></select></div><div class="field"><label for="booking-guests">Guests</label><select id="booking-guests" name="guests" required><option value="">Choose guests</option><option>2 Guests</option><option>4 Guests</option><option>6 Guests</option><option>Large party</option></select></div><div class="field"><label for="booking-occasion">Occasion <span class="optional">(optional)</span></label><input type="text" id="booking-occasion" name="occasion" maxlength="80" placeholder="Birthday, anniversary"></div></div><button class="btn booking-submit" type="submit">Check availability</button><p class="booking-status" id="booking-status" role="status" aria-live="polite"></p><p class="demo-note">Portfolio concept only. This form validates your selections and displays a demo response. It does not contact a restaurant or create a real reservation.</p></form></div></div></section>
+  </main>
+
+  <footer class="footer"><div class="wrap"><div class="footer-main"><div class="footer-brand"><a class="brand" href="#top">Ember <span>House</span></a><p>Wood-fired, slow-charred, built for the table. A concept for people who believe the best things happen around it.</p></div><div class="footer-links"><div class="footer-col"><strong>Explore</strong><a href="#menu">Menu</a><a href="#story">Our fire</a><a href="#gallery">Gallery</a></div><div class="footer-col"><strong>Gather</strong><a href="#reserve">Reservations</a><a href="#top">Back to top</a></div></div></div><div class="footer-bottom"><span>Concept demo, built by Allen Greg Omoregie, flowai</span><span>Ember House is a portfolio concept, not a live restaurant.</span></div></div></footer>
+
+  <script>
+    (() => {
+      const nav = document.querySelector('.nav-links');
+      const toggle = document.querySelector('.menu-toggle');
+      const label = toggle.querySelector('.menu-label');
+      const setMenu = open => {
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+        label.textContent = open ? 'Close' : 'Menu';
+        nav.classList.toggle('open', open);
+        document.body.classList.toggle('menu-open', open);
+      };
+      toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+      nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+      document.addEventListener('keydown', event => { if (event.key === 'Escape') setMenu(false); });
+
+      const log = document.getElementById('concierge-log');
+      const input = document.getElementById('concierge-input');
+      const form = document.getElementById('concierge-form');
+      const addMessage = (message, type) => { const item = document.createElement('div'); item.className = `chat-message ${type}`; item.textContent = message; log.appendChild(item); log.scrollTop = log.scrollHeight; };
+      const replyTo = query => {
+        const q = query.toLowerCase();
+        if (q.includes('birthday')) return 'For a birthday, the Ember Ribeye makes a generous centrepiece. Ask the team about a celebratory dessert when making a real booking.';
+        if (q.includes('light')) return 'The Flame Roasted Salmon or Blackened Cauliflower would be a good place to start: bright flavours, with the character of the open fire.';
+        if (q.includes('spicy') || q.includes('mild') || q.includes('no heat')) return 'Try the Flame Roasted Salmon or Hearth Lamb Chops. Their flavour comes from the char and seasoning, not a heavy chilli hit.';
+        if (q.includes('two') || q.includes('share')) return 'For two, consider sharing the Smoked Short Rib and a vegetable plate. It gives the table a mix of rich, smoky and fresh flavours.';
+        if (q.includes('vegetarian') || q.includes('vegan')) return 'The Blackened Cauliflower is the plant-forward dish shown on this concept menu. Please confirm ingredients and dietary requirements directly with the restaurant in a real booking.';
+        return 'The Smoked Short Rib is a good place to begin: slow-smoked, finished with a bourbon glaze and made for the centre of the table.';
+      };
+      const ask = value => { const query = value.trim(); if (!query) return; addMessage(query, 'user'); input.value = ''; window.setTimeout(() => addMessage(replyTo(query), 'assistant'), 260); };
+      form.addEventListener('submit', event => { event.preventDefault(); ask(input.value); });
+      document.querySelectorAll('[data-prompt]').forEach(button => button.addEventListener('click', () => ask(button.dataset.prompt)));
+      document.querySelectorAll('.dish-build').forEach(button => button.addEventListener('click', () => {
+        const dish = button.closest('.dish').dataset.dish;
+        addMessage(`${dish} selected. Choose a heat preference: mild, medium or hot. This is a sample menu interaction.`, 'assistant');
+        document.getElementById('concierge-title').scrollIntoView({behavior: 'smooth', block: 'center'});
+      }));
+
+      const dateField = document.getElementById('booking-date');
+      const localToday = new Date();
+      const yyyy = localToday.getFullYear();
+      const mm = String(localToday.getMonth() + 1).padStart(2, '0');
+      const dd = String(localToday.getDate()).padStart(2, '0');
+      dateField.min = `${yyyy}-${mm}-${dd}`;
+      const bookingForm = document.getElementById('booking-form');
+      const status = document.getElementById('booking-status');
+      bookingForm.addEventListener('submit', event => {
+        event.preventDefault(); status.className = 'booking-status';
+        const date = dateField.value;
+        const time = document.getElementById('booking-time').value;
+        const guests = document.getElementById('booking-guests').value;
+        if (!date || !time || !guests) { status.textContent = 'Please choose a date, preferred time and number of guests.'; status.classList.add('error'); return; }
+        const chosen = new Date(`${date}T12:00:00`);
+        const today = new Date(`${yyyy}-${mm}-${dd}T00:00:00`);
+        if (chosen < today) { status.textContent = 'Please choose today or a future date.'; status.classList.add('error'); dateField.focus(); return; }
+        const prettyDate = chosen.toLocaleDateString(undefined, {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+        status.textContent = `Demo request prepared for ${prettyDate}, ${time}, ${guests}. This is a concept, so nothing has been sent.`;
+        status.classList.add('success');
+      });
+
+      const revealItems = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), {threshold: 0.12, rootMargin: '0px 0px -32px 0px'});
+        revealItems.forEach(item => observer.observe(item));
+      } else revealItems.forEach(item => item.classList.add('is-visible'));
+    })();
+  </script>
+</body>
+</html>
